@@ -1,0 +1,98 @@
+[
+  {
+    "id": "alert_paracetamol_2024_q1",
+    "created_at": "2024-01-17T08:30:00Z",
+    "severity": "CRITICAL",
+    "source": "HEBEI_EPB",
+    "source_url": "https://hbsthjt.hebei.gov.cn/notice/2024/01/15/api-plant-shutdown",
+    "summary": "Hebei API plant production halt — paracetamol supply at risk",
+    "affected_drugs": ["paracetamol"],
+    "expected_weeks_to_shortage": 3,
+    "gemini_explainer": "A para-aminophenol production facility in Hebei Province was issued a full environmental compliance shutdown order on January 15, 2024. This factory supplies an estimated 30% of India's paracetamol API. Based on historical inventory cycles, Indian retail prices typically respond 3 weeks after such disruptions.",
+    "evidence_snippet": "石家庄市某制药企业因环保不达标停产 / Shijiazhuang pharmaceutical enterprise halted for environmental non-compliance"
+  },
+  {
+    "id": "alert_amoxicillin_2026_04_15",
+    "created_at": "2026-04-15T10:15:00Z",
+    "severity": "HIGH",
+    "source": "NEWS",
+    "source_url": "https://reuters.com/business/pharma/jiangsu-industrial-accident-impacts-pharma",
+    "summary": "Industrial accident in Jiangsu impacts 6-APA precursors",
+    "affected_drugs": ["amoxicillin", "penicillin_g"],
+    "expected_weeks_to_shortage": 4,
+    "gemini_explainer": "A major chemical explosion in a Jiangsu industrial park has forced the evacuation of three 6-APA manufacturing lines. This region accounts for 20% of the global beta-lactam core supply. Lead times for antibiotic finished dosages in India are expected to increase by 30 days.",
+    "evidence_snippet": "Jiangsu industrial park evacuated following chemical storage fire; production lines halted indefinitely."
+  },
+  {
+    "id": "alert_azithromycin_2026_04_18",
+    "created_at": "2026-04-18T14:45:00Z",
+    "severity": "HIGH",
+    "source": "FDA_WARNING_LETTER",
+    "source_url": "https://fda.gov/warning-letters/2026/china-api-inspection-fail",
+    "summary": "FDA Warning Letter for Jiangsu Macrolide Facility",
+    "affected_drugs": ["azithromycin"],
+    "expected_weeks_to_shortage": 6,
+    "gemini_explainer": "The FDA has issued a Warning Letter to a major azithromycin dihydrate exporter following data integrity violations. While production continues, several US and EU buyers are shifting orders to alternative sites, increasing demand pressure on secondary Indian manufacturers.",
+    "evidence_snippet": "Observations regarding the failure to maintain complete data from testing performed to ensure API quality and purity."
+  },
+  {
+    "id": "alert_ceftriaxone_2026_04_20",
+    "created_at": "2026-04-20T09:00:00Z",
+    "severity": "HIGH",
+    "source": "HEBEI_EPB",
+    "source_url": "https://hbsthjt.hebei.gov.cn/notice/winter-curtailment-2026",
+    "summary": "Hebei winter heating production cuts affect 7-ACA",
+    "affected_drugs": ["ceftriaxone"],
+    "expected_weeks_to_shortage": 2,
+    "gemini_explainer": "Emergency winter heating measures in Hebei have mandated a 40% reduction in coal-powered pharmaceutical synthesis output. Ceftriaxone dependencies on 7-ACA are directly hit, with immediate price spikes observed in the North Indian wholesale markets.",
+    "evidence_snippet": "重点行业企业大气污染减排措施公告 / Announcement of emission reduction measures for key industrial enterprises."
+  },
+  {
+    "id": "alert_metformin_2026_04_21",
+    "created_at": "2026-04-21T11:20:00Z",
+    "severity": "MEDIUM",
+    "source": "TRADE_ANOMALY",
+    "source_url": null,
+    "summary": "Sudden drop in Metformin HCl import volumes from China",
+    "affected_drugs": ["metformin"],
+    "expected_weeks_to_shortage": 8,
+    "gemini_explainer": "DGCI&S port data indicates a 25% month-on-month decline in Metformin HCl arrivals from Jiangsu. While buffer stocks are available for 2 months, the sustained anomaly suggests potential logistical bottlenecks or strategic stock-holding by suppliers.",
+    "evidence_snippet": "Inbound container tracking at Mundra Port shows zero arrivals for registered Metformin exporters over 14 consecutive days."
+  },
+  {
+    "id": "alert_penicillin_2026_04_22",
+    "created_at": "2026-04-22T16:00:00Z",
+    "severity": "MEDIUM",
+    "source": "HEBEI_EPB",
+    "source_url": "https://hbsthjt.hebei.gov.cn/notice/inspect-2026-04",
+    "summary": "Random inspection wave at Hebei Penicillin fermentation sites",
+    "affected_drugs": ["penicillin_g"],
+    "expected_weeks_to_shortage": null,
+    "gemini_explainer": "Government inspectors are conducting unannounced audits of fermentation waste-water management in Shijiazhuang. This is causing minor operational delays but has not yet resulted in formal shutdown orders for the Penicillin G lines.",
+    "evidence_snippet": "Random audit phase 4 initiated for pharmaceutical fermentation clusters in the High-Tech District."
+  },
+  {
+    "id": "alert_atorvastatin_2026_04_23",
+    "created_at": "2026-04-23T08:30:00Z",
+    "severity": "MEDIUM",
+    "source": "NEWS",
+    "source_url": "https://pharmabiz.com/news/api-price-monitoring-report-april",
+    "summary": "Atorvastatin API price anomaly detected in Mumbai wholesale",
+    "affected_drugs": ["atorvastatin"],
+    "expected_weeks_to_shortage": 12,
+    "gemini_explainer": "Wholesale price of Atorvastatin Calcium has spiked 15% in 48 hours without a corresponding raw material cost increase. This speculative behavior often precedes reported supply tightness from Chinese exporters.",
+    "evidence_snippet": "Mumbai-Ahmedabad corridor reporting limited availability of premium grade Atorvastatin for immediate delivery."
+  },
+  {
+    "id": "alert_insulin_2026_04_24",
+    "created_at": "2026-04-24T17:15:00Z",
+    "severity": "LOW",
+    "source": "MANUAL",
+    "source_url": null,
+    "summary": "Single-source concentration risk identified for recombinant insulin",
+    "affected_drugs": ["insulin"],
+    "expected_weeks_to_shortage": null,
+    "gemini_explainer": "Supply chain mapping reveals that 65% of recombinant insulin precursors for a major Indian brand now originate from a single Jiangsu facility. While currently stable, this lack of diversification represents a long-term strategic vulnerability.",
+    "evidence_snippet": "Vendor concentration audit shows loss of secondary sourcing capability for recombinant yeast strains."
+  }
+]

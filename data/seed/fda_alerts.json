@@ -1,0 +1,26 @@
+[
+  {
+    "alert_number": "66-40",
+    "alert_name": "Detention Without Physical Examination of Drugs From Firms Not Operating in Conformity With CGMP",
+    "country": "China",
+    "industry_code": "54",
+    "issued_date": "2026-02-15",
+    "firms_listed": ["Jiangsu Nhwa Pharmaceutical Co Ltd"],
+    "products_affected": ["Azithromycin Dihydrate", "Fluconazole"],
+    "linked_apis": ["azithromycin_dihydrate", "fluconazole_api"],
+    "summary": "Firm failed to meet minimum CGMP requirements during distant site inspection.",
+    "source_url": "https://www.accessdata.fda.gov/cms_ia/importalert_189.html"
+  },
+  {
+    "alert_number": "99-32",
+    "alert_name": "Detention Without Physical Examination of Products from Firms on the Red List",
+    "country": "China",
+    "industry_code": "54",
+    "issued_date": "2025-11-20",
+    "firms_listed": ["Zhejiang Hisun Pharmaceutical Co Ltd"],
+    "products_affected": ["Atorvastatin Calcium", "Ciprofloxacin"],
+    "linked_apis": ["atorvastatin_calcium", "ciprofloxacin_hcl"],
+    "summary": "Continued inclusion on Red List due to persistent impurity issues in statin precursors.",
+    "source_url": "https://www.accessdata.fda.gov/cms_ia/importalert_99-32.html"
+  }
+]

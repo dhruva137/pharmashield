@@ -1,0 +1,202 @@
+[
+  {
+    "id": "para_aminophenol",
+    "name": "Para-Aminophenol",
+    "china_share": 0.85,
+    "primary_provinces": ["Hebei", "Hubei"],
+    "top_3_factories": ["Hebei Jiheng Group", "Anhui Bayi Chemical", "Liaoning Shixian"],
+    "monthly_import_value_usd_millions": 45.0
+  },
+  {
+    "id": "6_apa",
+    "name": "6-APA",
+    "china_share": 0.90,
+    "primary_provinces": ["Hebei", "Jiangsu"],
+    "top_3_factories": ["United Laboratories", "CSPC Pharmaceutical", "North China Pharmaceutical"],
+    "monthly_import_value_usd_millions": 85.0
+  },
+  {
+    "id": "7_aca",
+    "name": "7-ACA",
+    "china_share": 0.92,
+    "primary_provinces": ["Shandong", "Hebei"],
+    "top_3_factories": ["Shandong Lukang", "Hebei Welcome", "CSPC Ouyi"],
+    "monthly_import_value_usd_millions": 110.0
+  },
+  {
+    "id": "ampicillin_trihydrate",
+    "name": "Ampicillin Trihydrate",
+    "china_share": 0.88,
+    "primary_provinces": ["Hebei"],
+    "top_3_factories": ["Shijiazhuang Pharmaceutical", "North China Pharma", "Hebei Jiheng"],
+    "monthly_import_value_usd_millions": 30.0
+  },
+  {
+    "id": "azithromycin_dihydrate",
+    "name": "Azithromycin Dihydrate",
+    "china_share": 0.85,
+    "primary_provinces": ["Jiangsu"],
+    "top_3_factories": ["Yangzhou Pharmaceutical", "Jiangsu Nhwa", "Wuxi AppTec"],
+    "monthly_import_value_usd_millions": 60.0
+  },
+  {
+    "id": "penicillin_g_potassium",
+    "name": "Penicillin G Potassium",
+    "china_share": 0.95,
+    "primary_provinces": ["Hebei", "Hubei"],
+    "top_3_factories": ["CSPC Group", "North China Pharmaceutical", "Hubei Huashu"],
+    "monthly_import_value_usd_millions": 120.0
+  },
+  {
+    "id": "metformin_hcl",
+    "name": "Metformin HCl",
+    "china_share": 0.78,
+    "primary_provinces": ["Jiangsu", "Zhejiang"],
+    "top_3_factories": ["Zhejiang Starry", "Jiangsu Wanbang", "Changzhou Pharmaceutical"],
+    "monthly_import_value_usd_millions": 40.0
+  },
+  {
+    "id": "atorvastatin_calcium",
+    "name": "Atorvastatin Calcium",
+    "china_share": 0.82,
+    "primary_provinces": ["Zhejiang"],
+    "top_3_factories": ["Zhejiang Hisun", "Zhejiang Medicine", "Zhejiang Xianju"],
+    "monthly_import_value_usd_millions": 55.0
+  },
+  {
+    "id": "amlodipine_besylate",
+    "name": "Amlodipine Besylate",
+    "china_share": 0.80,
+    "primary_provinces": ["Jiangsu"],
+    "top_3_factories": ["Jiangsu Hansoh", "Jiangsu Hengrui", "Chia Tai Tianqing"],
+    "monthly_import_value_usd_millions": 35.0
+  },
+  {
+    "id": "losartan_potassium",
+    "name": "Losartan Potassium",
+    "china_share": 0.83,
+    "primary_provinces": ["Zhejiang"],
+    "top_3_factories": ["Zhejiang Huahai", "Zhejiang Jingxin", "Zhejiang Yongning"],
+    "monthly_import_value_usd_millions": 25.0
+  },
+  {
+    "id": "omeprazole_api",
+    "name": "Omeprazole API",
+    "china_share": 0.85,
+    "primary_provinces": ["Jiangsu"],
+    "top_3_factories": ["Jiangsu Yahong", "Jiangsu Aoyuan", "Changzhou Siyao"],
+    "monthly_import_value_usd_millions": 42.0
+  },
+  {
+    "id": "ranitidine_hcl",
+    "name": "Ranitidine HCl",
+    "china_share": 0.80,
+    "primary_provinces": ["Hubei"],
+    "top_3_factories": ["Wuhan Wuyao", "Hubei Hongyuan", "Wuhan Zhongzhi"],
+    "monthly_import_value_usd_millions": 18.0
+  },
+  {
+    "id": "ibuprofen_api",
+    "name": "Ibuprofen API",
+    "china_share": 0.82,
+    "primary_provinces": ["Hebei", "Shandong"],
+    "top_3_factories": ["Shandong Xinhua", "Hubei Biocause", "Hebei Jiheng"],
+    "monthly_import_value_usd_millions": 70.0
+  },
+  {
+    "id": "diclofenac_sodium",
+    "name": "Diclofenac Sodium",
+    "china_share": 0.78,
+    "primary_provinces": ["Zhejiang"],
+    "top_3_factories": ["Zhejiang Anglikang", "Zhejiang Sanmen", "Zhejiang Jixing"],
+    "monthly_import_value_usd_millions": 22.0
+  },
+  {
+    "id": "acetylsalicylic_acid",
+    "name": "Acetylsalicylic Acid",
+    "china_share": 0.65,
+    "primary_provinces": ["Hubei"],
+    "top_3_factories": ["Wuhan Grand", "Hubei Maxun", "Wuhan Fortune"],
+    "monthly_import_value_usd_millions": 15.0
+  },
+  {
+    "id": "gentamicin_sulfate",
+    "name": "Gentamicin Sulfate",
+    "china_share": 0.90,
+    "primary_provinces": ["Hebei"],
+    "top_3_factories": ["North China Pharmaceutical", "Hebei Welcome", "Shijiazhuang Pharma"],
+    "monthly_import_value_usd_millions": 12.0
+  },
+  {
+    "id": "fluconazole_api",
+    "name": "Fluconazole API",
+    "china_share": 0.85,
+    "primary_provinces": ["Jiangsu"],
+    "top_3_factories": ["Jiangsu Nhwa", "Jiangsu Hengrui", "Changzhou Pharma"],
+    "monthly_import_value_usd_millions": 28.0
+  },
+  {
+    "id": "ciprofloxacin_hcl",
+    "name": "Ciprofloxacin HCl",
+    "china_share": 0.83,
+    "primary_provinces": ["Zhejiang"],
+    "top_3_factories": ["Zhejiang Hisun", "Zhejiang Medicine", "Zhejiang East-Asia"],
+    "monthly_import_value_usd_millions": 48.0
+  },
+  {
+    "id": "levofloxacin_hemihydrate",
+    "name": "Levofloxacin Hemihydrate",
+    "china_share": 0.85,
+    "primary_provinces": ["Zhejiang"],
+    "top_3_factories": ["Zhejiang Hisun", "Zhejiang Jingxin", "Zhejiang Starry"],
+    "monthly_import_value_usd_millions": 32.0
+  },
+  {
+    "id": "insulin_recombinant",
+    "name": "Insulin Recombinant",
+    "china_share": 0.45,
+    "primary_provinces": ["Jiangsu"],
+    "top_3_factories": ["Jiangsu Wanbang", "Gan & Lee Pharma", "Tonghua Dongbao"],
+    "monthly_import_value_usd_millions": 90.0
+  },
+  {
+    "id": "salbutamol_sulfate",
+    "name": "Salbutamol Sulfate",
+    "china_share": 0.80,
+    "primary_provinces": ["Hubei"],
+    "top_3_factories": ["Wuhan Wuyao", "Hubei Kexing", "Wuhan Fortune"],
+    "monthly_import_value_usd_millions": 14.0
+  },
+  {
+    "id": "clavulanic_acid",
+    "name": "Clavulanic Acid",
+    "china_share": 0.88,
+    "primary_provinces": ["Shandong"],
+    "top_3_factories": ["Shandong Lukang", "CSPC Group", "United Laboratories"],
+    "monthly_import_value_usd_millions": 65.0
+  },
+  {
+    "id": "erythromycin_thiocyanate",
+    "name": "Erythromycin Thiocyanate",
+    "china_share": 0.92,
+    "primary_provinces": ["Hebei"],
+    "top_3_factories": ["Ningxia Qiyuan", "Hebei Welcome", "CSPC Pharma"],
+    "monthly_import_value_usd_millions": 50.0
+  },
+  {
+    "id": "sodium_dichloroisocyanurate",
+    "name": "Sodium Dichloroisocyanurate",
+    "china_share": 0.75,
+    "primary_provinces": ["Hebei"],
+    "top_3_factories": ["Hebei Jiheng", "Shandong Daming", "Shijiazhuang Pharma"],
+    "monthly_import_value_usd_millions": 8.0
+  },
+  {
+    "id": "heparin_sodium",
+    "name": "Heparin Sodium",
+    "china_share": 0.88,
+    "primary_provinces": ["Jiangsu"],
+    "top_3_factories": ["Hepalink", "Jiangsu Wanbang", "Changzhou Qianhong"],
+    "monthly_import_value_usd_millions": 180.0
+  }
+]
