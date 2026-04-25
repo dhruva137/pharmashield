@@ -5,6 +5,8 @@ services:
     region: singapore
     plan: free
     healthCheckPath: /healthz
+    dockerContext: ./backend
+    dockerFilePath: ./backend/Dockerfile
     envVars:
       - key: GEMINI_API_KEY
         sync: false
@@ -12,3 +14,5 @@ services:
         sync: false
       - key: QDRANT_API_KEY
         sync: false
+      - key: PORT
+        value: 8080
