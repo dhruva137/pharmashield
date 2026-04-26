@@ -1,0 +1,62 @@
+[
+  {
+    "factory_name_zh": "石家庄药业集团有限公司",
+    "factory_name_en": "CSPC Pharmaceutical Group",
+    "industry": "pharma",
+    "violation_type": "Environmental Compliance Audit",
+    "severity": "CRITICAL",
+    "duration_days": 30,
+    "issued_date": "2024-01-15",
+    "summary_en": "Mandatory production halt for environmental remediation and audit.",
+    "linked_apis": ["6_apa", "penicillin_g_potassium", "para_aminophenol"],
+    "source_url": "https://hbsthjt.hebei.gov.cn/notice/2024/01/15/cspc-halt"
+  },
+  {
+    "factory_name_zh": "华北制药股份有限公司",
+    "factory_name_en": "North China Pharmaceutical Co.",
+    "industry": "pharma",
+    "violation_type": "Air Quality Restriction",
+    "severity": "HIGH",
+    "duration_days": 14,
+    "issued_date": "2026-04-10",
+    "summary_en": "Reduced capacity mandate during severe smog event.",
+    "linked_apis": ["7_aca", "gentamicin_sulfate"],
+    "source_url": "https://hbsthjt.hebei.gov.cn/notice/ncpc-reduction"
+  },
+  {
+    "factory_name_zh": "石家庄冀衡集团有限公司",
+    "factory_name_en": "Hebei Jiheng Group",
+    "industry": "pharma",
+    "violation_type": "Water Treatment Upgrade",
+    "severity": "MEDIUM",
+    "duration_days": 7,
+    "issued_date": "2026-04-20",
+    "summary_en": "Partial shutdown for secondary water treatment facility integration.",
+    "linked_apis": ["para_aminophenol", "ampicillin_trihydrate", "ibuprofen_api"],
+    "source_url": "https://hbsthjt.hebei.gov.cn/notice/jiheng-water"
+  },
+  {
+    "factory_name_zh": "河北威远生物化工股份有限公司",
+    "factory_name_en": "Hebei Veyong Bio-Chemical",
+    "industry": "chemical",
+    "violation_type": "Safety Inspection",
+    "severity": "HIGH",
+    "duration_days": 21,
+    "issued_date": "2026-04-12",
+    "summary_en": "Site-wide safety audit following minor storage leak.",
+    "linked_apis": ["erythromycin_thiocyanate"],
+    "source_url": "https://hbsthjt.hebei.gov.cn/notice/veyong-safety"
+  },
+  {
+    "factory_name_zh": "唐山钢铁集团",
+    "factory_name_en": "Tangshan Steel Group",
+    "industry": "other",
+    "violation_type": "Carbon Cap",
+    "severity": "LOW",
+    "duration_days": 5,
+    "issued_date": "2026-04-18",
+    "summary_en": "Minor curtailment to meet quarterly carbon intensity targets.",
+    "linked_apis": [],
+    "source_url": "https://hbsthjt.hebei.gov.cn/notice/tangshan-steel"
+  }
+]

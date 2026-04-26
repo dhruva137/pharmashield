@@ -1,0 +1,42 @@
+[
+  {
+    "date": "2020-03-03",
+    "source_event": "Wuhan/Hubei lockdown halts API production",
+    "affected_drugs": ["paracetamol", "amoxicillin", "azithromycin"],
+    "lead_time_days": 14,
+    "indian_consumer_price_impact_pct": 30.0,
+    "citation_url": "https://www.thelancet.com/journals/langlo/article/PIIS2214-109X(20)30115-4/fulltext"
+  },
+  {
+    "date": "2020-03-25",
+    "source_event": "India bans export of 26 drugs to ensure domestic availability",
+    "affected_drugs": ["paracetamol", "tinidazole", "metronidazole", "vitamin_b12"],
+    "lead_time_days": 21,
+    "indian_consumer_price_impact_pct": 50.0,
+    "citation_url": "https://www.bbc.com/news/world-asia-india-51727271"
+  },
+  {
+    "date": "2023-06-15",
+    "source_event": "Heparin shortage due to China supply chain contamination disruption",
+    "affected_drugs": ["heparin"],
+    "lead_time_days": 28,
+    "indian_consumer_price_impact_pct": 120.0,
+    "citation_url": "https://www.fda.gov/drugs/drug-safety-and-availability/drug-shortages"
+  },
+  {
+    "date": "2024-01-15",
+    "source_event": "Hebei pharma plant environmental inspection wave",
+    "affected_drugs": ["paracetamol", "ibuprofen"],
+    "lead_time_days": 23,
+    "indian_consumer_price_impact_pct": 100.0,
+    "citation_url": "https://pharmashield.ai/historical/hebei-2024-report"
+  },
+  {
+    "date": "2025-01-10",
+    "source_event": "Red Sea shipping disruption increases transit times for raw materials",
+    "affected_drugs": ["amoxicillin", "ciprofloxacin", "ceftriaxone"],
+    "lead_time_days": 35,
+    "indian_consumer_price_impact_pct": 15.0,
+    "citation_url": "https://www.reuters.com/business/logistics/red-sea-disruptions-hit-pharma-supply-chains-2025-01-12/"
+  }
+]
