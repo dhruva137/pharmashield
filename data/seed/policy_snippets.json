@@ -1,72 +1,72 @@
 [
   {
-    "id": "orf_2025_01",
-    "source": "Observer Research Foundation, Nov 2025",
-    "source_url": "https://www.orfonline.org/research/india-pharma-dependency-2025",
-    "text": "India's pharmaceutical industry, often dubbed the 'pharmacy of the world', continues to face a structural vulnerability. While it excels in formulation, it remains heavily dependent on a single source for active ingredients. India still lacks a unified, constantly updated dashboard of its critical health import dependencies, leaving policymakers reactive rather than proactive during global supply shocks.",
-    "keywords": ["dependency", "dashboard", "policy", "import", "vulnerability"]
+    "id": "orf_api_dependency_01",
+    "source": "ORF - Time to end the battle of Indian pharmaceutical players and Chinese key ingredients",
+    "source_url": "https://www.orfonline.org/expert-speak/time-to-end-the-battle-of-indian-pharmaceutical-players-and-chinese-key-ingredients",
+    "text": "ORF notes that India's formulation strength still sits on top of heavy bulk-drug and API dependence on China, with import exposure often cited in the 65-70% range. That concentration leaves Indian supply vulnerable to price spikes and sudden export or production shocks.",
+    "keywords": ["dependency", "API", "China", "import", "vulnerability"]
   },
   {
-    "id": "orf_2025_02",
-    "source": "Observer Research Foundation, Nov 2025",
-    "source_url": "https://www.orfonline.org/research/india-pharma-dependency-2025",
-    "text": "The concentration of API manufacturing in specific Chinese clusters like Hebei and Jiangsu creates a systemic risk. Environmental regulations in China often lead to sudden factory shutdowns, which resonate through the Indian healthcare system within weeks. Strategic diversification is no longer an option but a national security imperative.",
-    "keywords": ["China", "API", "systemic risk", "Hebei", "diversification"]
+    "id": "orf_pharma_cluster_02",
+    "source": "ORF - Understanding the coming challenges to India's pharma sector",
+    "source_url": "https://www.orfonline.org/expert-speak/understanding-the-coming-challenges-to-indias-pharma-sector-66556",
+    "text": "ORF highlights that major Chinese raw-material clusters such as Hubei, Zhejiang and Jiangsu are deeply tied to global pharmaceutical supply. Disruption in those manufacturing centres can quickly tighten API availability for Indian producers.",
+    "keywords": ["cluster", "Hubei", "Zhejiang", "Jiangsu", "API", "supply shock"]
+  },
+  {
+    "id": "orf_trade_security_03",
+    "source": "ORF - Tariffs and Health Security: The Future of US-India Pharma Trade",
+    "source_url": "https://www.orfonline.org/expert-speak/tariffs-and-health-security-the-future-of-us-india-pharma-trade",
+    "text": "ORF argues that India still imports a large share of its API requirement from China and that trade or production disruptions can undermine health security. The case for de-risking depends on diversifying KSM and API sourcing before the next shock hits.",
+    "keywords": ["health security", "API", "trade", "de-risking", "China"]
   },
   {
     "id": "nlem_2022_01",
-    "source": "CDSCO NLEM 2022",
-    "source_url": "https://cdsco.gov.in/opencms/opencms/en/NLEM-2022/",
-    "text": "The National List of Essential Medicines (NLEM) 2022 aims to ensure that the medicines included are available within the context of functioning health systems at all times. Tier 1 drugs are those considered most critical for public health, covering the broadest range of common illnesses and life-saving treatments. These drugs must be prioritized for supply chain monitoring.",
-    "keywords": ["NLEM", "Tier 1", "essential medicines", "public health", "CDSCO"]
+    "source": "CDSCO - Essential Medicines",
+    "source_url": "https://cdsco.gov.in/opencms/opencms/en/consumer/Essential-Medicines/",
+    "text": "The National List of Essential Medicines is meant to support continuous availability of priority medicines in functioning health systems. Tier 1 medicines should be prioritized for monitoring because stockouts have broad and immediate public-health effects.",
+    "keywords": ["NLEM", "essential medicines", "availability", "public health", "tier 1"]
   },
   {
     "id": "nlem_2022_02",
-    "source": "CDSCO NLEM 2022",
-    "source_url": "https://cdsco.gov.in/opencms/opencms/en/NLEM-2022/",
-    "text": "Tier 2 and Tier 3 medicines in the NLEM 2022 framework include specialized treatments and drugs with existing therapeutic alternatives. While less ubiquitous than Tier 1, their absence still compromises patient care for specific demographic groups. Supply chain resilience for these categories often relies on maintaining higher buffer stocks.",
-    "keywords": ["NLEM", "Tier 2", "Tier 3", "resilience", "buffer stock"]
+    "source": "CDSCO - National List of Essential Medicines 2022",
+    "source_url": "https://cdsco.gov.in/opencms/resources/UploadCDSCOWeb/2018/UploadPublic_NoticesFiles/nlem2022.pdf",
+    "text": "NLEM 2022 covers both widely used medicines and specialized therapies where failure of supply still harms care delivery for specific patient groups. Buffer policies and procurement planning should account for Tier 2 and Tier 3 exposure as well, not just the highest-volume products.",
+    "keywords": ["NLEM", "tier 2", "tier 3", "buffer stock", "procurement"]
   },
   {
     "id": "niti_pli_01",
-    "source": "NITI Aayog",
-    "source_url": "https://niti.gov.in/pli-scheme-pharmaceuticals",
-    "text": "The Production Linked Incentive (PLI) scheme for pharmaceuticals aims to reduce India's import dependency on critical APIs and KSMs. By providing financial incentives based on incremental sales, the government encourages domestic manufacturing of high-value intermediates that were previously sourced almost exclusively from China.",
-    "keywords": ["PLI", "NITI Aayog", "incentive", "manufacturing", "KSM"]
+    "source": "NITI Aayog - Public Finance and Policy Analysis Division",
+    "source_url": "https://niti.gov.in/divisions/division/public-finance-and-policy-analysis",
+    "text": "NITI Aayog states that it helped shape the contours of the Production Linked Incentive schemes for active pharmaceutical ingredients and other strategic sectors. The policy direction is to build domestic capacity in inputs that create national import vulnerability.",
+    "keywords": ["NITI Aayog", "PLI", "API", "domestic manufacturing", "capacity"]
   },
   {
     "id": "who_eml_01",
-    "source": "WHO Model List of Essential Medicines",
+    "source": "WHO Model List of Essential Medicines - 23rd list, 2023",
     "source_url": "https://www.who.int/publications/i/item/WHO-MHP-HPS-EML-2023.02",
-    "text": "The WHO Model List of Essential Medicines presents the most effective, safe, and cost-effective medicines for priority conditions. Priority conditions are selected on the basis of current and estimated future public health relevance, and potential for safe and cost-effective treatment. Global supply chains must be optimized to prevent stockouts of these specific agents.",
-    "keywords": ["WHO", "EML", "stockouts", "priority conditions", "safety"]
+    "text": "WHO states that essential medicines should be available in functioning health systems at all times, in the right dosage forms, with assured quality and affordable pricing. That makes supply continuity a core operational requirement rather than a policy afterthought.",
+    "keywords": ["WHO", "EML", "essential medicines", "availability", "stockouts"]
   },
   {
     "id": "fda_shortage_01",
-    "source": "FDA Drug Shortage Database 2025",
+    "source": "FDA Drug Shortages Database",
     "source_url": "https://www.accessdata.fda.gov/scripts/drugshortages/",
-    "text": "Drug shortages occur when the demand for a medication exceeds its supply. Common causes include manufacturing quality issues, delays in raw material procurement, and unexpected spikes in demand. The FDA monitors these disruptions closely, especially for drugs where no therapeutic substitute is available.",
-    "keywords": ["FDA", "shortage", "manufacturing", "demand", "substitute"]
+    "text": "The FDA describes shortages as situations where supply does not meet current or projected demand, often driven by manufacturing quality problems, raw-material delays, or sudden demand changes. Drugs with no therapeutic substitute require tighter monitoring and earlier escalation.",
+    "keywords": ["FDA", "shortage", "manufacturing", "raw materials", "substitute"]
   },
   {
-    "id": "dop_report_01",
-    "source": "Department of Pharmaceuticals, GoI",
-    "source_url": "https://pharmaceuticals.gov.in/reports",
-    "text": "A detailed analysis of trade data reveals that for 53 critical APIs, India's dependency on China exceeds 70%. The Department of Pharmaceuticals is working with industry stakeholders to map these dependencies down to the Key Starting Material (KSM) level to identify early-warning signals of supply tightening.",
-    "keywords": ["GoI", "DOP", "trade data", "mapping", "KSM"]
+    "id": "dop_pli_01",
+    "source": "Department of Pharmaceuticals - PLI Scheme for Bulk Drugs Guidelines",
+    "source_url": "https://pharmaceuticals.gov.in/sites/default/files/Guidelines%20for%20the%20Production%20Linked%20Incentive%20%28PLI%29%20Scheme%20for%20promotion%20of_0.pdf",
+    "text": "The Department of Pharmaceuticals says uninterrupted supply of quality bulk drugs is critical for drug security and explicitly frames reduction of import dependence in KSMs, drug intermediates, and APIs as a core objective of the PLI scheme for bulk drugs.",
+    "keywords": ["DoP", "PLI", "bulk drugs", "KSM", "API", "import dependence"]
   },
   {
-    "id": "context_api_ksm",
-    "source": "Generic Pharma Guide",
-    "source_url": null,
-    "text": "An Active Pharmaceutical Ingredient (API) is the part of any drug that produces its effects. A Key Starting Material (KSM) is a chemical intermediate used in the synthesis of an API. Disruption in KSM supply is the most common root cause of long-term API shortages, as KSM manufacturing is often even more concentrated than API synthesis.",
-    "keywords": ["API", "KSM", "synthesis", "intermediate", "root cause"]
-  },
-  {
-    "id": "orf_2025_03",
-    "source": "Observer Research Foundation, Nov 2025",
-    "source_url": "https://www.orfonline.org/research/india-pharma-dependency-2025",
-    "text": "The fragility of the global paracetamol supply chain was exposed during the 2024 Hebei environmental inspections. Over-reliance on a few mega-factories in northern China means that local administrative decisions in one country can destabilize healthcare access for millions in India.",
-    "keywords": ["paracetamol", "Hebei", "fragility", "admin", "destabilize"]
+    "id": "dop_api_ksm_02",
+    "source": "Department of Pharmaceuticals - Bulk Drug Parks Guidelines",
+    "source_url": "https://pharmaceuticals.gov.in/sites/default/files/Guidelines%20of%20the%20Scheme%20Promotion%20of%20Bulk%20Drug%20Parks.pdf",
+    "text": "The Bulk Drug Parks guidelines define an API as a substance used in manufacturing that becomes the active ingredient of the final drug, and position KSM and intermediate production as core infrastructure targets. That makes upstream input visibility essential for early-warning systems.",
+    "keywords": ["API", "KSM", "bulk drug park", "intermediates", "definitions"]
   }
 ]

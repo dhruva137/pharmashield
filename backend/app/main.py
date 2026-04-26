@@ -3,9 +3,9 @@ PharmaShield API - FastAPI Entry Point.
 National Pharma-Import Dependency Intelligence.
 """
 
+import json
 import logging
 import traceback
-import time
 from uuid import uuid4
 from datetime import datetime, timedelta
 
@@ -13,12 +13,14 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-from .config import settings
+from .config import BASE_DIR, settings
 from .deps import (
     get_data_loader, 
     get_graph_service, 
     get_retriever, 
-    get_gnn
+    get_gnn,
+    get_gemini_flash_client,
+    get_demo_mode_service,
 )
 
 # Setup Logging
@@ -27,6 +29,11 @@ logging.basicConfig(
     format="%(asctime)s %(name)s %(levelname)s %(message)s"
 )
 logger = logging.getLogger("pharmashield")
+
+LIVE_SHOCK_PATHS = (
+    BASE_DIR / "data" / "shocks.json",
+    BASE_DIR / "data" / "seed" / "live_shocks.json",
+)
 
 app = FastAPI(
     title="PharmaShield API",
@@ -51,6 +58,30 @@ _health_cache = {
     "expiry": datetime.min
 }
 
+def _load_live_shock_count():
+    """Count deduplicated live shocks from current and legacy feed files."""
+    seen_ids = set()
+    total = 0
+
+    for path in LIVE_SHOCK_PATHS:
+        if not path.exists():
+            continue
+        try:
+            items = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+
+        for item in items:
+            item_id = str(item.get("id", "")).strip()
+            if item_id:
+                if item_id in seen_ids:
+                    continue
+                seen_ids.add(item_id)
+            total += 1
+
+    return total
+
+
 def get_health_status():
     """Returns cached health status, rebuilds every 60 seconds."""
     global _health_cache
@@ -60,27 +91,47 @@ def get_health_status():
         return _health_cache["data"]
     
     dl = get_data_loader()
+    if not dl.get_drugs():
+        try:
+            dl.load_all()
+        except Exception:
+            pass
+
+    gemini_client = get_gemini_flash_client()
+    gemini_ready = gemini_client.is_available()
     gnn_ready = False
     try:
-        get_gnn()
-        gnn_ready = True
+        gnn = get_gnn()
+        gnn_ready = gnn.is_available()
     except Exception:
         pass
-        
-    qdrant_ready = False
-    try:
-        # Simple check for qdrant accessibility if needed
-        qdrant_ready = True 
-    except Exception:
-        pass
+    
+    retriever = get_retriever()
+    qdrant_ready = bool(getattr(retriever, "_enabled", False))
+    demo_service = get_demo_mode_service()
+    live_shock_count = _load_live_shock_count()
+
+    if settings.DEMO_MODE and live_shock_count > 0:
+        shock_feed_mode = "hybrid_demo_live"
+    elif settings.DEMO_MODE:
+        shock_feed_mode = "demo"
+    else:
+        shock_feed_mode = "live"
 
     status = {
         "status": "ok",
         "version": "1.0.0",
         "loaded_drugs": len(dl.get_drugs()),
         "loaded_alerts": len(dl.get_alerts()),
+        "gemini_ready": gemini_ready,
+        "qdrant_ready": qdrant_ready,
+        "demo_mode": settings.DEMO_MODE,
+        "demo_scenarios": demo_service.count(),
+        "live_shocks": live_shock_count,
+        "shock_feed_mode": shock_feed_mode,
+        "gnn_enabled": settings.ENABLE_GNN,
         "gnn_loaded": gnn_ready,
-        "qdrant_ready": qdrant_ready
+        "propagation_mode": "gnn" if gnn_ready else "pagerank",
     }
     
     _health_cache["data"] = status
@@ -100,28 +151,21 @@ async def startup_event():
     get_graph_service()
     
     # Initialize Vector Store
-    qdrant_status = False
-    try:
-        # Note: retriever.ensure_collection() implementation assumed in retriever service
-        get_retriever().ensure_collection()
-        qdrant_status = True
-    except Exception as e:
-        logger.warning(f"Qdrant collection initialization failed: {e}")
+    if settings.DEMO_MODE:
+        logger.info("Demo mode enabled; skipping Qdrant warmup.")
+    else:
+        try:
+            get_retriever().ensure_collection()
+        except Exception as e:
+            logger.warning(f"Qdrant collection initialization failed: {e}")
         
     # Initialize GNN
-    gnn_status = False
     try:
         get_gnn()
-        gnn_status = True
     except Exception as e:
-        logger.warning(f"GNN weights not found or loading failed: {e}")
+        logger.warning(f"GNN loading failed: {e}")
         
-    logger.info(
-        f"Ready: {len(dl.get_drugs())} drugs, "
-        f"{len(dl.get_alerts())} alerts, "
-        f"GNN: {gnn_status}, "
-        f"Qdrant: {qdrant_status}"
-    )
+    logger.info("PharmaShield startup sequence complete.")
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
@@ -150,21 +194,13 @@ async def healthz():
     return get_health_status()
 
 # Router Mounting
-routers = [
-    ("app.api.graph", "/api/graph", "Graph"),
-    ("app.api.drugs", "/api/drugs", "Drugs"),
-    ("app.api.alerts", "/api/alerts", "Alerts"),
-    ("app.api.query", "/api/query", "Query"),
-    ("app.api.simulate", "/api/simulate", "Simulate"),
-]
+# All routers are now implemented and ready for production use
+from .api import graph, drugs, alerts, query, simulate, sectors, engines
 
-for module_path, prefix, name in routers:
-    try:
-        import importlib
-        module = importlib.import_module(module_path)
-        router = getattr(module, "router")
-        app.include_router(router, prefix=prefix, tags=[name])
-    except (ImportError, AttributeError) as e:
-        logger.warning(f"Router {name} not ready, skipping: {e}")
-    except Exception as e:
-        logger.error(f"Error mounting router {name}: {e}")
+app.include_router(graph.router)
+app.include_router(drugs.router)
+app.include_router(alerts.router)
+app.include_router(query.router)
+app.include_router(simulate.router)
+app.include_router(sectors.router)
+app.include_router(engines.router)

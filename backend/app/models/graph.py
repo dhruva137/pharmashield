@@ -7,14 +7,17 @@ from enum import Enum
 from typing import List, Dict, Optional, Any
 from pydantic import BaseModel, Field
 
+from .drug import Drug
+
 
 class NodeType(str, Enum):
     """Types of nodes in the supply chain knowledge graph."""
-    DRUG = "DRUG"
-    API = "API"
-    KSM = "KSM"
-    PROVINCE = "PROVINCE"
-    MANUFACTURER = "MANUFACTURER"
+    DRUG = "drug"
+    API = "api"
+    INPUT = "input"
+    KSM = "ksm"
+    PROVINCE = "province"
+    MANUFACTURER = "manufacturer"
 
 
 class GraphNode(BaseModel):
@@ -58,7 +61,6 @@ class SimulationRequest(BaseModel):
 
 class SimulationResult(BaseModel):
     """Output analysis of a supply chain shock simulation."""
-    from .drug import Drug  # Local import to avoid circular dependency
     affected_drugs: List[Drug] = Field(..., description="List of drugs whose supply is compromised in this scenario")
     propagation_explanation: str = Field(..., description="AI-generated explanation of how the shock propagates through the network")
     simulated_at: datetime = Field(..., description="Timestamp when the simulation was executed")
@@ -83,3 +85,5 @@ class QueryResponse(BaseModel):
     confidence: float = Field(..., ge=0, le=1, description="Confidence score of the AI in its answer")
     citations: List[Citation] = Field(..., description="Supporting evidence for the answer")
     suggested_drugs_to_inspect: List[str] = Field(..., description="List of drug IDs relevant to the query for further drill-down")
+    response_mode: str = Field(default="live", description="Indicates whether the response came from live or demo mode")
+    matched_scenarios: List[str] = Field(default_factory=list, description="Matched curated scenarios in demo mode")

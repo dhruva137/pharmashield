@@ -1,0 +1,533 @@
+{
+  "nodes": [
+    {
+      "id": "india",
+      "type": "country",
+      "name": "India"
+    },
+    {
+      "id": "heparin_sodium",
+      "type": "pharma_api",
+      "name": "Heparin Sodium",
+      "sector": "pharma",
+      "china_share": 0.88,
+      "primary_provinces": [
+        "Jiangsu"
+      ],
+      "monthly_import_value_usd_millions": 180.0
+    },
+    {
+      "id": "penicillin_g_potassium",
+      "type": "pharma_api",
+      "name": "Penicillin G Potassium",
+      "sector": "pharma",
+      "china_share": 0.95,
+      "primary_provinces": [
+        "Hebei",
+        "Hubei"
+      ],
+      "monthly_import_value_usd_millions": 120.0
+    },
+    {
+      "id": "7_aca",
+      "type": "pharma_api",
+      "name": "7-ACA",
+      "sector": "pharma",
+      "china_share": 0.92,
+      "primary_provinces": [
+        "Shandong",
+        "Hebei"
+      ],
+      "monthly_import_value_usd_millions": 110.0
+    },
+    {
+      "id": "insulin_recombinant",
+      "type": "pharma_api",
+      "name": "Insulin Recombinant",
+      "sector": "pharma",
+      "china_share": 0.45,
+      "primary_provinces": [
+        "Jiangsu"
+      ],
+      "monthly_import_value_usd_millions": 90.0
+    },
+    {
+      "id": "6_apa",
+      "type": "pharma_api",
+      "name": "6-APA",
+      "sector": "pharma",
+      "china_share": 0.9,
+      "primary_provinces": [
+        "Hebei",
+        "Jiangsu"
+      ],
+      "monthly_import_value_usd_millions": 85.0
+    },
+    {
+      "id": "ibuprofen_api",
+      "type": "pharma_api",
+      "name": "Ibuprofen API",
+      "sector": "pharma",
+      "china_share": 0.82,
+      "primary_provinces": [
+        "Hebei",
+        "Shandong"
+      ],
+      "monthly_import_value_usd_millions": 70.0
+    },
+    {
+      "id": "clavulanic_acid",
+      "type": "pharma_api",
+      "name": "Clavulanic Acid",
+      "sector": "pharma",
+      "china_share": 0.88,
+      "primary_provinces": [
+        "Shandong"
+      ],
+      "monthly_import_value_usd_millions": 65.0
+    },
+    {
+      "id": "azithromycin_dihydrate",
+      "type": "pharma_api",
+      "name": "Azithromycin Dihydrate",
+      "sector": "pharma",
+      "china_share": 0.85,
+      "primary_provinces": [
+        "Jiangsu"
+      ],
+      "monthly_import_value_usd_millions": 60.0
+    },
+    {
+      "id": "atorvastatin_calcium",
+      "type": "pharma_api",
+      "name": "Atorvastatin Calcium",
+      "sector": "pharma",
+      "china_share": 0.82,
+      "primary_provinces": [
+        "Zhejiang"
+      ],
+      "monthly_import_value_usd_millions": 55.0
+    },
+    {
+      "id": "erythromycin_thiocyanate",
+      "type": "pharma_api",
+      "name": "Erythromycin Thiocyanate",
+      "sector": "pharma",
+      "china_share": 0.92,
+      "primary_provinces": [
+        "Hebei"
+      ],
+      "monthly_import_value_usd_millions": 50.0
+    },
+    {
+      "id": "ciprofloxacin_hcl",
+      "type": "pharma_api",
+      "name": "Ciprofloxacin HCl",
+      "sector": "pharma",
+      "china_share": 0.83,
+      "primary_provinces": [
+        "Zhejiang"
+      ],
+      "monthly_import_value_usd_millions": 48.0
+    },
+    {
+      "id": "para_aminophenol",
+      "type": "pharma_api",
+      "name": "Para-Aminophenol",
+      "sector": "pharma",
+      "china_share": 0.85,
+      "primary_provinces": [
+        "Hebei",
+        "Hubei"
+      ],
+      "monthly_import_value_usd_millions": 45.0
+    },
+    {
+      "id": "omeprazole_api",
+      "type": "pharma_api",
+      "name": "Omeprazole API",
+      "sector": "pharma",
+      "china_share": 0.85,
+      "primary_provinces": [
+        "Jiangsu"
+      ],
+      "monthly_import_value_usd_millions": 42.0
+    },
+    {
+      "id": "metformin_hcl",
+      "type": "pharma_api",
+      "name": "Metformin HCl",
+      "sector": "pharma",
+      "china_share": 0.78,
+      "primary_provinces": [
+        "Jiangsu",
+        "Zhejiang"
+      ],
+      "monthly_import_value_usd_millions": 40.0
+    },
+    {
+      "id": "amlodipine_besylate",
+      "type": "pharma_api",
+      "name": "Amlodipine Besylate",
+      "sector": "pharma",
+      "china_share": 0.8,
+      "primary_provinces": [
+        "Jiangsu"
+      ],
+      "monthly_import_value_usd_millions": 35.0
+    },
+    {
+      "id": "levofloxacin_hemihydrate",
+      "type": "pharma_api",
+      "name": "Levofloxacin Hemihydrate",
+      "sector": "pharma",
+      "china_share": 0.85,
+      "primary_provinces": [
+        "Zhejiang"
+      ],
+      "monthly_import_value_usd_millions": 32.0
+    },
+    {
+      "id": "ampicillin_trihydrate",
+      "type": "pharma_api",
+      "name": "Ampicillin Trihydrate",
+      "sector": "pharma",
+      "china_share": 0.88,
+      "primary_provinces": [
+        "Hebei"
+      ],
+      "monthly_import_value_usd_millions": 30.0
+    },
+    {
+      "id": "fluconazole_api",
+      "type": "pharma_api",
+      "name": "Fluconazole API",
+      "sector": "pharma",
+      "china_share": 0.85,
+      "primary_provinces": [
+        "Jiangsu"
+      ],
+      "monthly_import_value_usd_millions": 28.0
+    },
+    {
+      "id": "losartan_potassium",
+      "type": "pharma_api",
+      "name": "Losartan Potassium",
+      "sector": "pharma",
+      "china_share": 0.83,
+      "primary_provinces": [
+        "Zhejiang"
+      ],
+      "monthly_import_value_usd_millions": 25.0
+    },
+    {
+      "id": "diclofenac_sodium",
+      "type": "pharma_api",
+      "name": "Diclofenac Sodium",
+      "sector": "pharma",
+      "china_share": 0.78,
+      "primary_provinces": [
+        "Zhejiang"
+      ],
+      "monthly_import_value_usd_millions": 22.0
+    },
+    {
+      "id": "neodymium",
+      "type": "rare_earth",
+      "name": "Neodymium (Nd)",
+      "sector": "rare_earth",
+      "china_share": 0.94,
+      "primary_provinces": [
+        "Jiangsu",
+        "Inner Mongolia",
+        "Sichuan"
+      ],
+      "monthly_import_value_usd_millions": 210.0
+    },
+    {
+      "id": "praseodymium",
+      "type": "rare_earth",
+      "name": "Praseodymium (Pr)",
+      "sector": "rare_earth",
+      "china_share": 0.91,
+      "primary_provinces": [
+        "Inner Mongolia",
+        "Jiangsu",
+        "Sichuan"
+      ],
+      "monthly_import_value_usd_millions": 95.0
+    },
+    {
+      "id": "dysprosium",
+      "type": "rare_earth",
+      "name": "Dysprosium (Dy)",
+      "sector": "rare_earth",
+      "china_share": 0.97,
+      "primary_provinces": [
+        "Jiangsu",
+        "Guangdong",
+        "Fujian"
+      ],
+      "monthly_import_value_usd_millions": 85.0
+    },
+    {
+      "id": "lanthanum",
+      "type": "rare_earth",
+      "name": "Lanthanum (La)",
+      "sector": "rare_earth",
+      "china_share": 0.85,
+      "primary_provinces": [
+        "Inner Mongolia",
+        "Sichuan"
+      ],
+      "monthly_import_value_usd_millions": 55.0
+    },
+    {
+      "id": "cerium",
+      "type": "rare_earth",
+      "name": "Cerium (Ce)",
+      "sector": "rare_earth",
+      "china_share": 0.83,
+      "primary_provinces": [
+        "Inner Mongolia",
+        "Jiangsu"
+      ],
+      "monthly_import_value_usd_millions": 48.0
+    },
+    {
+      "id": "terbium",
+      "type": "rare_earth",
+      "name": "Terbium (Tb)",
+      "sector": "rare_earth",
+      "china_share": 0.99,
+      "primary_provinces": [
+        "Jiangsu",
+        "Guangdong"
+      ],
+      "monthly_import_value_usd_millions": 40.0
+    },
+    {
+      "id": "yttrium",
+      "type": "rare_earth",
+      "name": "Yttrium (Y)",
+      "sector": "rare_earth",
+      "china_share": 0.89,
+      "primary_provinces": [
+        "Guangdong",
+        "Jiangxi",
+        "Hunan"
+      ],
+      "monthly_import_value_usd_millions": 35.0
+    },
+    {
+      "id": "europium",
+      "type": "rare_earth",
+      "name": "Europium (Eu)",
+      "sector": "rare_earth",
+      "china_share": 0.96,
+      "primary_provinces": [
+        "Guangdong",
+        "Jiangxi"
+      ],
+      "monthly_import_value_usd_millions": 22.0
+    }
+  ],
+  "edges": [
+    {
+      "source": "heparin_sodium",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 180.0,
+      "weight": 0.857143
+    },
+    {
+      "source": "penicillin_g_potassium",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 120.0,
+      "weight": 0.571429
+    },
+    {
+      "source": "7_aca",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 110.0,
+      "weight": 0.52381
+    },
+    {
+      "source": "insulin_recombinant",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 90.0,
+      "weight": 0.428571
+    },
+    {
+      "source": "6_apa",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 85.0,
+      "weight": 0.404762
+    },
+    {
+      "source": "ibuprofen_api",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 70.0,
+      "weight": 0.333333
+    },
+    {
+      "source": "clavulanic_acid",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 65.0,
+      "weight": 0.309524
+    },
+    {
+      "source": "azithromycin_dihydrate",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 60.0,
+      "weight": 0.285714
+    },
+    {
+      "source": "atorvastatin_calcium",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 55.0,
+      "weight": 0.261905
+    },
+    {
+      "source": "erythromycin_thiocyanate",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 50.0,
+      "weight": 0.238095
+    },
+    {
+      "source": "ciprofloxacin_hcl",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 48.0,
+      "weight": 0.228571
+    },
+    {
+      "source": "para_aminophenol",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 45.0,
+      "weight": 0.214286
+    },
+    {
+      "source": "omeprazole_api",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 42.0,
+      "weight": 0.2
+    },
+    {
+      "source": "metformin_hcl",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 40.0,
+      "weight": 0.190476
+    },
+    {
+      "source": "amlodipine_besylate",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 35.0,
+      "weight": 0.166667
+    },
+    {
+      "source": "levofloxacin_hemihydrate",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 32.0,
+      "weight": 0.152381
+    },
+    {
+      "source": "ampicillin_trihydrate",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 30.0,
+      "weight": 0.142857
+    },
+    {
+      "source": "fluconazole_api",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 28.0,
+      "weight": 0.133333
+    },
+    {
+      "source": "losartan_potassium",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 25.0,
+      "weight": 0.119048
+    },
+    {
+      "source": "diclofenac_sodium",
+      "target": "india",
+      "edge_type": "india_imports_api",
+      "import_volume_usd_millions": 22.0,
+      "weight": 0.104762
+    },
+    {
+      "source": "neodymium",
+      "target": "india",
+      "edge_type": "india_imports_rare_earth",
+      "import_volume_usd_millions": 210.0,
+      "weight": 1.0
+    },
+    {
+      "source": "praseodymium",
+      "target": "india",
+      "edge_type": "india_imports_rare_earth",
+      "import_volume_usd_millions": 95.0,
+      "weight": 0.452381
+    },
+    {
+      "source": "dysprosium",
+      "target": "india",
+      "edge_type": "india_imports_rare_earth",
+      "import_volume_usd_millions": 85.0,
+      "weight": 0.404762
+    },
+    {
+      "source": "lanthanum",
+      "target": "india",
+      "edge_type": "india_imports_rare_earth",
+      "import_volume_usd_millions": 55.0,
+      "weight": 0.261905
+    },
+    {
+      "source": "cerium",
+      "target": "india",
+      "edge_type": "india_imports_rare_earth",
+      "import_volume_usd_millions": 48.0,
+      "weight": 0.228571
+    },
+    {
+      "source": "terbium",
+      "target": "india",
+      "edge_type": "india_imports_rare_earth",
+      "import_volume_usd_millions": 40.0,
+      "weight": 0.190476
+    },
+    {
+      "source": "yttrium",
+      "target": "india",
+      "edge_type": "india_imports_rare_earth",
+      "import_volume_usd_millions": 35.0,
+      "weight": 0.166667
+    },
+    {
+      "source": "europium",
+      "target": "india",
+      "edge_type": "india_imports_rare_earth",
+      "import_volume_usd_millions": 22.0,
+      "weight": 0.104762
+    }
+  ]
+}

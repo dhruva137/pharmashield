@@ -102,6 +102,10 @@ class DataLoader:
             
         return filtered[offset : offset + limit]
 
+    def get_alert(self, alert_id: str) -> Optional[Alert]:
+        """Returns a specific alert by its ID."""
+        return next((a for a in self._alerts if a.id == alert_id), None)
+
     def get_policy_snippets(self) -> List[Dict[str, Any]]:
         """Returns the list of parsed policy snippets."""
         return self._policy_snippets

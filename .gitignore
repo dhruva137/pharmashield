@@ -1,16 +1,29 @@
 # Python
 .env
+.env.*
 __pycache__/
 *.pyc
 venv/
+.venv/
+.pytest_cache/
+backend/.pytest_cache/
 
 # Flutter
 build/
 .dart_tool/
 
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.netlify/
+frontend/.vercel/
+.netlify/
+.vercel/
+
 # Data
 data/raw/*
 data/processed/*
+data/mvp_smoke_report.json
 
 # ML
 *.pt

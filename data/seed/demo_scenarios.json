@@ -1,0 +1,294 @@
+[
+  {
+    "id": "demo_hebei_factory_shutdown_2026_04_26",
+    "scenario_label": "Hebei analgesic stress",
+    "sector": "pharma",
+    "title": "Hebei factory shutdown disrupts para-aminophenol and 7-ACA output",
+    "summary": "Environmental inspectors halted two Hebei synthesis lines supplying para-aminophenol and 7-ACA intermediates. Indian buyers are expected to feel pressure on paracetamol and ceftriaxone contracts within 8 to 12 days if output does not resume.",
+    "province": "Hebei",
+    "severity": "CRITICAL",
+    "event_type": "factory_shutdown",
+    "keyword_trigger": "factory shutdown",
+    "source": "HEBEI_EPB",
+    "source_url": "https://hbsthjt.hebei.gov.cn/notice/2026/04/hebei-pharma-curtailment",
+    "published_at": "2026-04-26T04:30:00Z",
+    "detected_at": "2026-04-26T04:45:00Z",
+    "gdelt_sources": 6,
+    "extraction_method": "demo_scenario",
+    "confidence": 0.88,
+    "affected_entities": [
+      "paracetamol",
+      "ceftriaxone",
+      "para_aminophenol",
+      "7_aca"
+    ],
+    "query_clues": [
+      "hebei",
+      "paracetamol",
+      "ceftriaxone",
+      "factory shutdown",
+      "api",
+      "buffer stock",
+      "critical medicines"
+    ],
+    "demo_citations": [
+      {
+        "source": "Hebei EPB Curtailed Production Notice",
+        "snippet": "Two bulk-drug precursor lines in Shijiazhuang were ordered offline pending emissions remediation and wastewater treatment review.",
+        "url": "https://hbsthjt.hebei.gov.cn/notice/2026/04/hebei-pharma-curtailment"
+      },
+      {
+        "source": "ShockMap Demo Procurement Note",
+        "snippet": "North India paracetamol buyers have under 12 days of cover against contracted April demand if Hebei output stays offline.",
+        "url": null
+      }
+    ],
+    "structured_plan": {
+      "summary": "Protect paracetamol and ceftriaxone cover before distributor allocations begin in North and West India.",
+      "immediate_actions": [
+        "Lock 40 MT para-aminophenol equivalent from Divi's Laboratories and Granules India within 72 hours; target spend cap USD 2.4M.",
+        "Reallocate 12 MT ceftriaxone intermediate cover from low-velocity institutional accounts to state tender commitments.",
+        "Freeze non-essential export commitments for paracetamol tablets until stock cover is back above 18 days."
+      ],
+      "medium_term_actions": [
+        "Raise safety stock for paracetamol and ceftriaxone APIs from 14 days to 30 days for the next procurement cycle.",
+        "Qualify one non-Hebei backup source for para-aminophenol and 7-ACA with pre-approved QA release windows."
+      ],
+      "policy_escalation_trigger": "Escalate to Department of Pharmaceuticals if weighted stock cover drops below 10 days or wholesale price rises above 12% week on week.",
+      "estimated_impact": "Paracetamol syrup and ceftriaxone vial lines could enter controlled allocation in 8 to 12 days.",
+      "confidence": 0.86
+    }
+  },
+  {
+    "id": "demo_jiangsu_contamination_2026_04_26",
+    "scenario_label": "Jiangsu beta-lactam contamination",
+    "sector": "pharma",
+    "title": "Jiangsu contamination event hits 6-APA fermentation cluster",
+    "summary": "A contamination incident in Jiangsu forced batch destruction across a major 6-APA cluster. The disruption raises near-term risk for amoxicillin and penicillin supply into Indian hospital tenders.",
+    "province": "Jiangsu",
+    "severity": "HIGH",
+    "event_type": "contamination",
+    "keyword_trigger": "contamination",
+    "source": "NEWS",
+    "source_url": "https://reuters.com/world/china/jiangsu-chemical-contamination-beta-lactam-cluster",
+    "published_at": "2026-04-26T02:15:00Z",
+    "detected_at": "2026-04-26T02:28:00Z",
+    "gdelt_sources": 4,
+    "extraction_method": "demo_scenario",
+    "confidence": 0.81,
+    "affected_entities": [
+      "amoxicillin",
+      "penicillin_g",
+      "6_apa",
+      "ampicillin_trihydrate"
+    ],
+    "query_clues": [
+      "jiangsu",
+      "amoxicillin",
+      "penicillin",
+      "contamination",
+      "antibiotic",
+      "hospital tender"
+    ],
+    "demo_citations": [
+      {
+        "source": "Jiangsu Industrial Incident Wire",
+        "snippet": "Batch contamination in a Jiangsu beta-lactam fermentation park forced destruction of in-process 6-APA inventory and paused dispatches.",
+        "url": "https://reuters.com/world/china/jiangsu-chemical-contamination-beta-lactam-cluster"
+      },
+      {
+        "source": "ShockMap Demo QA Note",
+        "snippet": "Amoxicillin lines serving public tenders have roughly 14 days of API cover under normal offtake assumptions.",
+        "url": null
+      }
+    ],
+    "structured_plan": {
+      "summary": "Preserve antibiotic tender fulfillment while contaminated Jiangsu lots are quarantined.",
+      "immediate_actions": [
+        "Advance-buy 18 MT 6-APA from approved non-Jiangsu sources and reserve QA release slots; keep spend under USD 1.1M.",
+        "Prioritize amoxicillin and penicillin hospital packs over private-channel SKUs for the next 10 days.",
+        "Require inbound lot segregation and accelerated micro testing for all beta-lactam APIs received this week."
+      ],
+      "medium_term_actions": [
+        "Re-balance antibiotic procurement so no single Jiangsu cluster covers more than 35% of 6-APA demand.",
+        "Build a 21-day emergency buffer for penicillin G and amoxicillin tender formulations."
+      ],
+      "policy_escalation_trigger": "Escalate if any additional contamination notice lands or if tender fill-rate drops below 95%.",
+      "estimated_impact": "Hospital amoxicillin dispatch reliability could degrade within 10 to 14 days without emergency replenishment.",
+      "confidence": 0.8
+    }
+  },
+  {
+    "id": "demo_inner_mongolia_export_ban_2026_04_26",
+    "scenario_label": "Inner Mongolia magnet materials ban",
+    "sector": "rare_earth",
+    "title": "Inner Mongolia export ban tightens dysprosium and neodymium shipments",
+    "summary": "A temporary export control notice from Inner Mongolia has frozen new customs clearances for dysprosium and neodymium concentrate. EV motor, magnet, and defense alloy supply chains are expected to absorb immediate pricing pressure.",
+    "province": "Inner Mongolia",
+    "severity": "CRITICAL",
+    "event_type": "export_ban",
+    "keyword_trigger": "export ban",
+    "source": "CUSTOMS_NOTICE",
+    "source_url": "https://customs.gov.cn/inner-mongolia/export-control-rare-earths-apr-2026",
+    "published_at": "2026-04-26T05:10:00Z",
+    "detected_at": "2026-04-26T05:18:00Z",
+    "gdelt_sources": 5,
+    "extraction_method": "demo_scenario",
+    "confidence": 0.9,
+    "affected_entities": [
+      "neodymium",
+      "dysprosium",
+      "praseodymium",
+      "terbium"
+    ],
+    "query_clues": [
+      "rare earth",
+      "inner mongolia",
+      "export ban",
+      "ev",
+      "magnet",
+      "vietnam",
+      "dysprosium",
+      "neodymium"
+    ],
+    "demo_citations": [
+      {
+        "source": "Inner Mongolia Customs Circular",
+        "snippet": "New export declarations for selected magnet rare earth oxides are suspended pending strategic review and quota verification.",
+        "url": "https://customs.gov.cn/inner-mongolia/export-control-rare-earths-apr-2026"
+      },
+      {
+        "source": "ShockMap Demo Materials Brief",
+        "snippet": "Indian magnet processors hold less than 20 days of dysprosium cover in the base-case inventory model.",
+        "url": null
+      }
+    ],
+    "structured_plan": {
+      "summary": "Protect high-value magnet and defense allocations while export controls remain active.",
+      "immediate_actions": [
+        "Pull 12 MT NdPr oxide and 1.8 MT dysprosium oxide from strategic and approved private stock; reserve it for traction motor and missile guidance programs.",
+        "Issue emergency RFQs to IREL-linked and approved non-China traders for 6 weeks of replacement cover; budget USD 4.8M for spot execution.",
+        "Pause low-margin magnet exports and re-sequence domestic deliveries by strategic priority."
+      ],
+      "medium_term_actions": [
+        "Shift long-cycle procurement to diversified sources and lock quarterly offtake options before quota windows reopen.",
+        "Increase strategic stock targets for dysprosium and terbium from 15 days to 45 days."
+      ],
+      "policy_escalation_trigger": "Escalate immediately if customs hold extends beyond 72 hours or if NdPr spot prices gap above 18%.",
+      "estimated_impact": "Domestic EV motor and precision magnet programs could face component rationing within 2 to 3 weeks.",
+      "confidence": 0.89
+    }
+  },
+  {
+    "id": "demo_shandong_port_closure_2026_04_26",
+    "scenario_label": "Shandong port closure",
+    "sector": "pharma",
+    "title": "Shandong port closure delays outbound API containers",
+    "summary": "Severe weather and customs congestion at a Shandong port have delayed API container departures. Metformin, omeprazole, and atorvastatin buyers in India face elongated inbound ETAs and near-term spot price pressure.",
+    "province": "Shandong",
+    "severity": "HIGH",
+    "event_type": "port_closure",
+    "keyword_trigger": "port closure",
+    "source": "PORT_BULLETIN",
+    "source_url": "https://port.shandong.gov.cn/bulletins/2026-04-weather-closure",
+    "published_at": "2026-04-25T23:40:00Z",
+    "detected_at": "2026-04-26T00:05:00Z",
+    "gdelt_sources": 3,
+    "extraction_method": "demo_scenario",
+    "confidence": 0.76,
+    "affected_entities": [
+      "metformin",
+      "omeprazole",
+      "atorvastatin",
+      "metformin_hcl",
+      "omeprazole_api"
+    ],
+    "query_clues": [
+      "shandong",
+      "port closure",
+      "metformin",
+      "omeprazole",
+      "atorvastatin",
+      "logistics"
+    ],
+    "demo_citations": [
+      {
+        "source": "Shandong Port Operations Bulletin",
+        "snippet": "Bulk chemical berths remain closed while customs and weather backlogs are cleared; pharma outbound containers face 5 to 7 day slippage.",
+        "url": "https://port.shandong.gov.cn/bulletins/2026-04-weather-closure"
+      },
+      {
+        "source": "ShockMap Demo Shipping Assumption",
+        "snippet": "A seven-day slip in Shandong dispatches is enough to push metformin spot procurement into premium pricing for import-dependent buyers.",
+        "url": null
+      }
+    ],
+    "structured_plan": {
+      "summary": "Mitigate logistics-driven stockouts by resequencing inbound allocations and switching urgent lifts away from the closed port.",
+      "immediate_actions": [
+        "Move the next 22 MT of metformin and omeprazole liftings to alternate sailings through Zhejiang; reserve USD 0.6M for freight premium.",
+        "Hold distributor promotions on atorvastatin and metformin until inbound ETAs stabilize.",
+        "Trigger customer communication for any orders projected to slip beyond 5 days."
+      ],
+      "medium_term_actions": [
+        "Spread outbound routing across at least two Chinese ports for all top-10 APIs with high India dependency.",
+        "Increase port-disruption buffer assumptions in procurement planning from 3 days to 10 days for monsoon and customs surge periods."
+      ],
+      "policy_escalation_trigger": "Escalate if alternate routings fail to restore 95% on-time dispatch within 5 days.",
+      "estimated_impact": "Metformin and omeprazole contracts will be most exposed to freight premium and ETA slippage over the next week.",
+      "confidence": 0.75
+    }
+  },
+  {
+    "id": "demo_jiangxi_factory_shutdown_2026_04_26",
+    "scenario_label": "Jiangxi separation outage",
+    "sector": "rare_earth",
+    "title": "Jiangxi factory shutdown disrupts terbium and yttrium separation",
+    "summary": "A power outage and safety shutdown in Jiangxi has paused terbium and yttrium separation lines used in phosphors, lasers, and high-performance electronics. The disruption is less severe than the Inner Mongolia case but still meaningful for thin-stock importers.",
+    "province": "Jiangxi",
+    "severity": "MEDIUM",
+    "event_type": "factory_shutdown",
+    "keyword_trigger": "factory shutdown",
+    "source": "LOCAL_NEWS",
+    "source_url": "https://jiangxi.news.cn/industry/rare-earth-safety-shutdown-apr-2026",
+    "published_at": "2026-04-25T18:50:00Z",
+    "detected_at": "2026-04-25T19:05:00Z",
+    "gdelt_sources": 2,
+    "extraction_method": "demo_scenario",
+    "confidence": 0.68,
+    "affected_entities": [
+      "yttrium",
+      "terbium",
+      "erbium"
+    ],
+    "query_clues": [
+      "jiangxi",
+      "factory shutdown",
+      "terbium",
+      "yttrium",
+      "electronics",
+      "phosphor"
+    ],
+    "demo_citations": [
+      {
+        "source": "Jiangxi Industrial Safety Bulletin",
+        "snippet": "Power and safety remediation has stopped separation activity at one Jiangxi rare-earth processor pending inspection clearance.",
+        "url": "https://jiangxi.news.cn/industry/rare-earth-safety-shutdown-apr-2026"
+      }
+    ],
+    "structured_plan": {
+      "summary": "Contain medium-term specialty materials risk while Jiangxi separation capacity is restored.",
+      "immediate_actions": [
+        "Freeze non-priority terbium and yttrium draws and preserve current stock for high-value domestic customers.",
+        "Validate substitute formulations for lower-priority phosphor and specialty alloy demand."
+      ],
+      "medium_term_actions": [
+        "Rebuild a 30-day buffer on terbium and yttrium once the Jiangxi line clears inspection.",
+        "Map secondary traders and recycled-material flows that can backfill specialty rare-earth demand."
+      ],
+      "policy_escalation_trigger": "Escalate only if outage extends beyond 10 days or if customer allocation requests accelerate.",
+      "estimated_impact": "Specialty electronics and phosphor supply chains may face selective rationing after 3 to 4 weeks.",
+      "confidence": 0.67
+    }
+  }
+]
