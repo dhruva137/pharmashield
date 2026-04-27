@@ -2,366 +2,286 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/client';
 
-const STATE_COLORS = {
-  'Maharashtra': '#818cf8',
-  'Delhi': '#34d399',
-  'Karnataka': '#f472b6',
-  'Tamil Nadu': '#fbbf24',
-  'West Bengal': '#38bdf8',
-  'Gujarat': '#a78bfa',
-};
+const INDIA_STATES = [
+  { id: 'MH', name: 'Maharashtra',   port: 'JNPT Mumbai',       pharma_hubs: ['Mumbai','Pune','Nashik'],      api_units: 142, risk: 68, dependency: 'HIGH',   top_input: 'Hydroxychloroquine API', imports_from: ['China','USA','Germany'] },
+  { id: 'GJ', name: 'Gujarat',       port: 'Mundra / Kandla',   pharma_hubs: ['Ahmedabad','Vadodara','Ankleshwar'], api_units: 118, risk: 72, dependency: 'CRITICAL', top_input: 'Bulk APIs', imports_from: ['China','Indonesia','Vietnam'] },
+  { id: 'TN', name: 'Tamil Nadu',    port: 'Chennai Port',      pharma_hubs: ['Chennai','Puducherry'],        api_units: 87,  risk: 55, dependency: 'HIGH',   top_input: 'Paracetamol API',          imports_from: ['China','Singapore'] },
+  { id: 'KA', name: 'Karnataka',     port: 'New Mangalore',     pharma_hubs: ['Bangalore','Hubli'],           api_units: 64,  risk: 42, dependency: 'MEDIUM', top_input: 'Oncology APIs',            imports_from: ['USA','Germany'] },
+  { id: 'AP', name: 'Andhra Pradesh',port: 'Visakhapatnam',     pharma_hubs: ['Hyderabad','Vizag'],           api_units: 95,  risk: 61, dependency: 'HIGH',   top_input: 'Penicillin derivatives',   imports_from: ['China','Netherlands'] },
+  { id: 'HP', name: 'Himachal Pradesh',port:'N/A (land route)', pharma_hubs: ['Baddi','Solan'],              api_units: 53,  risk: 38, dependency: 'MEDIUM', top_input: 'Formulation APIs',         imports_from: ['China','Germany'] },
+  { id: 'WB', name: 'West Bengal',   port: 'Kolkata / Haldia',  pharma_hubs: ['Kolkata','Durgapur'],          api_units: 44,  risk: 47, dependency: 'MEDIUM', top_input: 'Antibiotic APIs',          imports_from: ['China','Bangladesh route'] },
+  { id: 'UP', name: 'Uttar Pradesh', port: 'Inland via Mumbai', pharma_hubs: ['Lucknow','Ghaziabad'],         api_units: 38,  risk: 52, dependency: 'HIGH',   top_input: 'Generic drug APIs',        imports_from: ['China','Vietnam'] },
+];
 
-function StateNode({ state, position, isSelected, onClick }) {
-  const color = STATE_COLORS[state.name] || '#60a5fa';
+const SUPPLY_INPUTS = [
+  { name: 'Paracetamol API',          china_dep: 89, alt_source: 'Vietnam', stockpile_days: 42, risk_score: 82, sector: 'pharma' },
+  { name: 'Penicillin G',             china_dep: 76, alt_source: 'Netherlands', stockpile_days: 28, risk_score: 71, sector: 'pharma' },
+  { name: 'Hydroxychloroquine API',   china_dep: 92, alt_source: 'India domestic', stockpile_days: 15, risk_score: 91, sector: 'pharma' },
+  { name: 'Ibuprofen API',            china_dep: 84, alt_source: 'Germany', stockpile_days: 33, risk_score: 77, sector: 'pharma' },
+  { name: 'Nickel ore (battery)',      china_dep: 12, alt_source: 'Indonesia', stockpile_days: 60, risk_score: 61, sector: 'rare_earth' },
+  { name: 'Rare Earth Oxides (REO)',  china_dep: 95, alt_source: 'None viable', stockpile_days: 8, risk_score: 95, sector: 'rare_earth' },
+  { name: 'Ciprofloxacin API',        china_dep: 68, alt_source: 'India domestic', stockpile_days: 55, risk_score: 58, sector: 'pharma' },
+  { name: 'Atorvastatin API',         china_dep: 71, alt_source: 'USA', stockpile_days: 22, risk_score: 69, sector: 'pharma' },
+];
+
+const RISK_COLOR = (r) => r >= 80 ? '#ef4444' : r >= 60 ? '#f59e0b' : r >= 40 ? '#3b82f6' : '#10b981';
+const DEP_COLOR  = { CRITICAL: '#ef4444', HIGH: '#f59e0b', MEDIUM: '#3b82f6', LOW: '#10b981' };
+
+function RiskBar({ value }) {
+  const color = RISK_COLOR(value);
   return (
-    <div
-      onClick={onClick}
-      style={{
-        position: 'absolute',
-        left: `${position.x}%`,
-        top: `${position.y}%`,
-        transform: 'translate(-50%, -50%)',
-        cursor: 'pointer',
-        transition: 'all 0.2s',
-      }}
-    >
-      <div
-        style={{
-          width: 60,
-          height: 60,
-          borderRadius: '50%',
-          background: color,
-          border: isSelected ? `3px solid white` : `2px solid ${color}40`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '1.8rem',
-          boxShadow: `0 0 12px ${color}60`,
-          transform: isSelected ? 'scale(1.15)' : 'scale(1)',
-        }}
-      >
-        🏭
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      <div style={{ flex: 1, height: 4, background: 'var(--surface3)', borderRadius: 2 }}>
+        <div style={{ width: `${value}%`, height: '100%', background: color, borderRadius: 2, transition: 'width 0.5s ease' }} />
       </div>
-      <p style={{
-        marginTop: 8,
-        fontSize: '0.75rem',
-        fontWeight: 600,
-        color: 'var(--text)',
-        textAlign: 'center',
-        whiteSpace: 'nowrap',
-      }}>
-        {state.name}
-      </p>
+      <span style={{ fontSize: '0.68rem', fontFamily: 'var(--mono)', color, fontWeight: 700, minWidth: 28 }}>{value}</span>
     </div>
   );
 }
 
-function Connection({ from, to, data, isHighlighted }) {
-  const x1 = from.x, y1 = from.y, x2 = to.x, y2 = to.y;
-  const opacity = isHighlighted ? 1 : 0.4;
-  const strokeWidth = isHighlighted ? 3 : 1.5;
-  
+function Tag({ label, color }) {
   return (
-    <line
-      x1={`${x1}%`}
-      y1={`${y1}%`}
-      x2={`${x2}%`}
-      y2={`${y2}%`}
-      stroke={data.criticality > 0.5 ? '#f43f5e' : '#60a5fa'}
-      strokeWidth={strokeWidth}
-      opacity={opacity}
-      style={{ transition: 'all 0.2s', pointerEvents: 'none' }}
-    />
+    <span style={{
+      display: 'inline-flex', padding: '2px 7px', borderRadius: 3,
+      fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.08em',
+      textTransform: 'uppercase', fontFamily: 'var(--mono)',
+      background: color + '18', color, border: `1px solid ${color}35`,
+    }}>{label}</span>
+  );
+}
+
+function SectionHeader({ title, sub }) {
+  return (
+    <div style={{ marginBottom: 14, paddingBottom: 10, borderBottom: '1px solid var(--border)' }}>
+      <div style={{ fontSize: '0.65rem', fontWeight: 700, color: 'var(--muted)', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: 'var(--mono)', marginBottom: 2 }}>{title}</div>
+      {sub && <div style={{ fontSize: '0.72rem', color: 'var(--text-dim)' }}>{sub}</div>}
+    </div>
   );
 }
 
 export default function IndiaInDepth() {
   const navigate = useNavigate();
-  const [selectedState, setSelectedState] = useState(null);
-  const [stateData, setStateData] = useState({});
-  const [connections, setConnections] = useState([]);
+  const [selectedState, setSelectedState] = useState(INDIA_STATES[0]);
+  const [activeTab, setActiveTab] = useState('states');
+  const [shocks, setShocks] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const states = [
-    { name: 'Maharashtra', position: { x: 30, y: 40 } },
-    { name: 'Gujarat', position: { x: 20, y: 35 } },
-    { name: 'Delhi', position: { x: 45, y: 22 } },
-    { name: 'West Bengal', position: { x: 65, y: 25 } },
-    { name: 'Karnataka', position: { x: 35, y: 55 } },
-    { name: 'Tamil Nadu', position: { x: 45, y: 70 } },
-  ];
-
-  const stateConnections = [
-    {
-      from: 'Maharashtra',
-      to: 'Gujarat',
-      route_name: 'Western Corridor',
-      transit_days: 2,
-      products: ['paracetamol', 'ibuprofen'],
-      criticality: 0.52,
-      value: 240,
-    },
-    {
-      from: 'Maharashtra',
-      to: 'Karnataka',
-      route_name: 'Deccan Route',
-      transit_days: 3,
-      products: ['metformin', 'atorvastatin'],
-      criticality: 0.45,
-      value: 180,
-    },
-    {
-      from: 'Tamil Nadu',
-      to: 'Karnataka',
-      route_name: 'South Corridor',
-      transit_days: 2,
-      products: ['diclofenac', 'aspirin'],
-      criticality: 0.38,
-      value: 160,
-    },
-    {
-      from: 'West Bengal',
-      to: 'Delhi',
-      route_name: 'Northern Corridor',
-      transit_days: 4,
-      products: ['gentamicin', 'fluconazole'],
-      criticality: 0.48,
-      value: 210,
-    },
-  ];
-
   useEffect(() => {
-    setConnections(stateConnections);
-    const data = {};
-    states.forEach(s => {
-      data[s.name] = {
-        name: s.name,
-        drugs_produced: Math.floor(Math.random() * 8 + 3),
-        suppliers: Math.floor(Math.random() * 15 + 5),
-        import_value: Math.floor(Math.random() * 800 + 200),
-        export_value: Math.floor(Math.random() * 600 + 150),
-        buffer_days: Math.floor(Math.random() * 20 + 5),
-      };
-    });
-    setStateData(data);
-    setLoading(false);
+    api.getShocks({ limit: 20 })
+      .then(s => setShocks(Array.isArray(s) ? s.filter(x => x.sector === 'pharma').slice(0, 6) : []))
+      .catch(() => setShocks([]))
+      .finally(() => setLoading(false));
   }, []);
 
-  const selectedConnections = selectedState
-    ? stateConnections.filter(c => c.from === selectedState || c.to === selectedState)
-    : [];
+  const TABS = [
+    { id: 'states',  label: 'STATE EXPOSURE' },
+    { id: 'inputs',  label: 'CRITICAL INPUTS' },
+    { id: 'shocks',  label: 'LIVE SHOCKS' },
+  ];
 
   return (
-    <div style={{ padding: '28px 32px' }}>
-      <div style={{ marginBottom: 28 }}>
-        <button
-          onClick={() => navigate('/map')}
-          style={{
-            background: 'transparent',
-            border: 'none',
-            color: 'var(--muted)',
-            fontSize: '0.85rem',
-            cursor: 'pointer',
-            marginBottom: 12,
-            textDecoration: 'underline',
-          }}
-        >
-          ← Back to Global Map
-        </button>
-        <h1 style={{ fontSize: '1.35rem', fontWeight: 700, letterSpacing: '-0.03em', marginBottom: 4 }}>
-          🇮🇳 India Supply Chain — In-Depth View
-        </h1>
-        <p style={{ fontSize: '0.8rem', color: 'var(--muted)' }}>
-          Inter-state pharmaceutical and rare earth supply corridors, dependencies, and critical connections
-        </p>
+    <div style={{ padding: '24px 32px', animation: 'fade-in 0.3s ease', maxWidth: 1400 }}>
+
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 24 }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+            <h1 style={{ fontSize: '1.1rem', fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--text)', margin: 0 }}>India In-Depth</h1>
+            <span style={{ padding: '2px 8px', borderRadius: 4, fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.08em', fontFamily: 'var(--mono)', background: 'rgba(239,68,68,0.1)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.2)', textTransform: 'uppercase' }}>
+              PROCUREMENT INTELLIGENCE
+            </span>
+          </div>
+          <p style={{ fontSize: '0.78rem', color: 'var(--muted)', margin: 0, lineHeight: 1.6, maxWidth: 580 }}>
+            State-level pharma manufacturing exposure, critical input dependency mapping, and live shock propagation across Indian supply nodes.
+          </p>
+        </div>
+        <button onClick={() => navigate('/map')} style={{
+          padding: '7px 14px', borderRadius: 6, border: '1px solid var(--border2)',
+          background: 'transparent', color: 'var(--muted)', fontSize: '0.75rem',
+          fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--mono)',
+        }}>BACK TO MAP</button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
-        {/* Map on left */}
-        <div className="card" style={{ padding: '20px', position: 'relative', height: 500, background: 'radial-gradient(ellipse at center, rgba(13,17,23,0.2) 0%, rgba(13,17,23,0.8) 100%), linear-gradient(135deg, var(--surface2) 0%, var(--surface) 100%)' }}>
-          <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
-            {stateConnections.map((conn, i) => {
-              const from = states.find(s => s.name === conn.from);
-              const to = states.find(s => s.name === conn.to);
-              return (
-                <Connection
-                  key={i}
-                  from={from.position}
-                  to={to.position}
-                  data={conn}
-                  isHighlighted={selectedConnections.includes(conn)}
-                />
-              );
-            })}
-          </svg>
-
-          {states.map(state => (
-            <StateNode
-              key={state.name}
-              state={state}
-              position={state.position}
-              isSelected={selectedState === state.name}
-              onClick={() => setSelectedState(selectedState === state.name ? null : state.name)}
-            />
-          ))}
-
-          <div style={{
-            position: 'absolute',
-            bottom: 12,
-            left: 12,
-            fontSize: '0.7rem',
-            color: 'var(--muted)',
-            background: 'rgba(13,17,23,0.8)',
-            padding: '8px 12px',
-            borderRadius: 8,
-          }}>
-            Click a state to highlight connections
+      {/* KPI strip */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
+        {[
+          { label: 'Total API Manufacturing Units', value: INDIA_STATES.reduce((s, x) => s + x.api_units, 0), color: 'var(--primary)' },
+          { label: 'States at HIGH+ Risk',          value: INDIA_STATES.filter(s => s.dependency !== 'MEDIUM' && s.dependency !== 'LOW').length, color: '#ef4444' },
+          { label: 'Avg China Dependency',          value: Math.round(SUPPLY_INPUTS.reduce((s, x) => s + x.china_dep, 0) / SUPPLY_INPUTS.length) + '%', color: '#f59e0b' },
+          { label: 'Critical Inputs Tracked',       value: SUPPLY_INPUTS.length, color: 'var(--purple)' },
+        ].map(k => (
+          <div key={k.label} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 8, padding: '14px 16px' }}>
+            <div style={{ fontSize: '1.5rem', fontWeight: 700, color: k.color, fontFamily: 'var(--mono)', lineHeight: 1 }}>{k.value}</div>
+            <div style={{ fontSize: '0.62rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.07em', marginTop: 4 }}>{k.label}</div>
           </div>
-        </div>
+        ))}
+      </div>
 
-        {/* Details on right */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {/* Selected State Info */}
-          {selectedState && stateData[selectedState] ? (
-            <div className="card" style={{ padding: '20px 22px' }}>
-              <h3 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: 14, color: STATE_COLORS[selectedState] }}>
-                📊 {selectedState} — State Profile
-              </h3>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                <div style={{ padding: '12px', background: 'var(--surface2)', borderRadius: 8 }}>
-                  <p style={{ fontSize: '0.65rem', color: 'var(--muted)', marginBottom: 4 }}>Drugs Produced</p>
-                  <p style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)' }}>{stateData[selectedState].drugs_produced}</p>
-                </div>
-                <div style={{ padding: '12px', background: 'var(--surface2)', borderRadius: 8 }}>
-                  <p style={{ fontSize: '0.65rem', color: 'var(--muted)', marginBottom: 4 }}>Active Suppliers</p>
-                  <p style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text)' }}>{stateData[selectedState].suppliers}</p>
-                </div>
-                <div style={{ padding: '12px', background: 'var(--surface2)', borderRadius: 8 }}>
-                  <p style={{ fontSize: '0.65rem', color: 'var(--muted)', marginBottom: 4 }}>Import Value/Month</p>
-                  <p style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text)' }}>${stateData[selectedState].import_value}M</p>
-                </div>
-                <div style={{ padding: '12px', background: 'var(--surface2)', borderRadius: 8 }}>
-                  <p style={{ fontSize: '0.65rem', color: 'var(--muted)', marginBottom: 4 }}>Buffer Days</p>
-                  <p style={{ fontSize: '1.2rem', fontWeight: 700, color: stateData[selectedState].buffer_days < 10 ? '#f59e0b' : '#10b981' }}>
-                    {stateData[selectedState].buffer_days}d
-                  </p>
-                </div>
-              </div>
-            </div>
-          ) : null}
+      {/* Tabs */}
+      <div style={{ display: 'flex', gap: 0, marginBottom: 20, borderBottom: '1px solid var(--border)' }}>
+        {TABS.map(t => (
+          <button key={t.id} onClick={() => setActiveTab(t.id)} style={{
+            padding: '9px 18px', background: 'transparent', border: 'none', cursor: 'pointer',
+            fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', fontFamily: 'var(--mono)',
+            color: activeTab === t.id ? 'var(--text)' : 'var(--muted)',
+            borderBottom: activeTab === t.id ? '2px solid var(--primary)' : '2px solid transparent',
+            marginBottom: -1, transition: 'all 0.15s',
+          }}>{t.label}</button>
+        ))}
+      </div>
 
-          {/* Connections List */}
-          <div className="card" style={{ padding: '20px 22px', flex: 1 }}>
-            <h3 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: 14 }}>
-              🔗 Supply Corridors {selectedState ? `(${selectedConnections.length})` : `(${stateConnections.length} total)`}
-            </h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxHeight: 300, overflowY: 'auto' }}>
-              {(selectedConnections.length > 0 ? selectedConnections : stateConnections).map((conn, i) => (
-                <div
-                  key={i}
-                  style={{
-                    padding: '12px 14px',
-                    background: 'var(--surface2)',
-                    border: `1px solid ${conn.criticality > 0.5 ? '#f43f5e30' : '#60a5fa30'}`,
-                    borderLeft: `3px solid ${conn.criticality > 0.5 ? '#f43f5e' : '#60a5fa'}`,
-                    borderRadius: 8,
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.background = 'var(--surface)'}
-                  onMouseLeave={e => e.currentTarget.style.background = 'var(--surface2)'}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
-                    <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text)' }}>
-                      {conn.from} → {conn.to}
-                    </span>
-                    <span style={{
-                      fontSize: '0.65rem',
-                      fontWeight: 600,
-                      color: conn.criticality > 0.5 ? '#f43f5e' : '#60a5fa',
-                      background: conn.criticality > 0.5 ? 'rgba(244,63,94,0.1)' : 'rgba(96,165,250,0.1)',
-                      padding: '2px 8px',
-                      borderRadius: 999,
-                    }}>
-                      {conn.route_name}
-                    </span>
-                  </div>
-                  <div style={{ display: 'flex', gap: 12, fontSize: '0.7rem', color: 'var(--muted)' }}>
-                    <span>⏱️ {conn.transit_days}d transit</span>
-                    <span>💰 ${conn.value}M/yr</span>
-                    <span>📦 {conn.products.length} drugs</span>
-                  </div>
-                  <div style={{ marginTop: 6, display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-                    {conn.products.map(p => (
-                      <span
-                        key={p}
-                        style={{
-                          fontSize: '0.62rem',
-                          background: 'rgba(79,156,249,0.1)',
-                          color: 'var(--primary)',
-                          padding: '2px 6px',
-                          borderRadius: 4,
-                        }}
-                      >
-                        {p}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+      {/* ── TAB: STATE EXPOSURE ── */}
+      {activeTab === 'states' && (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 20 }}>
+          {/* State table */}
+          <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, overflow: 'hidden' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1.2fr 1fr 1fr 90px', padding: '10px 16px', borderBottom: '1px solid var(--border)', background: 'rgba(255,255,255,0.02)' }}>
+              {['State / Port', 'Top Dependency', 'API Units', 'Risk Score', 'Status'].map(h => (
+                <span key={h} style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--muted)', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'var(--mono)' }}>{h}</span>
               ))}
             </div>
+            {INDIA_STATES.map(state => {
+              const isSel = selectedState?.id === state.id;
+              return (
+                <div key={state.id} onClick={() => setSelectedState(state)} style={{
+                  display: 'grid', gridTemplateColumns: '1.8fr 1.2fr 1fr 1fr 90px',
+                  padding: '12px 16px', cursor: 'pointer',
+                  borderBottom: '1px solid var(--border)',
+                  background: isSel ? 'rgba(59,130,246,0.06)' : 'transparent',
+                  borderLeft: isSel ? '3px solid var(--primary)' : '3px solid transparent',
+                  transition: 'all 0.12s',
+                }}
+                  onMouseEnter={e => !isSel && (e.currentTarget.style.background = 'var(--surface2)')}
+                  onMouseLeave={e => !isSel && (e.currentTarget.style.background = 'transparent')}
+                >
+                  <div>
+                    <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text)' }}>{state.name}</div>
+                    <div style={{ fontSize: '0.65rem', color: 'var(--muted)', fontFamily: 'var(--mono)', marginTop: 1 }}>{state.port}</div>
+                  </div>
+                  <div style={{ fontSize: '0.73rem', color: 'var(--text-dim)', alignSelf: 'center' }}>{state.top_input}</div>
+                  <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text)', fontFamily: 'var(--mono)', alignSelf: 'center' }}>{state.api_units}</div>
+                  <div style={{ alignSelf: 'center' }}><RiskBar value={state.risk} /></div>
+                  <div style={{ alignSelf: 'center' }}><Tag label={state.dependency} color={DEP_COLOR[state.dependency]} /></div>
+                </div>
+              );
+            })}
           </div>
-        </div>
-      </div>
 
-      {/* State Summary Table */}
-      <div className="card" style={{ padding: '20px 22px', marginTop: 24 }}>
-        <h3 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: 16 }}>
-          📋 All States — Quick Comparison
-        </h3>
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{
-            width: '100%',
-            borderCollapse: 'collapse',
-            fontSize: '0.75rem',
-          }}>
-            <thead>
-              <tr style={{ borderBottom: '1px solid var(--border)' }}>
-                <th style={{ textAlign: 'left', padding: '10px', color: 'var(--muted)', fontWeight: 600 }}>State</th>
-                <th style={{ textAlign: 'center', padding: '10px', color: 'var(--muted)', fontWeight: 600 }}>Drugs</th>
-                <th style={{ textAlign: 'center', padding: '10px', color: 'var(--muted)', fontWeight: 600 }}>Suppliers</th>
-                <th style={{ textAlign: 'center', padding: '10px', color: 'var(--muted)', fontWeight: 600 }}>Import ($M)</th>
-                <th style={{ textAlign: 'center', padding: '10px', color: 'var(--muted)', fontWeight: 600 }}>Export ($M)</th>
-                <th style={{ textAlign: 'center', padding: '10px', color: 'var(--muted)', fontWeight: 600 }}>Buffer (d)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {states.map(state => {
-                const data = stateData[state.name];
+          {/* State detail panel */}
+          {selectedState && (
+            <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, padding: '18px' }}>
+              <SectionHeader title={selectedState.name} sub={`${selectedState.port} entry point`} />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 16 }}>
+                {[
+                  { label: 'API Units',   value: selectedState.api_units },
+                  { label: 'Risk Score',  value: selectedState.risk, color: RISK_COLOR(selectedState.risk) },
+                  { label: 'Dependency', value: selectedState.dependency, color: DEP_COLOR[selectedState.dependency] },
+                  { label: 'Pharma Hubs', value: selectedState.pharma_hubs.length },
+                ].map(m => (
+                  <div key={m.label} style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: 6, padding: '10px 12px' }}>
+                    <div style={{ fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'var(--mono)', marginBottom: 4 }}>{m.label}</div>
+                    <div style={{ fontSize: '1.1rem', fontWeight: 700, color: m.color || 'var(--text)', fontFamily: 'var(--mono)' }}>{m.value}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ marginBottom: 14 }}>
+                <div style={{ fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'var(--mono)', marginBottom: 8 }}>Manufacturing Hubs</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                  {selectedState.pharma_hubs.map(h => (
+                    <span key={h} style={{ fontSize: '0.72rem', padding: '4px 10px', borderRadius: 4, background: 'var(--surface3)', border: '1px solid var(--border2)', color: 'var(--text)' }}>{h}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div style={{ fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'var(--mono)', marginBottom: 8 }}>Import Sources</div>
+                {selectedState.imports_from.map((src, i) => (
+                  <div key={src} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 0', borderBottom: i < selectedState.imports_from.length - 1 ? '1px solid var(--border)' : 'none' }}>
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: i === 0 ? '#ef4444' : i === 1 ? '#f59e0b' : 'var(--primary)', flexShrink: 0 }} />
+                    <span style={{ fontSize: '0.76rem', color: 'var(--text)' }}>{src}</span>
+                    {i === 0 && <span style={{ marginLeft: 'auto', fontSize: '0.6rem', color: '#ef4444', fontWeight: 700, fontFamily: 'var(--mono)' }}>PRIMARY</span>}
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ marginTop: 16, padding: '10px 12px', background: 'rgba(59,130,246,0.07)', border: '1px solid rgba(59,130,246,0.2)', borderRadius: 6 }}>
+                <div style={{ fontSize: '0.6rem', color: 'var(--primary)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'var(--mono)', marginBottom: 4 }}>Critical Input</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text)' }}>{selectedState.top_input}</div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ── TAB: CRITICAL INPUTS ── */}
+      {activeTab === 'inputs' && (
+        <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, overflow: 'hidden' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', padding: '10px 16px', borderBottom: '1px solid var(--border)', background: 'rgba(255,255,255,0.02)' }}>
+            {['Input Name', 'China Dependency', 'Alt Source', 'Stockpile (days)', 'Risk'].map(h => (
+              <span key={h} style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--muted)', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'var(--mono)' }}>{h}</span>
+            ))}
+          </div>
+          {[...SUPPLY_INPUTS].sort((a, b) => b.risk_score - a.risk_score).map(inp => (
+            <div key={inp.name} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', padding: '12px 16px', borderBottom: '1px solid var(--border)' }}>
+              <div>
+                <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text)' }}>{inp.name}</div>
+                <Tag label={inp.sector === 'rare_earth' ? 'Rare Earth' : 'Pharma'} color={inp.sector === 'rare_earth' ? 'var(--purple)' : 'var(--primary)'} />
+              </div>
+              <div style={{ alignSelf: 'center' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: inp.china_dep > 80 ? '#ef4444' : inp.china_dep > 60 ? '#f59e0b' : 'var(--text)', fontFamily: 'var(--mono)' }}>{inp.china_dep}%</div>
+                <div style={{ height: 3, background: 'var(--surface3)', borderRadius: 2, marginTop: 4, width: 60 }}>
+                  <div style={{ width: `${inp.china_dep}%`, height: '100%', background: inp.china_dep > 80 ? '#ef4444' : '#f59e0b', borderRadius: 2 }} />
+                </div>
+              </div>
+              <div style={{ fontSize: '0.73rem', color: inp.alt_source === 'None viable' ? '#ef4444' : 'var(--text-dim)', alignSelf: 'center' }}>{inp.alt_source}</div>
+              <div style={{ fontSize: '0.82rem', fontFamily: 'var(--mono)', fontWeight: 600, color: inp.stockpile_days < 20 ? '#ef4444' : inp.stockpile_days < 40 ? '#f59e0b' : 'var(--green)', alignSelf: 'center' }}>{inp.stockpile_days}d</div>
+              <div style={{ alignSelf: 'center' }}><RiskBar value={inp.risk_score} /></div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ── TAB: LIVE SHOCKS ── */}
+      {activeTab === 'shocks' && (
+        <div>
+          {loading ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[1,2,3].map(i => <div key={i} className="skeleton" style={{ height: 72, borderRadius: 8 }} />)}
+            </div>
+          ) : shocks.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--muted)', fontSize: '0.82rem' }}>
+              No pharma shocks in current feed
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {shocks.map(s => {
+                const scolor = s.severity === 'CRITICAL' ? '#ef4444' : s.severity === 'HIGH' ? '#f59e0b' : '#3b82f6';
                 return (
-                  <tr key={state.name} style={{ borderBottom: '1px solid var(--border)' }}>
-                    <td style={{ padding: '10px', color: 'var(--text)', fontWeight: 500 }}>
-                      <span style={{ color: STATE_COLORS[state.name] }}>●</span> {state.name}
-                    </td>
-                    <td style={{ textAlign: 'center', padding: '10px', color: 'var(--text)' }}>{data?.drugs_produced ?? '-'}</td>
-                    <td style={{ textAlign: 'center', padding: '10px', color: 'var(--text)' }}>{data?.suppliers ?? '-'}</td>
-                    <td style={{ textAlign: 'center', padding: '10px', color: 'var(--text)' }}>${data?.import_value ?? 0}M</td>
-                    <td style={{ textAlign: 'center', padding: '10px', color: 'var(--text)' }}>${data?.export_value ?? 0}M</td>
-                    <td style={{
-                      textAlign: 'center',
-                      padding: '10px',
-                      color: (data?.buffer_days ?? 0) < 10 ? '#f59e0b' : '#10b981',
-                      fontWeight: 600,
-                    }}>
-                      {data?.buffer_days ?? '-'}d
-                    </td>
-                  </tr>
+                  <div key={s.id} style={{
+                    background: 'var(--surface)', border: `1px solid var(--border)`,
+                    borderLeft: `3px solid ${scolor}`, borderRadius: 8,
+                    padding: '14px 18px', display: 'flex', alignItems: 'flex-start', gap: 16,
+                  }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 5 }}>
+                        <Tag label={s.severity} color={scolor} />
+                        {s.province && <span style={{ fontSize: '0.68rem', color: 'var(--muted)', fontFamily: 'var(--mono)' }}>{s.province}</span>}
+                      </div>
+                      <div style={{ fontSize: '0.83rem', color: 'var(--text)', lineHeight: 1.45 }}>{s.title}</div>
+                    </div>
+                    <div style={{ flexShrink: 0, textAlign: 'right' }}>
+                      <div style={{ fontSize: '0.68rem', color: 'var(--muted)', fontFamily: 'var(--mono)' }}>
+                        {new Date(s.detected_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
+                      </div>
+                    </div>
+                  </div>
                 );
               })}
-            </tbody>
-          </table>
+            </div>
+          )}
         </div>
-      </div>
+      )}
     </div>
   );
 }

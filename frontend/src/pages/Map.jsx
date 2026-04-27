@@ -49,34 +49,70 @@ const REGION_CENTERS = {
   global: { center: [20, 50], zoom: 3 },
 };
 
-// International supplier nodes → India
+// International supplier nodes with realistic India entry ports
 const INTL_NODES = [
-  { id:'usa',         name:'United States', lat:37.09, lng:-95.71, flag:'🇺🇸', color:'#38bdf8', risk:35, exports:['Specialty APIs','Advanced formulations'], value:580 },
-  { id:'germany',     name:'Germany',       lat:51.16, lng:10.45,  flag:'🇩🇪', color:'#a78bfa', risk:28, exports:['RE processing','Catalysts'],             value:310 },
-  { id:'vietnam',     name:'Vietnam',       lat:14.05, lng:108.27, flag:'🇻🇳', color:'#34d399', risk:52, exports:['Generic APIs','Intermediates'],         value:420 },
-  { id:'indonesia',   name:'Indonesia',     lat:-0.78, lng:113.92, flag:'🇮🇩', color:'#f59e0b', risk:61, exports:['Nickel ore','RE minerals'],            value:650 },
-  { id:'singapore',   name:'Singapore',     lat:1.35,  lng:103.81, flag:'🇸🇬', color:'#f472b6', risk:22, exports:['Logistics hub','API transit'],         value:290 },
-  { id:'netherlands', name:'Netherlands',   lat:52.13, lng:5.29,   flag:'🇳🇱', color:'#60a5fa', risk:30, exports:['API ingredients','Lab chemicals'],     value:240 },
+  {
+    id: 'usa', name: 'United States', lat: 37.09, lng: -95.71,
+    color: '#38bdf8', risk: 35,
+    exports: ['Specialty APIs', 'Advanced formulations'],
+    value: 580,
+    // Routes to JNPT (Nhava Sheva) Mumbai — main US pharma port
+    india_entry: { lat: 18.95, lng: 72.85, port: 'JNPT Mumbai' },
+  },
+  {
+    id: 'germany', name: 'Germany', lat: 51.16, lng: 10.45,
+    color: '#a78bfa', risk: 28,
+    exports: ['RE processing chemicals', 'Catalysts'],
+    value: 310,
+    // Routes to Mundra port, Gujarat — key European cargo entry
+    india_entry: { lat: 22.84, lng: 69.72, port: 'Mundra, Gujarat' },
+  },
+  {
+    id: 'vietnam', name: 'Vietnam', lat: 14.05, lng: 108.27,
+    color: '#34d399', risk: 52,
+    exports: ['Generic APIs', 'Intermediates'],
+    value: 420,
+    // Routes to Chennai port — South-East Asia corridor
+    india_entry: { lat: 13.09, lng: 80.28, port: 'Chennai Port' },
+  },
+  {
+    id: 'indonesia', name: 'Indonesia', lat: -0.78, lng: 113.92,
+    color: '#f59e0b', risk: 61,
+    exports: ['Nickel ore', 'RE minerals'],
+    value: 650,
+    // Routes to Visakhapatnam — mineral imports
+    india_entry: { lat: 17.69, lng: 83.28, port: 'Visakhapatnam Port' },
+  },
+  {
+    id: 'singapore', name: 'Singapore', lat: 1.35, lng: 103.81,
+    color: '#f472b6', risk: 22,
+    exports: ['Logistics transshipment', 'API transit'],
+    value: 290,
+    // Routes to Chennai — main transshipment corridor
+    india_entry: { lat: 13.09, lng: 80.28, port: 'Chennai Port' },
+  },
+  {
+    id: 'netherlands', name: 'Netherlands', lat: 52.13, lng: 5.29,
+    color: '#60a5fa', risk: 30,
+    exports: ['API ingredients', 'Lab chemicals'],
+    value: 240,
+    // Routes to JNPT Mumbai
+    india_entry: { lat: 18.95, lng: 72.85, port: 'JNPT Mumbai' },
+  },
 ];
-const INDIA_LAT = 20.59;
-const INDIA_LNG = 78.96;
 
 // ─── Stat Card ───────────────────────────────────────────────────────────
-function StatCard({ icon, value, label, color }) {
+function StatCard({ value, label, color }) {
   return (
     <div style={{
-      display: 'flex', alignItems: 'center', gap: 10,
-      padding: '10px 14px', borderRadius: 12,
-      background: 'rgba(13,17,23,0.8)', backdropFilter: 'blur(12px)',
-      border: '1px solid rgba(255,255,255,0.06)',
+      padding: '10px 14px', borderRadius: 8,
+      background: 'rgba(11,15,26,0.9)', backdropFilter: 'blur(12px)',
+      border: '1px solid var(--border2)',
     }}>
-      <span style={{ fontSize: '1.1rem' }}>{icon}</span>
-      <div>
-        <div style={{ fontSize: '1.1rem', fontWeight: 700, color: color || 'var(--text)', lineHeight: 1.1 }}>
-          {value}
-        </div>
-        <div style={{ fontSize: '0.65rem', color: 'var(--muted)', fontWeight: 500 }}>{label}</div>
+      <div style={{ fontSize: '1.15rem', fontWeight: 700, color: color || 'var(--text)', lineHeight: 1.1, fontFamily: 'var(--mono)' }}>
+        {value ?? '—'}
       </div>
+      <div style={{ fontSize: '0.6rem', color: 'var(--muted)', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', marginTop: 2 }}>{label}</div>
     </div>
   );
 }
@@ -398,10 +434,10 @@ export default function MapView() {
         {/* Quick Stats */}
         {stats && (
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-            <StatCard icon="⚡" value={stats.active_shocks} label="Active Shocks" color="#f43f5e" />
-            <StatCard icon="🔴" value={stats.high_risk_provinces} label="High Risk" color="#f59e0b" />
-            <StatCard icon="🏭" value={stats.total_factories} label="Factories" color="var(--primary)" />
-            <StatCard icon="⛓" value={stats.supply_corridors} label="Corridors" color="#8b5cf6" />
+            <StatCard value={stats.active_shocks} label="Active Shocks" color="#ef4444" />
+            <StatCard value={stats.high_risk_provinces} label="High Risk" color="#f59e0b" />
+            <StatCard value={stats.total_factories} label="Factories" color="var(--primary)" />
+            <StatCard value={stats.supply_corridors} label="Corridors" color="#8b5cf6" />
           </div>
         )}
 
@@ -409,8 +445,8 @@ export default function MapView() {
         <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, padding: '12px 14px' }}>
           <div style={{ fontSize: '0.65rem', color: 'var(--muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>Map Layers</div>
           {[
-            { label: '🇮🇳 China Provinces', key: 'china', color: '#f43f5e' },
-            { label: '🇮🇳 India States',    key: 'india', color: '#60a5fa' },
+            { label: 'China Provinces', key: 'china', color: '#ef4444' },
+            { label: 'India States',    key: 'india', color: '#3b82f6' },
           ].map(l => (
             <button key={l.key}
               onClick={() => setActiveLayer(a => a === l.key ? 'both' : l.key)}
@@ -426,8 +462,8 @@ export default function MapView() {
           ))}
           <div style={{ width: '100%', height: 1, background: 'var(--border)', margin: '8px 0' }} />
           {[
-            { label: '🌐 International Nodes', state: showIntl, set: setShowIntl, color: '#a78bfa' },
-            { label: '⛓ Supply Corridors',     state: showCorridors, set: setShowCorridors, color: '#8b5cf6' },
+            { label: 'International Nodes', state: showIntl, set: setShowIntl, color: '#a78bfa' },
+            { label: 'Supply Corridors',    state: showCorridors, set: setShowCorridors, color: '#8b5cf6' },
           ].map(l => (
             <button key={l.label} onClick={() => l.set(v => !v)} style={{
               display: 'block', width: '100%', padding: '7px 10px', marginBottom: 6,
@@ -473,16 +509,16 @@ export default function MapView() {
 
         {/* India deep dive button */}
         <button onClick={() => navigate('/india')} style={{
-          width: '100%', padding: '10px', background: 'rgba(56,189,248,0.1)',
-          color: '#38bdf8', border: '1px solid rgba(56,189,248,0.3)', borderRadius: 10,
-          fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
-        }}>🇮🇳 India In-Depth View</button>
+          width: '100%', padding: '10px', background: 'rgba(59,130,246,0.08)',
+          color: 'var(--primary)', border: '1px solid rgba(59,130,246,0.25)', borderRadius: 7,
+          fontSize: '0.72rem', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--mono)', letterSpacing: '0.06em',
+        }}>INDIA IN-DEPTH</button>
 
         <button onClick={() => navigate('/backtest')} style={{
-          width: '100%', padding: '10px', background: 'rgba(167,139,250,0.1)',
-          color: '#a78bfa', border: '1px solid rgba(167,139,250,0.3)', borderRadius: 10,
-          fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
-        }}>⏪ COVID Backtest Demo</button>
+          width: '100%', padding: '10px', background: 'rgba(139,92,246,0.08)',
+          color: 'var(--purple)', border: '1px solid rgba(139,92,246,0.25)', borderRadius: 7,
+          fontSize: '0.72rem', fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--mono)', letterSpacing: '0.06em',
+        }}>COVID BACKTEST</button>
 
         {/* Province Detail */}
         <ProvinceDetail detail={provinceDetail} onClose={() => setSelectedProvince(null)} />
@@ -560,55 +596,64 @@ export default function MapView() {
             );
           })}
 
-          {/* International Nodes + their corridors to India */}
+          {/* International Nodes + corridors to Indian entry ports */}
           {showIntl && INTL_NODES.map(n => (
             <React.Fragment key={n.id}>
-              {/* Line to India */}
+              {/* Supplier → Indian port polyline */}
               <Polyline
-                positions={[[n.lat, n.lng], [INDIA_LAT, INDIA_LNG]]}
+                positions={[[n.lat, n.lng], [n.india_entry.lat, n.india_entry.lng]]}
                 pathOptions={{
-                  color: n.color + '60',
+                  color: n.color + '55',
                   weight: Math.max(1, Math.min(4, n.value / 200)),
                   dashArray: '5, 8',
                   className: 'animated-polyline',
                 }}
               >
                 <Popup>
-                  <div style={{ minWidth: 160 }}>
-                    <strong style={{ fontSize: '0.85rem' }}>{n.flag} {n.name} → 🇮🇳 India</strong>
-                    <div style={{ fontSize: '0.72rem', color: '#9ca3af', marginTop: 6 }}>
-                      ${n.value}M annual exports · Risk: <strong style={{ color: n.color }}>{n.risk}%</strong>
+                  <div style={{ minWidth: 200, fontFamily: 'var(--mono)' }}>
+                    <div style={{ fontSize: '0.75rem', fontWeight: 700, color: n.color, marginBottom: 6 }}>
+                      {n.name.toUpperCase()} — {n.india_entry.port.toUpperCase()}
                     </div>
-                    <div style={{ marginTop: 6, display: 'flex', flexWrap: 'wrap', gap: 3 }}>
-                      {n.exports.map(e => <span key={e} style={{ fontSize: '0.62rem', padding: '2px 6px', borderRadius: 4, background: '#1e293b', border: '1px solid #334155' }}>{e}</span>)}
+                    <div style={{ fontSize: '0.7rem', color: '#9ca3af', marginBottom: 4 }}>
+                      Export value: <strong style={{ color: '#d4d8e8' }}>${n.value}M/yr</strong>
+                    </div>
+                    <div style={{ fontSize: '0.7rem', color: '#9ca3af', marginBottom: 6 }}>
+                      Supply risk: <strong style={{ color: n.color }}>{n.risk}%</strong>
+                    </div>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
+                      {n.exports.map(e => <span key={e} style={{ fontSize: '0.62rem', padding: '2px 6px', borderRadius: 3, background: '#1e293b', border: '1px solid #2a3448', fontFamily: 'inherit' }}>{e}</span>)}
                     </div>
                   </div>
                 </Popup>
               </Polyline>
-              {/* Node marker */}
+              {/* Port of entry dot */}
               <CircleMarker
-                center={[n.lat, n.lng]}
-                radius={9 + n.value / 130}
-                pathOptions={{
-                  color: n.color,
-                  fillColor: n.color,
-                  fillOpacity: 0.5,
-                  weight: 2,
-                }}
+                center={[n.india_entry.lat, n.india_entry.lng]}
+                radius={5}
+                pathOptions={{ color: n.color, fillColor: n.color, fillOpacity: 0.8, weight: 1.5 }}
               >
                 <Popup>
-                  <div style={{ minWidth: 160 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
-                      <span style={{ fontSize: '1.2rem' }}>{n.flag}</span>
-                      <strong style={{ fontSize: '0.9rem', color: n.color }}>{n.name}</strong>
+                  <div style={{ fontSize: '0.72rem', fontFamily: 'var(--mono)' }}>
+                    <div style={{ color: n.color, fontWeight: 700, marginBottom: 4 }}>{n.india_entry.port.toUpperCase()}</div>
+                    <div style={{ color: '#9ca3af' }}>Entry port for {n.name} exports</div>
+                  </div>
+                </Popup>
+              </CircleMarker>
+              {/* Supplier node */}
+              <CircleMarker
+                center={[n.lat, n.lng]}
+                radius={9 + n.value / 140}
+                pathOptions={{ color: n.color, fillColor: n.color, fillOpacity: 0.45, weight: 2 }}
+              >
+                <Popup>
+                  <div style={{ minWidth: 185, fontFamily: 'var(--mono)' }}>
+                    <div style={{ fontSize: '0.82rem', fontWeight: 700, color: n.color, marginBottom: 8 }}>{n.name.toUpperCase()}</div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px 12px', fontSize: '0.68rem', marginBottom: 8 }}>
+                      <span style={{ color: '#9ca3af' }}>Export value</span><span style={{ color: '#d4d8e8', fontWeight: 600 }}>${n.value}M/yr</span>
+                      <span style={{ color: '#9ca3af' }}>Supply risk</span><span style={{ color: n.color, fontWeight: 600 }}>{n.risk}%</span>
+                      <span style={{ color: '#9ca3af' }}>Entry port</span><span style={{ color: '#d4d8e8' }}>{n.india_entry.port}</span>
                     </div>
-                    <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginBottom: 6 }}>
-                      Export value: <strong style={{ color: '#e8eaf0' }}>${n.value}M/yr</strong>
-                    </div>
-                    <div style={{ fontSize: '0.72rem', color: '#9ca3af', marginBottom: 6 }}>
-                      Supply risk: <strong style={{ color: n.color }}>{n.risk}%</strong>
-                    </div>
-                    {n.exports.map(e => <div key={e} style={{ fontSize: '0.68rem', padding: '3px 6px', borderRadius: 4, background: '#1e293b', marginBottom: 3 }}>📦 {e}</div>)}
+                    {n.exports.map(e => <div key={e} style={{ fontSize: '0.66rem', padding: '3px 6px', borderRadius: 3, background: '#1e293b', marginBottom: 3, border: '1px solid #2a3448' }}>{e}</div>)}
                   </div>
                 </Popup>
               </CircleMarker>
