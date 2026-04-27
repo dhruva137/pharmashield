@@ -1,3 +1,12 @@
+---
+title: ShockMap API
+emoji: 🌍
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+pinned: false
+---
+
 # ShockMap
 
 **Real-time supply shock intelligence for India's critical import dependencies**
