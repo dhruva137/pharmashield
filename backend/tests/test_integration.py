@@ -1,6 +1,6 @@
 import pytest
 import os
-from httpx import AsyncClient
+from httpx import AsyncClient, ASGITransport
 from app.main import app
 
 # Configuration for test environment
@@ -9,7 +9,8 @@ GEMINI_KEY_PRESENT = bool(os.getenv("GEMINI_API_KEY"))
 
 @pytest.fixture
 async def client():
-    async with AsyncClient(app=app, base_url=BASE_URL) as ac:
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url=BASE_URL) as ac:
         yield ac
 
 @pytest.mark.asyncio

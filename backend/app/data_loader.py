@@ -29,6 +29,8 @@ class DataLoader:
         self._fda_alerts: List[Dict[str, Any]] = []
         self._historical_disruptions: List[Dict[str, Any]] = []
         self._policy_snippets: List[Dict[str, Any]] = []
+        self._china_provinces: List[Dict[str, Any]] = []
+        self._india_states: List[Dict[str, Any]] = []
 
     def _load_json(self, filename: str) -> Any:
         """Helper to load a JSON file from the seed directory."""
@@ -58,11 +60,13 @@ class DataLoader:
         self._fda_alerts = self._load_json("fda_alerts.json")
         self._historical_disruptions = self._load_json("historical_disruptions.json")
         self._policy_snippets = self._load_json("policy_snippets.json")
+        self._china_provinces = self._load_json("china_provinces.json")
+        self._india_states = self._load_json("india_states.json")
 
         logger.info(
             f"🚀 Loaded {len(self._drugs)} drugs, {len(self._apis)} APIs, "
             f"{len(self._dependencies)} edges, {len(self._alerts)} alerts, "
-            f"{len(self._policy_snippets)} policy snippets."
+            f"{len(self._policy_snippets)} policy snippets, {len(self._china_provinces)} provinces."
         )
 
     def get_drugs(self) -> List[Drug]:
@@ -121,3 +125,11 @@ class DataLoader:
     def get_fda_alerts(self) -> List[Dict[str, Any]]:
         """Returns raw FDA import/warning alerts."""
         return self._fda_alerts
+
+    def get_china_provinces(self) -> List[Dict[str, Any]]:
+        """Returns the list of China provinces with coordinates."""
+        return self._china_provinces
+
+    def get_india_states(self) -> List[Dict[str, Any]]:
+        """Returns the list of India states with coordinates."""
+        return self._india_states

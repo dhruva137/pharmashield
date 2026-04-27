@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { api } from '../api/client';
+import { MOCK_GRAPH } from '../lib/mockData';
 import Spinner from '../components/ui/Spinner';
 
 const NODE_COLORS = {
@@ -139,10 +140,14 @@ export default function Graph() {
   const stageRef = useRef(null);
   const { w, h } = useSize(stageRef);
 
+  const [rippleNode, setRippleNode] = useState(null);
+  const [rippleTime, setRippleTime] = useState(0);
+  const animRef = useRef(0);
+
   useEffect(() => {
     setLoading(true);
     Promise.all([
-      api.getGraph(),
+      api.getGraph().catch(() => MOCK_GRAPH),
       api.getEngineStatus().catch(() => null),
       api.health().catch(() => null),
     ])
@@ -151,8 +156,22 @@ export default function Graph() {
         setEngines(engineStatus);
         setHealth(healthStatus);
       })
-      .catch((e) => setError(e.message || 'Failed to load graph'))
+      .catch(() => { setGraphData(MOCK_GRAPH); })
       .finally(() => setLoading(false));
+  }, []);
+
+  // Particle animation timer
+  useEffect(() => {
+    let id;
+    const tick = () => { animRef.current = (animRef.current + 0.005) % 1; id = requestAnimationFrame(tick); };
+    id = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  const triggerRipple = useCallback((nodeId) => {
+    setRippleNode(nodeId);
+    setRippleTime(Date.now());
+    setTimeout(() => setRippleNode(null), 2000);
   }, []);
 
   const allNodes = useMemo(() => graphData?.nodes || [], [graphData]);
@@ -315,19 +334,26 @@ export default function Graph() {
                 const path = buildPath(source, target);
                 const weight = Math.max(1, Math.min(3.2, Number(edge.weight || 1)));
 
+                const isRippling = rippleNode && (edge.source === rippleNode || edge.target === rippleNode);
                 return (
                   <g key={`${edge.source}-${edge.target}`}>
                     <path
                       d={path}
-                      className={`graph-flow-line ${selected ? 'is-active' : ''}`}
+                      className={`graph-flow-line ${selected ? 'is-active' : ''} ${isRippling ? 'is-active' : ''}`}
                       style={{ strokeWidth: selected ? weight + 1.3 : weight * 0.85 }}
                     />
-                    {selected && (
-                      <path
-                        d={path}
-                        className="graph-flow-line graph-flow-trail"
-                        style={{ strokeWidth: weight + 0.4 }}
-                      />
+                    {(selected || isRippling) && (
+                      <>
+                        <path
+                          d={path}
+                          className="graph-flow-line graph-flow-trail"
+                          style={{ strokeWidth: weight + 0.4 }}
+                        />
+                        {/* Animated particle dot */}
+                        <circle r="3" fill="#4f9cf9" opacity="0.9" style={{ filter: 'drop-shadow(0 0 4px #4f9cf9)' }}>
+                          <animateMotion dur={isRippling ? '0.8s' : '2s'} repeatCount="indefinite" path={path} />
+                        </circle>
+                      </>
                     )}
                   </g>
                 );
@@ -350,13 +376,27 @@ export default function Graph() {
                     onClick={() => setSelectedId(node.id)}
                     className="graph-node"
                   >
-                    {(selected || risk >= 70) && (
-                      <circle
-                        r={selected ? radius + 14 : radius + 10}
-                        fill={fill}
-                        opacity={selected ? 0.18 : 0.11}
-                        className="graph-node-halo"
-                      />
+                    {(selected || risk >= 70 || node.id === rippleNode) && (
+                      <>
+                        <circle
+                          r={selected ? radius + 14 : radius + 10}
+                          fill={fill}
+                          opacity={selected ? 0.18 : 0.11}
+                          className="graph-node-halo"
+                        />
+                        {node.id === rippleNode && (
+                          <>
+                            <circle r="8" fill="none" stroke={fill} strokeWidth="2" opacity="0">
+                              <animate attributeName="r" from="8" to="40" dur="1.2s" repeatCount="3" />
+                              <animate attributeName="opacity" from="0.8" to="0" dur="1.2s" repeatCount="3" />
+                            </circle>
+                            <circle r="8" fill="none" stroke={fill} strokeWidth="1.5" opacity="0">
+                              <animate attributeName="r" from="8" to="40" dur="1.2s" begin="0.3s" repeatCount="3" />
+                              <animate attributeName="opacity" from="0.6" to="0" dur="1.2s" begin="0.3s" repeatCount="3" />
+                            </circle>
+                          </>
+                        )}
+                      </>
                     )}
                     <circle
                       r={selected ? radius + 3 : radius + 1.5}
@@ -378,6 +418,19 @@ export default function Graph() {
                     >
                       {(node.name || node.id).slice(0, 26)}
                     </text>
+                    {node.type === 'province' && risk >= 60 && (
+                      <text
+                        y={radius + 20}
+                        textAnchor="middle"
+                        fill="var(--c-teal, #00E5A0)"
+                        fontSize="8"
+                        fontFamily="var(--font-mono, monospace)"
+                        style={{ cursor: 'pointer' }}
+                        onClick={(e) => { e.stopPropagation(); triggerRipple(node.id); }}
+                      >
+                        ⚡ TRIGGER
+                      </text>
+                    )}
                   </g>
                 );
               })}

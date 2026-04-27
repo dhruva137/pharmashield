@@ -4,6 +4,7 @@ import { api } from '../api/client';
 
 const NAV = [
   { to: '/dashboard', label: 'Dashboard', icon: 'DB' },
+  { to: '/map', label: 'Map View', icon: 'MP' },
   { to: '/alerts', label: 'Live Shocks', icon: 'LS' },
   { to: '/query', label: 'Ask ShockMap', icon: 'AI' },
   { to: '/drugs', label: 'Inputs', icon: 'IN' },

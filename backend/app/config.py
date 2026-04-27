@@ -41,6 +41,7 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: str = ""
     QDRANT_URL: str = ""
     QDRANT_API_KEY: str = ""
+    GOOGLE_MAPS_API_KEY: str = ""
 
     # Project Info
     FIREBASE_PROJECT_ID: str = ""

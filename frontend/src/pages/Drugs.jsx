@@ -39,28 +39,28 @@ function DrugDetail({ id }) {
   const { drug, dependency_chain, supplier_hhi, criticality_breakdown, recent_alerts, current_risk } = data;
 
   return (
-    <div className="p-8 space-y-6 max-w-4xl">
-      <button onClick={() => navigate('/drugs')} className="flex items-center gap-1 text-sm text-muted hover:text-white transition-colors">
-        <ChevronLeft className="w-4 h-4" /> Back to drugs
+    <div style={{ padding: '30px', maxWidth: '1000px', margin: '0 auto', animation: 'fade-in 0.3s ease' }}>
+      <button onClick={() => navigate('/drugs')} className="btn btn-ghost" style={{ marginBottom: '24px', fontSize: '0.8rem' }}>
+        <ChevronLeft style={{ width: '16px', height: '16px' }} /> Back to drugs
       </button>
 
-      <div className="bg-surface border border-white/[0.06] rounded-xl p-6">
-        <div className="flex items-start justify-between gap-4">
+      <div className="card" style={{ padding: '24px', marginBottom: '24px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px' }}>
           <div>
-            <h1 className="text-2xl font-bold">{drug.name}</h1>
-            <p className="text-muted text-sm mt-1">{drug.generic_name} · {drug.therapeutic_class}</p>
+            <h1 style={{ fontSize: '1.75rem', fontWeight: 800, margin: '0 0 8px 0' }}>{drug.name}</h1>
+            <p style={{ color: 'var(--muted)', fontSize: '0.875rem', margin: 0 }}>{drug.generic_name} · {drug.therapeutic_class}</p>
           </div>
-          <div className="text-right">
+          <div style={{ textAlign: 'right' }}>
             <SeverityBadge severity={riskLabel(current_risk || 0)} />
-            <p className="text-xs text-muted mt-1">Risk {Math.round(current_risk || 0)}/100</p>
+            <p style={{ fontSize: '0.75rem', color: 'var(--muted)', marginTop: '8px' }}>Risk {Math.round(current_risk || 0)}/100</p>
           </div>
         </div>
-        <div className="mt-4">
+        <div style={{ marginTop: '20px' }}>
           <RiskBar score={current_risk || 0} />
         </div>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '24px' }}>
         {[
           { label: 'NLEM Tier',       value: tierLabel(drug.nlem_tier) },
           { label: 'Substitute',      value: drug.has_substitute ? 'Yes' : 'No' },
@@ -69,23 +69,23 @@ function DrugDetail({ id }) {
               ? `${(drug.patient_population_estimate / 1e6).toFixed(0)}M`
               : 'N/A' },
         ].map(({ label, value }) => (
-          <div key={label} className="bg-surface border border-white/[0.06] rounded-xl p-4">
-            <p className="text-xs text-muted uppercase tracking-widest">{label}</p>
-            <p className="text-lg font-semibold mt-1">{value}</p>
+          <div key={label} className="card" style={{ padding: '16px' }}>
+            <p style={{ fontSize: '0.75rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 8px 0' }}>{label}</p>
+            <p style={{ fontSize: '1.125rem', fontWeight: 600, margin: 0 }}>{value}</p>
           </div>
         ))}
       </div>
 
       {criticality_breakdown && (
-        <div className="bg-surface border border-white/[0.06] rounded-xl p-5">
-          <h2 className="text-sm font-medium mb-4">Criticality Breakdown</h2>
-          <div className="space-y-2">
+        <div className="card" style={{ padding: '24px', marginBottom: '24px' }}>
+          <h2 style={{ fontSize: '1rem', fontWeight: 600, margin: '0 0 16px 0' }}>Criticality Breakdown</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {Object.entries(criticality_breakdown)
               .filter(([k]) => k !== 'final_score')
               .map(([key, val]) => (
-                <div key={key} className="flex items-center gap-3">
-                  <span className="text-xs text-muted w-40 capitalize">{key.replace(/_/g, ' ')}</span>
-                  <div className="flex-1">
+                <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--muted)', width: '160px', textTransform: 'capitalize' }}>{key.replace(/_/g, ' ')}</span>
+                  <div style={{ flex: 1 }}>
                     <RiskBar score={typeof val === 'number' ? Math.min(100, val) : 0} />
                   </div>
                 </div>
@@ -95,16 +95,16 @@ function DrugDetail({ id }) {
       )}
 
       {dependency_chain?.length > 0 && (
-        <div className="bg-surface border border-white/[0.06] rounded-xl p-5">
-          <h2 className="text-sm font-medium mb-4">Supply Chain Path</h2>
-          <div className="flex flex-wrap gap-2 items-center">
+        <div className="card" style={{ padding: '24px', marginBottom: '24px' }}>
+          <h2 style={{ fontSize: '1rem', fontWeight: 600, margin: '0 0 16px 0' }}>Supply Chain Path</h2>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', alignItems: 'center' }}>
             {dependency_chain.map((node, i) => (
-              <div key={i} className="flex items-center gap-2">
-                <div className="px-3 py-1.5 bg-background rounded-lg border border-white/[0.06] text-xs">
-                  <span className="text-muted capitalize">{node.type}: </span>
-                  <span>{node.name || node.id}</span>
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{ padding: '6px 12px', background: 'var(--bg)', borderRadius: '8px', border: '1px solid var(--border)', fontSize: '0.75rem' }}>
+                  <span style={{ color: 'var(--muted)', textTransform: 'capitalize' }}>{node.type}: </span>
+                  <span style={{ fontWeight: 500 }}>{node.name || node.id}</span>
                 </div>
-                {i < dependency_chain.length - 1 && <span className="text-muted text-xs">→</span>}
+                {i < dependency_chain.length - 1 && <span style={{ color: 'var(--muted)', fontSize: '0.75rem' }}>→</span>}
               </div>
             ))}
           </div>
@@ -112,16 +112,16 @@ function DrugDetail({ id }) {
       )}
 
       {recent_alerts?.length > 0 && (
-        <div className="bg-surface border border-white/[0.06] rounded-xl p-5">
-          <h2 className="text-sm font-medium mb-4">Recent Alerts</h2>
-          <div className="space-y-3">
+        <div className="card" style={{ padding: '24px' }}>
+          <h2 style={{ fontSize: '1rem', fontWeight: 600, margin: '0 0 16px 0' }}>Recent Alerts</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {recent_alerts.map(alert => (
-              <div key={alert.id} className="flex items-start gap-3 p-3 rounded-lg bg-background">
+              <div key={alert.id} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '16px', borderRadius: '12px', background: 'var(--bg)', border: '1px solid var(--border)' }}>
                 <SeverityBadge severity={alert.severity} />
                 <div>
-                  <p className="text-sm">{alert.summary}</p>
+                  <p style={{ fontSize: '0.875rem', margin: '0 0 4px 0', lineHeight: 1.5 }}>{alert.summary}</p>
                   {alert.gemini_explainer && (
-                    <p className="text-xs text-muted mt-1">{alert.gemini_explainer}</p>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--muted)', margin: 0, lineHeight: 1.5 }}>{alert.gemini_explainer}</p>
                   )}
                 </div>
               </div>
@@ -167,29 +167,31 @@ export default function Drugs() {
   );
 
   return (
-    <div className="p-8">
+    <div style={{ padding: '30px', maxWidth: '1200px', margin: '0 auto', animation: 'fade-in 0.3s ease' }}>
       <PageHeader
         title="Drug Catalog"
         description={`${total} NLEM essential medicines monitored`}
       />
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-3 mb-5">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted" />
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '20px' }}>
+        <div style={{ position: 'relative', width: '250px' }}>
+          <Search style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', width: '16px', height: '16px', color: 'var(--muted)' }} />
           <input
             type="text"
             placeholder="Search drugs…"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="pl-8 pr-3 py-2 text-sm bg-surface border border-white/[0.06] rounded-lg text-white placeholder-muted focus:outline-none focus:border-primary/50 w-52"
+            className="input"
+            style={{ paddingLeft: '36px' }}
           />
         </div>
 
         <select
           value={tier}
           onChange={e => { setTier(e.target.value); setPage(1); }}
-          className="px-3 py-2 text-sm bg-surface border border-white/[0.06] rounded-lg text-white focus:outline-none focus:border-primary/50"
+          className="input"
+          style={{ width: 'auto' }}
         >
           <option value="">All Tiers</option>
           <option value="1">Tier 1</option>
@@ -200,7 +202,8 @@ export default function Drugs() {
         <select
           value={severity}
           onChange={e => { setSeverity(e.target.value); setPage(1); }}
-          className="px-3 py-2 text-sm bg-surface border border-white/[0.06] rounded-lg text-white focus:outline-none focus:border-primary/50"
+          className="input"
+          style={{ width: 'auto' }}
         >
           <option value="">All Risk Levels</option>
           <option value="critical">Critical (≥80)</option>
@@ -210,49 +213,49 @@ export default function Drugs() {
         </select>
       </div>
 
-      {error && <p className="text-sm text-accent mb-4">{error}</p>}
+      {error && <p style={{ color: 'var(--accent)', fontSize: '0.9rem', marginBottom: '16px' }}>{error}</p>}
 
       {/* Table */}
-      <div className="bg-surface border border-white/[0.06] rounded-xl overflow-hidden">
-        <table className="w-full text-sm">
+      <div className="card" style={{ overflow: 'hidden' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
           <thead>
-            <tr className="border-b border-white/[0.06]">
+            <tr style={{ borderBottom: '1px solid var(--border)' }}>
               {['Drug', 'Class', 'Tier', 'Risk Score', 'Substitute', ''].map(h => (
-                <th key={h} className="px-4 py-3 text-left text-xs text-muted font-medium uppercase tracking-wider">{h}</th>
+                <th key={h} style={{ padding: '12px 16px', textAlign: 'left', fontSize: '0.75rem', color: 'var(--muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan={6} className="text-center py-12"><Spinner /></td></tr>
+              <tr><td colSpan={6} style={{ textAlign: 'center', padding: '48px' }}><Spinner /></td></tr>
             ) : filtered.length === 0 ? (
-              <tr><td colSpan={6} className="text-center py-12 text-muted text-sm">No drugs match filters</td></tr>
+              <tr><td colSpan={6} style={{ textAlign: 'center', padding: '48px', color: 'var(--muted)' }}>No drugs match filters</td></tr>
             ) : filtered.map(drug => {
               const risk = drug.current_risk || drug.criticality_score || 0;
               return (
-                <tr key={drug.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
-                  <td className="px-4 py-3">
-                    <Link to={`/drugs/${drug.id}`} className="font-medium hover:text-primary transition-colors">
+                <tr key={drug.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)', transition: 'background 0.2s' }}>
+                  <td style={{ padding: '12px 16px' }}>
+                    <Link to={`/drugs/${drug.id}`} style={{ fontWeight: 500, color: 'var(--text)', textDecoration: 'none' }}>
                       {drug.name}
                     </Link>
                   </td>
-                  <td className="px-4 py-3 text-muted">{drug.therapeutic_class || '—'}</td>
-                  <td className="px-4 py-3">
-                    <span className="text-xs bg-white/5 border border-white/10 rounded px-2 py-0.5">
+                  <td style={{ padding: '12px 16px', color: 'var(--muted)' }}>{drug.therapeutic_class || '—'}</td>
+                  <td style={{ padding: '12px 16px' }}>
+                    <span style={{ fontSize: '0.7rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '4px', padding: '2px 6px' }}>
                       {tierLabel(drug.nlem_tier)}
                     </span>
                   </td>
-                  <td className="px-4 py-3 w-40">
+                  <td style={{ padding: '12px 16px', width: '160px' }}>
                     <RiskBar score={risk} />
                   </td>
-                  <td className="px-4 py-3">
-                    <span className={drug.has_substitute ? 'text-secondary' : 'text-muted'}>
+                  <td style={{ padding: '12px 16px' }}>
+                    <span style={{ color: drug.has_substitute ? 'var(--secondary, #10b981)' : 'var(--muted)' }}>
                       {drug.has_substitute ? 'Yes' : 'No'}
                     </span>
                   </td>
-                  <td className="px-4 py-3">
-                    <Link to={`/drugs/${drug.id}`} className="text-muted hover:text-primary transition-colors">
-                      <ExternalLink className="w-3.5 h-3.5" />
+                  <td style={{ padding: '12px 16px', textAlign: 'right' }}>
+                    <Link to={`/drugs/${drug.id}`} style={{ color: 'var(--muted)' }}>
+                      <ExternalLink style={{ width: '14px', height: '14px' }} />
                     </Link>
                   </td>
                 </tr>
@@ -264,18 +267,20 @@ export default function Drugs() {
 
       {/* Pagination */}
       {total > PAGE_SIZE && (
-        <div className="flex items-center justify-between mt-4 text-sm text-muted">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '16px', fontSize: '0.875rem', color: 'var(--muted)' }}>
           <span>Showing {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, total)} of {total}</span>
-          <div className="flex gap-2">
+          <div style={{ display: 'flex', gap: '8px' }}>
             <button
               disabled={page === 1}
               onClick={() => setPage(p => p - 1)}
-              className="px-3 py-1.5 rounded-lg bg-surface border border-white/[0.06] disabled:opacity-40 hover:border-primary/50 transition-colors"
+              className="btn btn-ghost"
+              style={{ padding: '6px 12px' }}
             >← Prev</button>
             <button
               disabled={page * PAGE_SIZE >= total}
               onClick={() => setPage(p => p + 1)}
-              className="px-3 py-1.5 rounded-lg bg-surface border border-white/[0.06] disabled:opacity-40 hover:border-primary/50 transition-colors"
+              className="btn btn-ghost"
+              style={{ padding: '6px 12px' }}
             >Next →</button>
           </div>
         </div>

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "hebei",
+    "name": "Hebei",
+    "latitude": 38.0428,
+    "longitude": 114.5149,
+    "description": "Major pharma API hub — penicillin, paracetamol, cephalosporin precursors. Heavy winter production curtailments.",
+    "factories": ["Hebei Jiheng Group", "North China Pharmaceutical", "Hebei Welcome"],
+    "sectors": ["pharma"],
+    "annual_api_output_tons": 85000
+  },
+  {
+    "id": "jiangsu",
+    "name": "Jiangsu",
+    "latitude": 32.0603,
+    "longitude": 118.7969,
+    "description": "High-tech pharma manufacturing + rare earth separation. Yangtze River Delta export corridor.",
+    "factories": ["Jiangsu Nhwa", "Jiangsu Wanbang", "Yangzhou Pharmaceutical"],
+    "sectors": ["pharma", "rare_earth"],
+    "annual_api_output_tons": 120000
+  },
+  {
+    "id": "zhejiang",
+    "name": "Zhejiang",
+    "latitude": 30.2741,
+    "longitude": 120.1551,
+    "description": "Export-oriented pharma zone — fluoroquinolones, statins, and chemical synthesis hub.",
+    "factories": ["Zhejiang Hisun", "Zhejiang Medicine", "Zhejiang Starry"],
+    "sectors": ["pharma"],
+    "annual_api_output_tons": 95000
+  },
+  {
+    "id": "shandong",
+    "name": "Shandong",
+    "latitude": 36.6683,
+    "longitude": 117.0206,
+    "description": "Major producer of antibiotics, vitamins, and intermediate chemicals.",
+    "factories": ["Shandong Lukang", "Shandong Xinhua", "Shandong Daming"],
+    "sectors": ["pharma"],
+    "annual_api_output_tons": 72000
+  },
+  {
+    "id": "hubei",
+    "name": "Hubei",
+    "latitude": 30.5833,
+    "longitude": 114.3054,
+    "description": "Central logistics hub — penicillin G, salbutamol, and ranitidine manufacturing. COVID epicenter experience.",
+    "factories": ["Wuhan Wuyao", "Hubei Hongyuan", "Wuhan Grand"],
+    "sectors": ["pharma"],
+    "annual_api_output_tons": 45000
+  },
+  {
+    "id": "inner_mongolia",
+    "name": "Inner Mongolia",
+    "latitude": 40.8175,
+    "longitude": 111.7652,
+    "description": "World's largest rare earth mining and primary processing region — 60% of global REE output.",
+    "factories": ["China Northern Rare Earth", "Baotou Steel Rare Earth"],
+    "sectors": ["rare_earth"],
+    "annual_api_output_tons": 0
+  },
+  {
+    "id": "sichuan",
+    "name": "Sichuan",
+    "latitude": 30.5728,
+    "longitude": 104.0668,
+    "description": "Significant rare earth mining + lithium processing hub. Earthquake and flood risk zone.",
+    "factories": ["Shenghe Resources", "Sichuan Rare Earth"],
+    "sectors": ["rare_earth"],
+    "annual_api_output_tons": 0
+  },
+  {
+    "id": "guangdong",
+    "name": "Guangdong",
+    "latitude": 23.1291,
+    "longitude": 113.2644,
+    "description": "Major export port — rare earth magnets, electronics, and high-value pharma intermediates.",
+    "factories": ["China Southern Rare Earth", "Guangdong Rising Assets"],
+    "sectors": ["rare_earth", "pharma"],
+    "annual_api_output_tons": 28000
+  },
+  {
+    "id": "jiangxi",
+    "name": "Jiangxi",
+    "latitude": 28.6759,
+    "longitude": 115.8921,
+    "description": "Heavy rare earth mining center — dysprosium, europium, yttrium extraction.",
+    "factories": ["Jiangxi Rare Earth", "Ganzhou Rare Earth"],
+    "sectors": ["rare_earth"],
+    "annual_api_output_tons": 0
+  },
+  {
+    "id": "fujian",
+    "name": "Fujian",
+    "latitude": 26.0789,
+    "longitude": 119.2960,
+    "description": "Xiamen tungsten + rare earth processing. Key maritime export corridor to India.",
+    "factories": ["Xiamen Tungsten", "Fujian Changting Golden Dragon"],
+    "sectors": ["rare_earth"],
+    "annual_api_output_tons": 0
+  },
+  {
+    "id": "hunan",
+    "name": "Hunan",
+    "latitude": 28.2180,
+    "longitude": 112.9388,
+    "description": "Yttrium and heavy rare earth mining region — growing separation capacity.",
+    "factories": ["Hunan RE", "Chenzhou Rare Earth"],
+    "sectors": ["rare_earth"],
+    "annual_api_output_tons": 0
+  },
+  {
+    "id": "liaoning",
+    "name": "Liaoning",
+    "latitude": 41.8358,
+    "longitude": 123.4287,
+    "description": "Northeast pharma corridor — chemical synthesis and veterinary API production.",
+    "factories": ["Liaoning Shixian", "Northeast Pharmaceutical Group"],
+    "sectors": ["pharma"],
+    "annual_api_output_tons": 32000
+  }
+]

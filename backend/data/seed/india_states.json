@@ -1,0 +1,152 @@
+[
+  {
+    "id": "MH",
+    "name": "Maharashtra",
+    "latitude": 19.7515,
+    "longitude": 75.7139,
+    "top_drugs": ["paracetamol", "amoxicillin", "metformin", "atorvastatin"],
+    "pharma_hub": true,
+    "population_millions": 126,
+    "description": "India's largest pharma manufacturing cluster — Mumbai, Pune, Aurangabad corridors."
+  },
+  {
+    "id": "DL",
+    "name": "Delhi",
+    "latitude": 28.7041,
+    "longitude": 77.1025,
+    "top_drugs": ["azithromycin", "ceftriaxone", "amlodipine"],
+    "pharma_hub": false,
+    "population_millions": 32,
+    "description": "National capital region — major drug distribution and regulatory hub."
+  },
+  {
+    "id": "KA",
+    "name": "Karnataka",
+    "latitude": 15.3173,
+    "longitude": 75.7139,
+    "top_drugs": ["losartan", "omeprazole", "ranitidine", "ibuprofen"],
+    "pharma_hub": true,
+    "population_millions": 68,
+    "description": "Bangalore biotech corridor — key biologics and API formulation cluster."
+  },
+  {
+    "id": "TN",
+    "name": "Tamil Nadu",
+    "latitude": 11.1271,
+    "longitude": 78.6569,
+    "top_drugs": ["diclofenac", "aspirin", "penicillin_g"],
+    "pharma_hub": true,
+    "population_millions": 77,
+    "description": "Chennai pharma corridor — antibiotic and NSAID manufacturing."
+  },
+  {
+    "id": "WB",
+    "name": "West Bengal",
+    "latitude": 22.9868,
+    "longitude": 87.8550,
+    "top_drugs": ["gentamicin", "fluconazole", "ciprofloxacin"],
+    "pharma_hub": false,
+    "population_millions": 99,
+    "description": "Eastern distribution hub — critical for northeast India supply chains."
+  },
+  {
+    "id": "GJ",
+    "name": "Gujarat",
+    "latitude": 22.2587,
+    "longitude": 71.1924,
+    "top_drugs": ["paracetamol", "metformin", "amoxicillin", "atorvastatin", "ciprofloxacin"],
+    "pharma_hub": true,
+    "population_millions": 64,
+    "description": "Ahmedabad–Vadodara pharma belt — India's largest API and formulation export hub."
+  },
+  {
+    "id": "TS",
+    "name": "Telangana",
+    "latitude": 18.1124,
+    "longitude": 79.0193,
+    "top_drugs": ["metformin", "losartan", "atorvastatin", "omeprazole"],
+    "pharma_hub": true,
+    "population_millions": 38,
+    "description": "Hyderabad Genome Valley — biotech R&D and bulk drug manufacturing capital."
+  },
+  {
+    "id": "AP",
+    "name": "Andhra Pradesh",
+    "latitude": 15.9129,
+    "longitude": 79.7400,
+    "top_drugs": ["ibuprofen", "diclofenac", "ceftriaxone"],
+    "pharma_hub": true,
+    "population_millions": 53,
+    "description": "Visakhapatnam pharma SEZ — major bulk drug and intermediate manufacturing."
+  },
+  {
+    "id": "UP",
+    "name": "Uttar Pradesh",
+    "latitude": 26.8467,
+    "longitude": 80.9462,
+    "top_drugs": ["paracetamol", "amoxicillin", "azithromycin", "metformin"],
+    "pharma_hub": false,
+    "population_millions": 231,
+    "description": "India's most populous state — highest absolute drug consumption volume."
+  },
+  {
+    "id": "RJ",
+    "name": "Rajasthan",
+    "latitude": 27.0238,
+    "longitude": 74.2179,
+    "top_drugs": ["paracetamol", "amlodipine", "metformin"],
+    "pharma_hub": false,
+    "population_millions": 79,
+    "description": "Jaipur pharma cluster — growing formulation manufacturing base."
+  },
+  {
+    "id": "MP",
+    "name": "Madhya Pradesh",
+    "latitude": 22.9734,
+    "longitude": 78.6569,
+    "top_drugs": ["amoxicillin", "paracetamol", "ibuprofen"],
+    "pharma_hub": false,
+    "population_millions": 85,
+    "description": "Central India distribution node — Indore pharmaceutical hub emerging."
+  },
+  {
+    "id": "KL",
+    "name": "Kerala",
+    "latitude": 10.8505,
+    "longitude": 76.2711,
+    "top_drugs": ["metformin", "atorvastatin", "amlodipine", "losartan"],
+    "pharma_hub": false,
+    "population_millions": 35,
+    "description": "Highest per-capita drug consumption — critical chronic disease medication demand."
+  },
+  {
+    "id": "PB",
+    "name": "Punjab",
+    "latitude": 31.1471,
+    "longitude": 75.3412,
+    "top_drugs": ["paracetamol", "amoxicillin", "ciprofloxacin"],
+    "pharma_hub": true,
+    "population_millions": 31,
+    "description": "Baddi-Nalagarh pharma corridor (Himachal border) — major formulation manufacturing."
+  },
+  {
+    "id": "HP",
+    "name": "Himachal Pradesh",
+    "latitude": 31.1048,
+    "longitude": 77.1734,
+    "top_drugs": ["paracetamol", "amoxicillin", "azithromycin", "ibuprofen"],
+    "pharma_hub": true,
+    "population_millions": 7,
+    "description": "Baddi pharma cluster — one of India's top 3 pharmaceutical manufacturing zones."
+  },
+  {
+    "id": "GA",
+    "name": "Goa",
+    "latitude": 15.2993,
+    "longitude": 74.1240,
+    "top_drugs": ["diclofenac", "omeprazole", "fluconazole"],
+    "pharma_hub": true,
+    "population_millions": 2,
+    "description": "Verna industrial estate — compact high-value pharma manufacturing hub."
+  }
+]

@@ -11,7 +11,9 @@
     "end_use_sectors": ["EV motors", "wind turbines", "defence electronics"],
     "india_stockpile_days": 12,
     "criticality": 0.91,
-    "hs_code": "280530"
+    "hs_code": "280530",
+    "latitude": 32.0603,
+    "longitude": 118.7969
   },
   {
     "id": "dysprosium",
@@ -25,7 +27,9 @@
     "end_use_sectors": ["NdFeB magnets", "EV traction motors", "hard drives"],
     "india_stockpile_days": 8,
     "criticality": 0.95,
-    "hs_code": "280530"
+    "hs_code": "280530",
+    "latitude": 23.3790,
+    "longitude": 113.7633
   },
   {
     "id": "terbium",
@@ -39,7 +43,9 @@
     "end_use_sectors": ["solid-state drives", "sonar", "EV motors"],
     "india_stockpile_days": 5,
     "criticality": 0.97,
-    "hs_code": "280530"
+    "hs_code": "280530",
+    "latitude": 23.3790,
+    "longitude": 113.7633
   },
   {
     "id": "lanthanum",
@@ -48,12 +54,14 @@
     "type": "input",
     "china_share": 0.85,
     "primary_provinces": ["Inner Mongolia", "Sichuan"],
-    "top_3_producers": ["China Northern Rare Earth", "China Minmetals", "CMOC Group"],
-    "monthly_import_value_usd_millions": 55.0,
-    "end_use_sectors": ["petroleum refining catalysts", "hybrid batteries", "optics"],
-    "india_stockpile_days": 30,
-    "criticality": 0.72,
-    "hs_code": "280530"
+    "top_3_producers": ["China Northern Rare Earth", "Shenghe Resources", "China Minmetals"],
+    "monthly_import_value_usd_millions": 60.0,
+    "end_use_sectors": ["catalysts", "optics", "batteries"],
+    "india_stockpile_days": 15,
+    "criticality": 0.88,
+    "hs_code": "280530",
+    "latitude": 40.8175,
+    "longitude": 111.7652
   },
   {
     "id": "cerium",
@@ -67,7 +75,9 @@
     "end_use_sectors": ["auto catalytic converters", "glass polishing", "LED phosphors"],
     "india_stockpile_days": 45,
     "criticality": 0.65,
-    "hs_code": "280530"
+    "hs_code": "280530",
+    "latitude": 40.8175,
+    "longitude": 111.7652
   },
   {
     "id": "praseodymium",
@@ -81,7 +91,9 @@
     "end_use_sectors": ["NdPr alloy for EV magnets", "aircraft engines", "wind generators"],
     "india_stockpile_days": 10,
     "criticality": 0.88,
-    "hs_code": "280530"
+    "hs_code": "280530",
+    "latitude": 40.8175,
+    "longitude": 111.7652
   },
   {
     "id": "europium",
@@ -95,7 +107,9 @@
     "end_use_sectors": ["LED/LCD displays", "fluorescent lamps", "euro banknote security"],
     "india_stockpile_days": 20,
     "criticality": 0.81,
-    "hs_code": "280530"
+    "hs_code": "280530",
+    "latitude": 23.1291,
+    "longitude": 113.2644
   },
   {
     "id": "yttrium",
@@ -109,6 +123,8 @@
     "end_use_sectors": ["OLED displays", "superconductors", "medical imaging"],
     "india_stockpile_days": 18,
     "criticality": 0.78,
-    "hs_code": "280530"
+    "hs_code": "280530",
+    "latitude": 23.1291,
+    "longitude": 113.2644
   }
 ]

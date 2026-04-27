@@ -97,4 +97,24 @@ export const api = {
 
   // Engine Status
   getEngineStatus: () => request('/api/v1/engines'),
+
+  // ─── Map Intelligence ────────────────────────────────────────────────
+  getMapHeatmap: (params = {}) => {
+    const q = new URLSearchParams();
+    if (params.sector) q.set('sector', params.sector);
+    if (params.risk_min) q.set('risk_min', params.risk_min);
+    if (params.shock_type) q.set('shock_type', params.shock_type);
+    if (params.region) q.set('region', params.region);
+    return request(`/api/v1/map/heatmap?${q}`);
+  },
+
+  getMapProvince: (id, sector = 'both') =>
+    request(`/api/v1/map/provinces/${encodeURIComponent(id)}?sector=${sector}`),
+
+  getMapCorridors: (sector = 'both') =>
+    request(`/api/v1/map/supply-corridors?sector=${sector}`),
+
+  getMapFacets: () => request('/api/v1/map/filter-facets'),
+
+  getMapStats: () => request('/api/v1/map/stats'),
 };

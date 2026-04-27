@@ -1,0 +1,158 @@
+/* ═══════════════════════════════════════════════════════
+   ShockMap — Military-Grade Command Center Design Tokens
+   Google Solution Challenge 2026
+   ═══════════════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  /* ── Core Palette ─────────────────────────── */
+  --c-bg:          #080C10;
+  --c-bg-raised:   #0D1117;
+  --c-surface:     #1A2332;
+  --c-surface2:    #1E2A3A;
+  --c-border:      rgba(255,255,255,0.06);
+  --c-border2:     rgba(255,255,255,0.10);
+
+  /* ── Accent System ────────────────────────── */
+  --c-teal:        #00E5A0;
+  --c-teal-dim:    rgba(0,229,160,0.12);
+  --c-teal-glow:   rgba(0,229,160,0.25);
+  --c-red:         #FF4444;
+  --c-red-dim:     rgba(255,68,68,0.12);
+  --c-red-glow:    rgba(255,68,68,0.3);
+  --c-amber:       #FF8800;
+  --c-amber-dim:   rgba(255,136,0,0.12);
+
+  /* ── Text ─────────────────────────────────── */
+  --c-text:        #E8EDF2;
+  --c-text2:       #6B7E94;
+  --c-text3:       #3D5166;
+
+  /* ── Animation Tiers ─────────────────────── */
+  --anim-instant:  80ms;
+  --anim-fast:     200ms;
+  --anim-slow:     600ms;
+
+  /* ── Typography ───────────────────────────── */
+  --font-display:  'Syne', sans-serif;
+  --font-mono:     'JetBrains Mono', monospace;
+  --font-body:     'IBM Plex Sans', system-ui, sans-serif;
+
+  /* ── Shadows ─────────────────────────────── */
+  --shadow-card:   0 2px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+  --shadow-glow-teal: 0 0 24px rgba(0,229,160,0.2);
+  --shadow-glow-red:  0 0 24px rgba(255,68,68,0.3);
+}
+
+/* ── Global Reset ───────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+body {
+  font-family: var(--font-body);
+  background: var(--c-bg);
+  color: var(--c-text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--c-teal); border-radius: 2px; opacity: 0.4; }
+::-webkit-scrollbar-thumb:hover { opacity: 0.7; }
+
+/* ── Card System ────────────────────────────────────── */
+.card-glass {
+  background: rgba(26,35,50,0.85);
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(12px);
+}
+
+/* ── Data State Classes ─────────────────────────────── */
+.state-critical {
+  border-color: rgba(255,68,68,0.4) !important;
+  animation: glow-red 2s ease-in-out infinite;
+}
+.state-elevated {
+  border-color: rgba(255,136,0,0.35) !important;
+  animation: glow-amber 2.5s ease-in-out infinite;
+}
+.state-normal {
+  border-color: rgba(0,229,160,0.3) !important;
+  animation: glow-teal 3s ease-in-out infinite;
+}
+.state-stale { border-color: rgba(61,81,102,0.4) !important; opacity: 0.6; }
+
+/* ── Pulse-ring for shocked provinces ──────────────── */
+.pulse-ring {
+  position: absolute;
+  border-radius: 50%;
+  animation: pulse-ring 2s cubic-bezier(0.215,0.61,0.355,1) infinite;
+}
+.pulse-ring:nth-child(2) { animation-delay: 0.5s; }
+.pulse-ring:nth-child(3) { animation-delay: 1s; }
+
+/* ── Keyframes ──────────────────────────────────────── */
+@keyframes glow-red {
+  0%,100% { box-shadow: 0 0 8px rgba(255,68,68,0.2); }
+  50%      { box-shadow: 0 0 20px rgba(255,68,68,0.45); }
+}
+@keyframes glow-amber {
+  0%,100% { box-shadow: 0 0 8px rgba(255,136,0,0.15); }
+  50%      { box-shadow: 0 0 18px rgba(255,136,0,0.35); }
+}
+@keyframes glow-teal {
+  0%,100% { box-shadow: 0 0 8px rgba(0,229,160,0.1); }
+  50%      { box-shadow: 0 0 16px rgba(0,229,160,0.28); }
+}
+@keyframes pulse-ring {
+  0%   { transform: scale(0.8); opacity: 0.9; }
+  80%  { transform: scale(2.4); opacity: 0; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+@keyframes scanline {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+@keyframes slide-up {
+  from { transform: translateY(12px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shock-flash {
+  0%   { background: rgba(255,68,68,0.25); }
+  100% { background: transparent; }
+}
+@keyframes particle-travel {
+  0%   { stroke-dashoffset: 100; opacity: 1; }
+  100% { stroke-dashoffset: 0;   opacity: 0.2; }
+}
+@keyframes ripple-out {
+  0%   { r: 8;   opacity: 0.9; }
+  100% { r: 40;  opacity: 0; }
+}
+
+/* ── Utility Classes ────────────────────────────────── */
+.animate-slide-up  { animation: slide-up var(--anim-slow) ease forwards; }
+.animate-fade-in   { animation: fade-in var(--anim-fast) ease forwards; }
+.animate-count-up  { animation: count-up var(--anim-fast) ease forwards; }
+.font-display      { font-family: var(--font-display); }
+.font-mono         { font-family: var(--font-mono); }
+.text-teal         { color: var(--c-teal); }
+.text-red          { color: var(--c-red); }
+.text-amber        { color: var(--c-amber); }
+.text-muted        { color: var(--c-text2); }
+
+/* ── Risk Badge Pills ───────────────────────────────── */
+.badge-critical { background: var(--c-red-dim); color: var(--c-red); border: 1px solid rgba(255,68,68,0.3); }
+.badge-elevated { background: var(--c-amber-dim); color: var(--c-amber); border: 1px solid rgba(255,136,0,0.3); }
+.badge-normal   { background: var(--c-teal-dim); color: var(--c-teal); border: 1px solid rgba(0,229,160,0.3); }

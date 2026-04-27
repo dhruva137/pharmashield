@@ -10,6 +10,7 @@ import Alerts from './pages/Alerts';
 import Graph from './pages/Graph';
 import Query from './pages/Query';
 import Simulate from './pages/Simulate';
+import MapView from './pages/Map';
 
 export default function App() {
   // Track whether user has selected sectors (persisted in sessionStorage)
@@ -59,6 +60,7 @@ export default function App() {
         <Route path="graph"          element={<Graph />} />
         <Route path="query"          element={<Query />} />
         <Route path="simulate"       element={<Simulate />} />
+        <Route path="map"            element={<MapView />} />
       </Route>
     </Routes>
   );

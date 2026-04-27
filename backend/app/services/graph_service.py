@@ -312,6 +312,41 @@ class GraphService:
             n = self.graph.number_of_nodes()
             return {node: 1.0 / n for node in self.graph.nodes()}
 
+    def compute_province_risk(self, province_id: str, sector: str = "pharma") -> float:
+        """
+        Calculates the aggregated risk score for a Chinese province.
+        Risk is based on:
+          - Concentration (HHI) of the products produced in this province.
+          - Total monthly import value dependent on this province.
+          - Strategic priority of the dependent products.
+        """
+        if not self.graph.has_node(province_id):
+            return 0.0
+
+        dependent_products = []
+        # Find APIs/Inputs that are LOCATED_IN or supplied by this province
+        # In our graph, edges are drug -> api -> province, so predecessors(province) are the APIs
+        for product_id in self.graph.predecessors(province_id):
+            node_data = self.graph.nodes.get(product_id, {})
+            if sector == "both" or node_data.get("sector") == sector:
+                dependent_products.append(product_id)
+
+        if not dependent_products:
+            return 0.0
+
+        total_risk = 0.0
+        for product_id in dependent_products:
+            node_data = self.graph.nodes.get(product_id, {})
+            import_value = node_data.get("monthly_import_value_usd_millions", 1.0)
+            china_share = node_data.get("china_share", 0.5)
+            # High import value + High China share = High Dependency Risk
+            product_risk = (import_value * china_share)
+            total_risk += product_risk
+
+        # Normalize to 0-100 scale (heuristic normalization)
+        normalized_risk = min(100.0, math.log1p(total_risk) * 15)
+        return round(normalized_risk, 2)
+
     # ─── Combined Risk Formula ───────────────────────────────────────────
 
     def compute_combined_risk(

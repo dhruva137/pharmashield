@@ -87,3 +87,24 @@ class QueryResponse(BaseModel):
     suggested_drugs_to_inspect: List[str] = Field(..., description="List of drug IDs relevant to the query for further drill-down")
     response_mode: str = Field(default="live", description="Indicates whether the response came from live or demo mode")
     matched_scenarios: List[str] = Field(default_factory=list, description="Matched curated scenarios in demo mode")
+
+
+class ProvinceHeatmapPoint(BaseModel):
+    """Geospatial point for province heatmap."""
+    id: str
+    name: str
+    latitude: float
+    longitude: float
+    risk_score: float
+    shock_count: int
+    sector: str
+    description: Optional[str] = None
+    top_affected_inputs: List[str] = Field(default_factory=list)
+    region: str = Field(default="china", description="'china' or 'india'")
+    factories: List[str] = Field(default_factory=list)
+
+
+class HeatmapResponse(BaseModel):
+    """Response for the heatmap API."""
+    points: List[ProvinceHeatmapPoint]
+    generated_at: datetime

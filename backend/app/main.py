@@ -9,7 +9,8 @@ import traceback
 from uuid import uuid4
 from datetime import datetime, timedelta
 
-from fastapi import FastAPI, Request
+import asyncio
+from fastapi import FastAPI, Request, BackgroundTasks
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -164,6 +165,20 @@ async def startup_event():
         get_gnn()
     except Exception as e:
         logger.warning(f"GNN loading failed: {e}")
+
+    # Start Background Shock Detector if enabled
+    if settings.DEMO_MODE:
+        # In demo mode, we still run once to get any available live data to complement scenarios
+        from ..ingestion.shock_detector import run_once
+        loop = asyncio.get_event_loop()
+        loop.run_in_executor(None, run_once)
+        logger.info("Background detector triggered once (Demo Mode).")
+    else:
+        from ..ingestion.shock_detector import run_scheduler
+        import threading
+        thread = threading.Thread(target=run_scheduler, daemon=True)
+        thread.start()
+        logger.info("Background detector thread started (Live Mode).")
         
     logger.info("PharmaShield startup sequence complete.")
 
@@ -195,7 +210,7 @@ async def healthz():
 
 # Router Mounting
 # All routers are now implemented and ready for production use
-from .api import graph, drugs, alerts, query, simulate, sectors, engines
+from .api import graph, drugs, alerts, query, simulate, sectors, engines, map
 
 app.include_router(graph.router)
 app.include_router(drugs.router)
@@ -204,3 +219,4 @@ app.include_router(query.router)
 app.include_router(simulate.router)
 app.include_router(sectors.router)
 app.include_router(engines.router)
+app.include_router(map.router)
