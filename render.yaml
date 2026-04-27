@@ -6,7 +6,7 @@ services:
     plan: free
     healthCheckPath: /healthz
     rootDir: .
-    dockerFilePath: backend/Dockerfile
+    dockerFilePath: Dockerfile
     envVars:
       - key: GEMINI_API_KEY
         sync: false
