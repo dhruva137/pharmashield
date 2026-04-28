@@ -19,9 +19,11 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          recharts: ['recharts'],
-        },
+        manualChunks(id) {
+          if (id.includes('node_modules/recharts')) {
+            return 'recharts';
+          }
+        }
       },
       // Tell rollup Cesium is an external global from CDN
       external: ['cesium'],
