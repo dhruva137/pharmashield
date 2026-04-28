@@ -101,16 +101,20 @@ async def post_simulate(
 
     if top_drug_names:
         try:
-            from ..config import settings
             explain_prompt = (
                 f"Briefly explain in 2-3 sentences why a {request.severity.replace('_', ' ')} "
                 f"in {request.province} for {request.duration_days} days affects these drugs: "
                 f"{', '.join(top_drug_names)}. Focus on shared API precursors and regional manufacturing concentration."
             )
-            model = analyst.genai.GenerativeModel(settings.GEMINI_FLASH_MODEL)
-            explanation = model.generate_content(explain_prompt).text
+            explanation = analyst.gemini_client.generate_text(
+                prompt=explain_prompt,
+                system_instruction="You are a pharmaceutical supply chain analyst. Be concise and factual.",
+                temperature=0.1,
+                max_output_tokens=200,
+                fallback="",
+            )
         except Exception as e:
-            logger.warning(f"Gemini explanation failed, using rule-based fallback: {e}")
+            logger.warning(f"Gemini explanation failed: {e}")
 
     return SimulationResult(
         affected_drugs=hydrated_drugs,

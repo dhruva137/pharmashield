@@ -10,14 +10,28 @@ from .config import settings
 
 @lru_cache()
 def get_gemini():
-    """Configures and returns the Google Generative AI module."""
+    """
+    Returns a configured Gemini API handle.
+    Prefers the new google.genai SDK; falls back to deprecated google.generativeai.
+    """
     if not settings.GEMINI_API_KEY:
         return None
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", FutureWarning)
-        import google.generativeai as genai
-    genai.configure(api_key=settings.GEMINI_API_KEY)
-    return genai
+    # Try new SDK first (google-genai package)
+    try:
+        from google import genai as new_genai
+        client = new_genai.Client(api_key=settings.GEMINI_API_KEY)
+        return client  # Return the new Client — GeminiFlashClient handles it
+    except ImportError:
+        pass
+    # Fallback to old deprecated SDK
+    try:
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", FutureWarning)
+            import google.generativeai as genai
+        genai.configure(api_key=settings.GEMINI_API_KEY)
+        return genai
+    except Exception:
+        return None
 
 
 @lru_cache()
@@ -26,8 +40,10 @@ def get_gemini_flash_client():
     from .services.gemini_flash_client import GeminiFlashClient
     if not settings.GEMINI_API_KEY:
         return GeminiFlashClient(genai=None, model_name=settings.GEMINI_FLASH_MODEL)
+    # Pass a truthy sentinel so GeminiFlashClient._build_client() runs
+    # The new client reads GEMINI_API_KEY from settings directly
     return GeminiFlashClient(
-        genai=get_gemini(),
+        genai=True,  # sentinel — new client self-initialises from settings
         model_name=settings.GEMINI_FLASH_MODEL,
     )
 

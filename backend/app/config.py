@@ -62,7 +62,7 @@ class Settings(BaseSettings):
 
     # Model & Database Configurations
     QDRANT_COLLECTION: str = "pharmashield_kb"
-    GEMINI_FLASH_MODEL: str = "gemini-2.0-flash"
+    GEMINI_FLASH_MODEL: str = "gemini-2.5-flash"
     GEMINI_PRO_MODEL: str = "gemini-2.5-pro"
     EMBEDDING_MODEL: str = "models/gemini-embedding-001"
 

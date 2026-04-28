@@ -421,7 +421,7 @@ class GeminiAnalyst:
                 system_instruction=SYSTEM_PROMPT,
                 temperature=0.1,
                 max_output_tokens=700,
-                min_confidence=0.25,
+                min_confidence=None,   # confidence coercion handled in generate_json
                 fallback=fallback_payload,
                 cache_namespace="engine3_query",
             )
