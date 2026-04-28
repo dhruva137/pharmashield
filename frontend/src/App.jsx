@@ -13,6 +13,11 @@ import Simulate from './pages/Simulate';
 import MapView from './pages/Map';
 import IndiaInDepth from './pages/IndiaInDepth';
 import CovidBacktest from './pages/CovidBacktest';
+import HormuzTracker from './pages/Hormuz';
+import MarketSignals from './pages/MarketSignals';
+import Globe from './pages/Globe';
+import EnergyWatch from './pages/EnergyWatch';
+import FAQ from './pages/FAQ';
 import OnboardingTour from './components/OnboardingTour';
 
 export default function App() {
@@ -69,8 +74,8 @@ export default function App() {
           element={
             guest || sectors
               ? (
-                <AppShell selectedSectors={sectors || ['pharma', 'rare_earth']}>
-                  <Dashboard sectors={sectors || ['pharma', 'rare_earth']} />
+                <AppShell selectedSectors={sectors || ['pharma', 'rare_earth', 'energy']}>
+                  <Dashboard sectors={sectors || ['pharma', 'rare_earth', 'energy']} />
                 </AppShell>
               )
               : <Landing onGuest={enterGuest} />
@@ -81,8 +86,8 @@ export default function App() {
         <Route path="/sectors" element={<SectorSelect onSelect={selectSectors} />} />
 
         {/* App shell routes */}
-        <Route element={<AppShell selectedSectors={sectors || ['pharma', 'rare_earth']} />}>
-          <Route path="dashboard"      element={<Dashboard sectors={sectors || ['pharma', 'rare_earth']} />} />
+        <Route element={<AppShell selectedSectors={sectors || ['pharma', 'rare_earth', 'energy']} />}>
+          <Route path="dashboard"      element={<Dashboard sectors={sectors || ['pharma', 'rare_earth', 'energy']} />} />
           <Route path="shocks/:id"     element={<ShockDetail />} />
           <Route path="drugs"          element={<Drugs />} />
           <Route path="drugs/:id"      element={<Drugs />} />
@@ -93,6 +98,11 @@ export default function App() {
           <Route path="map"            element={<MapView />} />
           <Route path="india"          element={<IndiaInDepth />} />
           <Route path="backtest"       element={<CovidBacktest />} />
+          <Route path="hormuz"         element={<HormuzTracker />} />
+          <Route path="stocks"         element={<MarketSignals />} />
+          <Route path="globe"          element={<Globe />} />
+          <Route path="energy"         element={<EnergyWatch />} />
+          <Route path="faq"            element={<FAQ />} />
         </Route>
       </Routes>
     </>

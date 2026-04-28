@@ -117,4 +117,32 @@ export const api = {
   getMapFacets: () => request('/api/v1/map/filter-facets'),
 
   getMapStats: () => request('/api/v1/map/stats'),
+
+  // ─── Hormuz Intelligence ─────────────────────────────────────────────
+  getHormuzStatus: () => request('/api/v1/hormuz/status'),
+  getHormuzImpact: () => request('/api/v1/hormuz/impact'),
+  getHormuzAffectedApis: () => request('/api/v1/hormuz/affected-apis'),
+  getHormuzTimeline: () => request('/api/v1/hormuz/timeline'),
+  predictHormuzShortage: (days = 90) => request(`/api/v1/hormuz/predict?days=${days}`, { method: 'POST' }),
+
+  // ─── Market Signals ──────────────────────────────────────────────────
+  getPharmaStocks: () => request('/api/v1/stocks/pharma'),
+  getStockCorrelations: () => request('/api/v1/stocks/correlations'),
+
+  // ─── Energy Intelligence ─────────────────────────────────────────────
+  getEnergyStatus:      () => request('/api/v1/energy/status'),
+  getCrudePrices:       () => request('/api/v1/energy/prices/crude'),
+  getFuelPricesIndia:   () => request('/api/v1/energy/prices/fuel-india'),
+  getLngPrices:         () => request('/api/v1/energy/prices/lng'),
+  getStrategicReserves: () => request('/api/v1/energy/reserves'),
+  getTankerRoutes:      () => request('/api/v1/energy/tanker-routes'),
+  getRefineries:        () => request('/api/v1/energy/refineries'),
+  getEnergyStocks:      () => request('/api/v1/energy/stocks'),
+  getMacroImpact:       () => request('/api/v1/energy/macro-impact'),
+  getEnergyTimeline:    () => request('/api/v1/energy/timeline'),
+
+  // ─── Domestic Supply Chain ───────────────────────────────────────────
+  getDomesticChain:    (api) => request(`/api/v1/domestic/chain/${encodeURIComponent(api)}`),
+  getDomesticPaths:    (api) => request(`/api/v1/domestic/paths?api_name=${encodeURIComponent(api)}`),
+  getDomesticBottlenecks: () => request('/api/v1/domestic/bottlenecks'),
 };

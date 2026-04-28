@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/client';
+import { useAuth } from '../hooks/useAuth';
 
 const SEV_DOT = { CRITICAL: '#f43f5e', HIGH: '#f59e0b', MEDIUM: '#60a5fa', LOW: '#6b7280' };
 
@@ -78,6 +79,7 @@ function LiveShockTicker({ shocks }) {
 
 export default function Landing({ onGuest }) {
   const navigate = useNavigate();
+  const { login, enterAsGuest } = useAuth();
   const [shocks, setShocks] = useState([]);
   const [health, setHealth] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -156,7 +158,7 @@ export default function Landing({ onGuest }) {
             <button
               className="btn btn-ghost"
               style={{ fontSize: '0.8rem' }}
-              onClick={() => navigate('/sectors')}
+              onClick={() => { login(); navigate('/'); }}
             >Sign In</button>
           </div>
         </nav>
@@ -217,7 +219,7 @@ export default function Landing({ onGuest }) {
               }}
               onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(79,156,249,0.45)'; }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(79,156,249,0.35)'; }}
-              onClick={() => { onGuest(); navigate('/'); }}
+              onClick={() => { enterAsGuest(); onGuest(); navigate('/'); }}
             >
               LIVE DEMO — NO LOGIN
             </button>

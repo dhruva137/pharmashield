@@ -6,7 +6,7 @@ import { api } from '../api/client';
 export default function SectorSelect({ onSelect }) {
   const navigate = useNavigate();
   const [sectors, setSectors] = useState([]);
-  const [selected, setSelected] = useState(new Set(['pharma', 'rare_earth']));
+  const [selected, setSelected] = useState(new Set(['pharma', 'rare_earth', 'energy']));
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,6 +17,7 @@ export default function SectorSelect({ onSelect }) {
         setSectors([
           { id: 'pharma', name: 'Pharma', icon: '💊', status: 'active', input_count: 20, description: 'API & essential medicines', active_shocks: 0, criticality_avg: 0.78 },
           { id: 'rare_earth', name: 'Rare Earths', icon: '⛏️', status: 'active', input_count: 8, description: 'Critical minerals for EV & defence', active_shocks: 0, criticality_avg: 0.83 },
+          { id: 'energy', name: 'Energy & Oil', icon: '⛽', status: 'active', input_count: 6, description: 'Crude oil, LNG, refining & fuel security', active_shocks: 3, criticality_avg: 0.91 },
           { id: 'semiconductor', name: 'Semiconductor', icon: '💻', status: 'phase2', input_count: 0, description: 'Chip substrates, fab chemicals', active_shocks: 0, criticality_avg: 0 },
           { id: 'solar', name: 'Solar Energy', icon: '☀️', status: 'phase2', input_count: 0, description: 'Polysilicon, solar wafers', active_shocks: 0, criticality_avg: 0 },
           { id: 'ev_battery', name: 'EV Battery', icon: '🔋', status: 'phase2', input_count: 0, description: 'Lithium, cobalt, cathode materials', active_shocks: 0, criticality_avg: 0 },

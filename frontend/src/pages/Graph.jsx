@@ -136,6 +136,9 @@ export default function Graph() {
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all');
   const [selectedId, setSelectedId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [propagation, setPropagation] = useState(null);
+  const [propLoading, setPropLoading] = useState(false);
 
   const stageRef = useRef(null);
   const { w, h } = useSize(stageRef);
@@ -223,13 +226,19 @@ export default function Graph() {
   }, [allEdges, allNodes, selectedNode]);
 
   const visibleNodes = useMemo(() => {
-    if (filter === 'all') return allNodes;
-    const filtered = allNodes.filter((node) => node.type === filter || neighborMap.connectedIds.has(node.id));
-    if (selectedNode && !filtered.find((node) => node.id === selectedNode.id)) {
-      return [selectedNode, ...filtered];
+    let nodes = allNodes;
+    if (filter !== 'all') {
+      nodes = nodes.filter((node) => node.type === filter || neighborMap.connectedIds.has(node.id));
+      if (selectedNode && !nodes.find((node) => node.id === selectedNode.id)) {
+        nodes = [selectedNode, ...nodes];
+      }
     }
-    return filtered;
-  }, [allNodes, filter, neighborMap.connectedIds, selectedNode]);
+    if (searchTerm.trim()) {
+      const q = searchTerm.toLowerCase();
+      nodes = nodes.filter(n => (n.name || n.id).toLowerCase().includes(q));
+    }
+    return nodes;
+  }, [allNodes, filter, neighborMap.connectedIds, selectedNode, searchTerm]);
 
   const visibleIds = useMemo(() => new Set(visibleNodes.map((node) => node.id)), [visibleNodes]);
 
@@ -335,7 +344,7 @@ export default function Graph() {
       <div className="graph-shell">
         <div className="graph-panel">
           <div className="graph-toolbar">
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
               {FILTERS.map((type) => (
                 <button
                   key={type}
@@ -346,6 +355,39 @@ export default function Graph() {
                   {type === 'all' ? 'All nodes' : TYPE_LABELS[type]}
                 </button>
               ))}
+              {/* Search */}
+              <input
+                type="text" placeholder="Search node..." value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                style={{
+                  marginLeft: 8, padding: '5px 10px', borderRadius: 6,
+                  border: '1px solid var(--border2)', background: 'var(--surface2)',
+                  color: 'var(--text)', fontSize: '0.72rem', fontFamily: 'var(--mono)',
+                  outline: 'none', width: 150,
+                }}
+              />
+              {/* Simulate */}
+              {selectedNode && selectedNode.type === 'province' && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    triggerRipple(selectedNode.id);
+                    setPropLoading(true);
+                    api.getPropagation(selectedNode.name || selectedNode.id)
+                      .then(setPropagation)
+                      .catch(() => setPropagation(null))
+                      .finally(() => setPropLoading(false));
+                  }}
+                  style={{
+                    marginLeft: 4, padding: '5px 12px', borderRadius: 6,
+                    background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.3)',
+                    color: '#ef4444', fontSize: '0.65rem', fontWeight: 700, cursor: 'pointer',
+                    fontFamily: 'var(--mono)', letterSpacing: '0.06em',
+                  }}
+                >
+                  {propLoading ? 'SIMULATING...' : '⚡ SIMULATE PROPAGATION'}
+                </button>
+              )}
             </div>
             <p className="graph-toolbar-note">
               Animated paths show the currently selected dependency corridor.
@@ -573,6 +615,117 @@ export default function Graph() {
                     </div>
                   </div>
                 </div>
+
+                {/* ── Chain Intelligence Panel ────────────────────── */}
+                <div style={{ marginTop: 16, padding: '14px 16px', background: 'var(--surface2)', border: '1px solid var(--border2)', borderRadius: 10 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                    <span style={{ fontWeight: 700, fontSize: '0.72rem', fontFamily: 'var(--mono)', letterSpacing: '0.06em', color: 'var(--text)' }}>CHAIN INTELLIGENCE</span>
+                    <span style={{ fontSize: '0.58rem', background: 'rgba(139,92,246,0.12)', color: '#8b5cf6', border: '1px solid rgba(139,92,246,0.25)', borderRadius: 999, padding: '1px 6px' }}>
+                      Engine 2
+                    </span>
+                  </div>
+
+                  {/* Vulnerability Index */}
+                  {(() => {
+                    const buf = Number(selectedNode.attributes?.buffer_days ?? 15);
+                    const sub = Number(selectedNode.attributes?.substitutability ?? 0.2);
+                    const vuln = Math.min(100, Math.round(selectedRisk * (1 - sub) * Math.exp(-buf / 30) * 1.8));
+                    const vulnColor = vuln >= 70 ? '#f43f5e' : vuln >= 40 ? '#f59e0b' : '#10b981';
+                    return (
+                      <div style={{ marginBottom: 12 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                          <span style={{ fontSize: '0.68rem', color: 'var(--muted)' }}>Vulnerability Index</span>
+                          <span style={{ fontSize: '0.72rem', fontWeight: 700, color: vulnColor, fontFamily: 'var(--mono)' }}>{vuln}/100</span>
+                        </div>
+                        <div style={{ height: 5, background: 'rgba(255,255,255,0.06)', borderRadius: 3, overflow: 'hidden' }}>
+                          <div style={{ height: '100%', width: `${vuln}%`, background: vulnColor, borderRadius: 3, transition: 'width 0.6s ease' }} />
+                        </div>
+                        <p style={{ fontSize: '0.6rem', color: 'var(--muted)', marginTop: 4, fontFamily: 'var(--mono)' }}>
+                          R = PR({selectedRisk.toFixed(0)}) × (1−S:{(sub*100).toFixed(0)}%) × e^(−B:{buf}d/τ)
+                        </p>
+                      </div>
+                    );
+                  })()}
+
+                  {/* Edge Weight Analysis */}
+                  {(() => {
+                    const connEdges = allEdges.filter(e => e.source === selectedNode?.id || e.target === selectedNode?.id);
+                    if (connEdges.length === 0) return null;
+                    const totalWeight = connEdges.reduce((s, e) => s + Number(e.weight || 1), 0);
+                    const maxEdge = connEdges.reduce((best, e) => Number(e.weight || 0) > Number(best.weight || 0) ? e : best, connEdges[0]);
+                    const maxPeer = maxEdge.source === selectedNode?.id ? maxEdge.target : maxEdge.source;
+                    const peerNode = allNodes.find(n => n.id === maxPeer);
+                    return (
+                      <div style={{ marginBottom: 12 }}>
+                        <p style={{ fontSize: '0.68rem', color: 'var(--muted)', marginBottom: 6 }}>Connected corridors</p>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
+                          <div style={{ padding: '6px 8px', background: 'rgba(59,130,246,0.06)', borderRadius: 6 }}>
+                            <p style={{ fontSize: '0.6rem', color: 'var(--muted)' }}>Total edges</p>
+                            <p style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--primary)', fontFamily: 'var(--mono)' }}>{connEdges.length}</p>
+                          </div>
+                          <div style={{ padding: '6px 8px', background: 'rgba(245,158,11,0.06)', borderRadius: 6 }}>
+                            <p style={{ fontSize: '0.6rem', color: 'var(--muted)' }}>Σ weight</p>
+                            <p style={{ fontSize: '0.88rem', fontWeight: 700, color: '#f59e0b', fontFamily: 'var(--mono)' }}>{totalWeight.toFixed(1)}</p>
+                          </div>
+                        </div>
+                        {peerNode && (
+                          <div style={{ marginTop: 6, padding: '5px 8px', background: 'rgba(244,63,94,0.06)', borderRadius: 6, borderLeft: '2px solid #f43f5e' }}>
+                            <p style={{ fontSize: '0.6rem', color: 'var(--muted)' }}>Strongest dependency</p>
+                            <p style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--text)' }}>
+                              {peerNode.name || peerNode.id} <span style={{ color: '#f43f5e', fontFamily: 'var(--mono)', fontSize: '0.65rem' }}>w={Number(maxEdge.weight || 0).toFixed(2)}</span>
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
+
+                  {/* Import Volume */}
+                  {selectedNode.attributes?.monthly_import_tonnes && (
+                    <div style={{ marginBottom: 12, display: 'flex', gap: 6 }}>
+                      <div style={{ flex: 1, padding: '6px 8px', background: 'rgba(16,185,129,0.06)', borderRadius: 6 }}>
+                        <p style={{ fontSize: '0.6rem', color: 'var(--muted)' }}>Monthly import</p>
+                        <p style={{ fontSize: '0.82rem', fontWeight: 700, color: '#10b981', fontFamily: 'var(--mono)' }}>{selectedNode.attributes.monthly_import_tonnes}t</p>
+                      </div>
+                      <div style={{ flex: 1, padding: '6px 8px', background: 'rgba(139,92,246,0.06)', borderRadius: 6 }}>
+                        <p style={{ fontSize: '0.6rem', color: 'var(--muted)' }}>Concentration</p>
+                        <p style={{ fontSize: '0.82rem', fontWeight: 700, color: '#8b5cf6', fontFamily: 'var(--mono)' }}>
+                          {selectedNode.attributes?.china_dependency ? `${(selectedNode.attributes.china_dependency * 100).toFixed(0)}%` : 'N/A'}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Market value */}
+                  {selectedNode.attributes?.market_value_usd_m && (
+                    <div style={{ padding: '6px 8px', background: 'rgba(251,191,36,0.06)', borderRadius: 6, marginBottom: 8 }}>
+                      <p style={{ fontSize: '0.6rem', color: 'var(--muted)' }}>Market exposure</p>
+                      <p style={{ fontSize: '0.88rem', fontWeight: 700, color: '#fbbf24', fontFamily: 'var(--mono)' }}>
+                        ${selectedNode.attributes.market_value_usd_m}M
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Propagation simulation results */}
+                {propagation && (
+                  <div style={{ marginTop: 14 }}>
+                    <p className="graph-sidebar-eyebrow" style={{ color: '#ef4444' }}>Propagation simulation</p>
+                    <div style={{ fontSize: '0.72rem', color: 'var(--muted)', marginBottom: 8 }}>
+                      {propagation.affected_count || propagation.affected_drugs?.length || '—'} downstream entities affected
+                    </div>
+                    {(propagation.affected_drugs || propagation.top_affected || []).slice(0, 5).map((d, i) => (
+                      <div key={i} style={{
+                        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                        padding: '6px 8px', borderRadius: 6, marginBottom: 4,
+                        background: 'rgba(239,68,68,0.06)', borderLeft: '2px solid #ef4444',
+                      }}>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--text)' }}>{d.name || d}</span>
+                        {d.risk_delta && <span style={{ fontSize: '0.65rem', color: '#ef4444', fontFamily: 'var(--mono)', fontWeight: 700 }}>+{d.risk_delta}</span>}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </>
             ) : (
               <p className="graph-empty-note">Select a node to inspect its risk components and links.</p>

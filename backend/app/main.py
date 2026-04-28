@@ -219,7 +219,7 @@ async def healthz():
 
 # Router Mounting
 # All routers are now implemented and ready for production use
-from .api import graph, drugs, alerts, query, simulate, sectors, engines, map
+from .api import graph, drugs, alerts, query, simulate, sectors, engines, map, hormuz, stocks, energy, domestic
 
 app.include_router(graph.router)
 app.include_router(drugs.router)
@@ -229,3 +229,30 @@ app.include_router(simulate.router)
 app.include_router(sectors.router)
 app.include_router(engines.router)
 app.include_router(map.router)
+app.include_router(hormuz.router)
+app.include_router(stocks.router)
+app.include_router(energy.router)
+app.include_router(domestic.router)
+
+# ── Static file serving for production (HF Spaces / Docker) ──────────
+# Serves the built React frontend from /app/static if it exists.
+import os
+_static_dir = Path("/app/static")
+if not _static_dir.exists():
+    _static_dir = BASE_DIR / "frontend" / "dist"
+
+if _static_dir.exists():
+    from fastapi.staticfiles import StaticFiles
+    from fastapi.responses import FileResponse
+
+    # Serve assets (JS, CSS, images)
+    app.mount("/assets", StaticFiles(directory=str(_static_dir / "assets")), name="assets")
+
+    # SPA catch-all: any non-API route returns index.html
+    @app.get("/{full_path:path}")
+    async def spa_fallback(full_path: str):
+        file_path = _static_dir / full_path
+        if file_path.exists() and file_path.is_file():
+            return FileResponse(str(file_path))
+        return FileResponse(str(_static_dir / "index.html"))
+

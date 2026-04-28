@@ -42,6 +42,8 @@ class Settings(BaseSettings):
     QDRANT_URL: str = ""
     QDRANT_API_KEY: str = ""
     GOOGLE_MAPS_API_KEY: str = ""
+    ALPHA_VANTAGE_KEY: str = ""
+    NEWS_API_KEY: str = ""
 
     # Project Info
     FIREBASE_PROJECT_ID: str = ""
@@ -49,8 +51,12 @@ class Settings(BaseSettings):
     ALLOWED_ORIGINS: List[str] = [
         "http://localhost:3000",
         "http://localhost:5173",
+        "http://localhost:5174",
         "http://localhost:8080",
         "https://pharmashield.web.app",
+        "https://*.hf.space",
+        "https://*.netlify.app",
+        "*",
     ]
 
     # Paths

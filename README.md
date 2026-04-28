@@ -1,253 +1,125 @@
-# ShockMap — Supply Chain Intelligence Platform
+# ShockMap — Multi-Sector Supply Chain Intelligence Platform
 
-> **AI Predicted India's COVID Drug Shortage 67 Days Early.**
+> **"Know which critical inputs will run short — before headlines do."**
 
-ShockMap is a three-engine geospatial intelligence platform that monitors pharmaceutical and rare-earth supply chains in real time, propagates risk across dependency graphs, and surfaces actionable procurement recommendations — **67 days before a COVID-scale collapse becomes visible to the market.**
+ShockMap is a high-fidelity, three-engine intelligence platform designed to detect, propagate, and recommend responses to global supply chain disruptions. Originally focused on pharmaceuticals, it has been modernized into a sector-agnostic surface tracking **Pharma APIs, Rare Earth Minerals, and Energy Security (Oil/LNG).**
 
 Built for the **Google AI Hackathon 2026**.
 
 ---
 
-## Live Demo
+## 🛰️ Live Intelligence Flow
 
+```mermaid
+graph TD
+    A[GDELT Global News Feed] -->|Polls every 15m| B(Engine 1: Signal Extraction)
+    B -->|Gemini 2.5 Flash NER| C{Structured Shock}
+    
+    subgraph "The Intelligence Core"
+        C --> D(Engine 2: Propagation Graph)
+        D -->|Personalized PageRank| E[Downstream Risk Score]
+        D -->|Louvain Clustering| F[Supply Communities]
+    end
+    
+    subgraph "Domestic Logistics"
+        E --> G(Domestic Routing API)
+        G -->|Shortest Path| H[Optimal Port-to-Hospital Route]
+        G -->|Bottleneck Analysis| I[Alternate Logistics Path]
+    end
+    
+    subgraph "Action Intelligence"
+        E --> J(Engine 3: RAG Analyst)
+        J -->|Qdrant Knowledge Retrieval| K[Grounded Action Plan]
+    end
+    
+    K --> L((React Intelligence Surface))
+    H --> L
+    F --> L
 ```
-Frontend  →  http://localhost:5173
-Backend   →  http://localhost:8081
-```
-
-Click **LIVE DEMO — NO LOGIN** on the landing page to enter immediately. A guided onboarding tour will appear automatically on first visit, walking through the 3-engine architecture.
 
 ---
 
-## Architecture
+## 🏗️ 3-Engine Architecture
 
-```
-GDELT Signal Feed  ──►  Engine 1: NER Extraction (Gemini 2.5 Flash)
-                               │
-                               ▼
-                    Engine 2: Graph Propagation (PageRank + Louvain)
-                               │
-                               ▼
-                    Engine 3: RAG Intelligence (Qdrant + Gemini)
-                               │
-                               ▼
-                    FastAPI REST  ──►  React Intelligence Surface
-```
+### Engine 1 — Signal Ingestion & Extraction
+- **Polling**: Scrapes GDELT every 15 minutes for 64 supply-critical keywords.
+- **NER (Gemini 2.5 Flash)**: Extracts structured data from raw news: `province`, `severity`, `event_type` (shutdown, export_ban, etc.).
+- **Sector Filtering**: Automatically routes signals to Pharma, Rare Earth, or Energy pipelines.
 
-### Engine 1 — Signal Ingestion
-- Polls GDELT every 15 minutes for supply chain disruption signals
-- Filters: `factory_shutdown`, `export_ban`, `port_closure`, `contamination`
-- Gemini 2.5 Flash NER extracts structured events from unstructured news text
-- Persists structured shocks to `data/shocks.json`
-
-### Engine 2 — Graph Propagation
-- NetworkX graph: **20 pharma API nodes + 8 rare earth mineral nodes**
-- Edges weighted by India import volume (Comtrade data)
-- Personalized PageRank for upstream risk propagation
-- Louvain community detection to surface correlated supply clusters
-- GNN propagation supported (disabled by default; PageRank fallback always active)
+### Engine 2 — Graph Propagation & Clustering
+- **Graph Topology**: 20 Pharma APIs, 8 Rare Earths, 16 Energy nodes, 34 Source Provinces.
+- **Mathematics**: Runs **Personalized PageRank** to model how a localized shock (e.g., Hebei factory fire) cascades into national drug shortages.
+- **Community Detection**: Uses **Louvain** to surface hidden supply dependencies between uncorrelated sectors.
 
 ### Engine 3 — RAG Action Intelligence
-- Qdrant vector store (`pharmashield_kb` collection)
-- Gemini embeddings for semantic retrieval across NLEM, SARS-2003 playbooks, Comtrade records
-- Grounded procurement action recommendations per shock event — with supplier names, quantities, lead times
+- **Knowledge Base**: 2,400+ entries across NLEM, SARS-2003 playbooks, CDSCO policies, and custom logistics benchmarks.
+- **Retrieval**: Uses Gemini Embeddings + Qdrant Cloud.
+- **Output**: Generates specific, grounded procurement advice — including supplier alternatives and emergency lead times.
 
 ---
 
-## Key Features
+## 🧪 Geopolitical Scenarios & Domestic Routing
 
-| Feature | Description |
-|---|---|
-| **Onboarding Tour** | First-visit guided walkthrough covering the 3-engine architecture, blurred backdrop overlay |
-| **Live Shock Feed** | Real-time GDELT-powered supply events with severity, sector, and province filters |
-| **ShockDetail War Room** | Per-shock: 72-hour action ladder, economic delta model, propagation graph, expandable evidence cards |
-| **Shock Simulator** | Inject synthetic shock scenarios, observe propagated risk, model cost and stockout impact |
-| **Global Supply Map** | Interactive Leaflet map with China province nodes, India state nodes, international supply corridors |
-| **India In-Depth** | State-level pharmaceutical manufacturing exposure, China dependency scores, entry port mapping |
-| **COVID Backtest** | Animated signal-flow replay: ShockMap on Dec 2019 public data → CRITICAL alert 67 days before WHO declaration |
-| **Propagation Graph** | Interactive dependency network — click any node to trace upstream sources and downstream drug exposure |
-| **Ask ShockMap** | Gemini-powered natural language procurement analyst, grounded in the knowledge base |
+### ⚓ Hormuz Crisis Tracker
+Simulates a 59-day blockade of the Strait of Hormuz. 
+- **Impact**: Brent Crude spike to $118/bbl, tanker diversion (+18 days), and 34% increase in pharma cold-chain costs.
+- **Refinery Watch**: Real-time utilization tracking (e.g., Reliance Jamnagar at 64% capacity).
+
+### 🚛 India In-Depth (Domestic Supply Chain)
+Full internal logistics visibility for critical APIs:
+- **Node Flow**: Port → CWC Warehouse → Formulation Plant (Cipla, Dr Reddy's, etc.) → Regional Distributor → Hospital.
+- **Dynamic Routing**: Automatic rerouting around bottlenecks like JNPT congestion or Baddi Pharma Hub stockouts.
 
 ---
 
-## Proof: COVID-19 Retroactive Analysis
+## 🛠️ Tech Stack
 
-Running ShockMap's pipeline on **publicly available data from December 2019**:
-
-| Metric | Value |
-|---|---|
-| Prediction lead time vs WHO declaration | **67 days** |
-| APIs correctly flagged at risk | **14 / 20** |
-| Actual shortage match rate | **93%** |
-| Signals processed | **3,847** |
-| Action plan generated | **Jan 23, 2020** |
-
-See the **COVID Backtest** page for the full animated signal replay.
+- **Backend**: Python 3.11, FastAPI, Uvicorn.
+- **AI/ML**: Google GenAI (Gemini 2.5 Flash), NetworkX (Graph Math).
+- **Vector DB**: Qdrant Cloud (RAG Storage).
+- **Frontend**: React 19, Vite, Recharts (Data Viz), CesiumJS (3D Globe).
+- **Maps**: ISRO Bhuvan (WMS), OlaMaps, MapMyIndia (Mappls).
 
 ---
 
-## Stack
+## 🚀 Running Locally
 
-**Backend**
-- Python 3.11 + FastAPI + Uvicorn
-- NetworkX + `networkx-louvain` (graph engine + community detection)
-- `google-genai` SDK — Gemini 2.5 Flash (NER + RAG, `thinking_budget=0` for structured JSON output)
-- Qdrant Cloud (vector store)
-- GDELT API (signal ingestion, 15-minute polling)
-- Tenacity (retry logic for external API calls)
+### 1. Prerequisites
+- Gemini API Key ([AI Studio](https://aistudio.google.com/))
+- Qdrant Cloud Credentials
 
-**Frontend**
-- React 19 + Vite
-- React Router v6
-- React-Leaflet (geospatial maps)
-- Vanilla CSS design system (dark slate/muted-blue palette)
-
----
-
-## Running Locally
-
-### Prerequisites
-- Python 3.11+
-- Node 20+
-- Gemini API key ([Google AI Studio](https://aistudio.google.com/))
-- Qdrant Cloud credentials (or local Qdrant instance)
-
-### Backend
-
+### 2. Backend Setup
 ```bash
 cd backend
-python -m venv venv
-venv\Scripts\activate          # Windows
-source venv/bin/activate       # macOS / Linux
-
 pip install -r requirements.txt
-
-# Set environment variables (Windows PowerShell)
+# Set Env Vars
 $env:GEMINI_API_KEY="your-key"
-$env:QDRANT_URL="https://your-cluster.qdrant.io:6333"
+$env:QDRANT_URL="your-qdrant-url"
 $env:QDRANT_API_KEY="your-qdrant-key"
-
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8081
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-### Frontend
-
+### 3. Frontend Setup
 ```bash
 cd frontend
-npm install --legacy-peer-deps
+npm install
 npm run dev
 ```
-
-Open [http://localhost:5173](http://localhost:5173)
-
-> **Note:** Vite proxies `/api` → `http://localhost:8081`. If you change the backend port, update `frontend/vite.config.js`.
+Navigate to `http://localhost:5173`.
 
 ---
 
-## Environment Variables
+## 🔮 Roadmap & Future Upgrades
 
-| Variable | Required | Default | Description |
-|---|---|---|---|
-| `GEMINI_API_KEY` | Yes | — | Google Gemini API key for NER + RAG |
-| `QDRANT_URL` | Yes | — | Qdrant cluster URL |
-| `QDRANT_API_KEY` | Yes | — | Qdrant API key |
-| `SHOCK_FEED_MODE` | No | `demo` | `live` / `demo` / `hybrid_demo_live` |
-| `GNN_ENABLED` | No | `false` | Enable GNN propagation (PageRank fallback always active) |
-| `DEMO_MODE` | No | `true` | Activates curated scenario seed data |
+- **[ ] GNN Propagation (v3.0)**: Transition from PageRank to Graph Neural Networks (GNN) for predictive temporal risk modeling.
+- **[ ] Multi-Agent Procurement**: Deploy Gemini agents to automatically negotiate "emergency reservations" with alternate suppliers via API.
+- **[ ] Dynamic HHI**: Live Herfindahl-Hirschman Index monitoring for every Indian state's import concentration.
+- **[ ] Digital Twin Integration**: Sync with real-time port telemetry (AIS data) for minute-by-minute container tracking.
 
 ---
 
-## API Reference
+## 📜 License & Credits
+Built by **ShockMap Intelligence Team** for the Google AI Hackathon.
+License: MIT.
 
-| Endpoint | Method | Description |
-|---|---|---|
-| `/healthz` | GET | System health, engine status, feed mode |
-| `/api/v1/shocks` | GET | Live shock feed (filterable by severity, sector) |
-| `/api/v1/shocks/{id}` | GET | Single shock with war room data |
-| `/api/v1/shocks/{id}/war-room` | GET | 72h action ladder + economic metrics |
-| `/api/v1/graph` | GET | Full dependency graph (nodes + edges) |
-| `/api/v1/engines` | GET | Engine 1/2/3 operational status |
-| `/api/v1/map/heatmap` | GET | Geospatial risk points |
-| `/api/v1/map/supply-corridors` | GET | Active supply corridor polylines |
-| `/api/v1/map/provinces/{id}` | GET | Province-level detail |
-| `/api/v1/simulate` | POST | Inject synthetic shock scenario |
-| `/api/v1/query` | POST | Natural language procurement query (Gemini RAG) |
-| `/api/v1/drugs` | GET | Drug catalog with risk scores |
-| `/api/v1/communities` | GET | Louvain supply cluster data |
-
----
-
-## Data Contracts
-
-```
-data/
-  seed/
-    apis.json                    # 20 pharma API seed nodes
-    rare_earths.json             # 8 rare earth mineral nodes
-    alerts.json                  # Curated alert scenarios
-    historical_disruptions.json  # Historical supply disruption events
-    policy_snippets.json         # NLEM / PLI / CDSCO policy references
-    live_shocks.json             # Hybrid feed scenarios
-    demo_scenarios.json          # Demo-mode curated shocks
-    epb_notices.json             # Environmental/production bulletin events
-  shocks.json                    # Live structured shock output (GDELT)
-```
-
-All `source_url` fields in seed data reference **verified, publicly accessible** sources:
-ORF, GMP-Compliance.org, FDA import alerts, BioProcess International, USITC, FiercePharma, NHSRC India, MoHFW.
-
----
-
-## Project Structure
-
-```
-pharmashield/
-  backend/
-    app/
-      api/          # FastAPI route handlers (shocks, simulate, query, map, sectors)
-      services/     # Engine logic (gemini_analyst, shock_propagation, geocoder, rag)
-      models/       # Pydantic request/response schemas
-    data/
-      seed/         # Static seed data (all URLs verified)
-      shocks.json   # Live feed output
-    ingestion/      # GDELT poller (shock_detector.py)
-    graph/          # Graph builder (builder.py)
-  frontend/
-    src/
-      pages/        # Route-level components (Dashboard, ShockDetail, Simulate, CovidBacktest, Map, etc.)
-      components/   # Shared UI (AppShell, OnboardingTour)
-      api/          # Typed API client
-```
-
----
-
-## Deployment
-
-### Docker
-
-```bash
-docker build -t shockmap .
-docker run -p 7860:7860 \
-  -e GEMINI_API_KEY=... \
-  -e QDRANT_URL=... \
-  -e QDRANT_API_KEY=... \
-  shockmap
-```
-
-### Hugging Face Spaces
-
-Push to a Space with `Dockerfile` at root. The container serves frontend static files via FastAPI's `StaticFiles` mount.
-
-### Render
-
-`render.yaml` is preconfigured. Set environment variables in the Render dashboard.
-
----
-
-## License
-
-MIT
-
----
-
-*Built to demonstrate that supply chain intelligence at the scale of Palantir is achievable with open APIs, graph mathematics, and grounded LLM reasoning.*
+*ShockMap demonstrates that Palantir-grade supply intelligence is achievable using open signals, graph mathematics, and grounded LLM reasoning.*

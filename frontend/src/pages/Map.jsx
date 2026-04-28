@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { MapContainer, TileLayer, CircleMarker, Popup, Polyline, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, WMSTileLayer, CircleMarker, Popup, Polyline, useMap } from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
 import 'leaflet/dist/leaflet.css';
 import { api } from '../api/client';
 import MapFilterPanel from '../components/MapFilterPanel';
 import L from 'leaflet';
+import { getIndiaTileConfig, hasIndiaKey, BHUVAN_WMS } from '../utils/tileProvider';
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -546,11 +547,28 @@ export default function MapView() {
           style={{ height: '100%', width: '100%', background: '#1e2330' }}
           zoomControl={false}
         >
-          <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-            attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-            opacity={0.7}
-            className="map-tiles-blend"
+          {/* ── Base tiles: India-compliant provider (HERE / OlaMaps / Mappls / ArcGIS) */}
+          {(() => {
+            const t = getIndiaTileConfig();
+            return (
+              <TileLayer
+                url={t.url}
+                attribution={t.attribution}
+                maxZoom={t.maxZoom}
+                opacity={0.88}
+              />
+            );
+          })()}
+
+          {/* ── Bhuvan ISRO district/state boundary overlay (no key, always on) */}
+          <WMSTileLayer
+            url={BHUVAN_WMS.url}
+            layers={BHUVAN_WMS.layers}
+            format={BHUVAN_WMS.format}
+            transparent={BHUVAN_WMS.transparent}
+            version={BHUVAN_WMS.version}
+            opacity={0.45}
+            attribution={BHUVAN_WMS.attribution}
           />
 
           <MapUpdater

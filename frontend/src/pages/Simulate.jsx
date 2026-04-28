@@ -111,12 +111,30 @@ export default function Simulate() {
 
   return (
     <div style={{ padding: '28px 32px', animation: 'fade-in 0.35s ease' }}>
-      <div style={{ marginBottom: 24, borderBottom: '1px solid var(--border2)', paddingBottom: 16 }}>
-        <h1 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: 4, fontFamily: 'var(--mono)' }}>
-          SHOCK IMPACT SIMULATOR
-        </h1>
-        <p style={{ fontSize: '0.78rem', color: 'var(--muted)', fontFamily: 'var(--mono)' }}>
-          ENGINE 2 · Personalized PageRank · R = PR(shock) × (1−S) × e^(−B/τ) × C
+      <div style={{ marginBottom: 20, borderBottom: '1px solid var(--border2)', paddingBottom: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
+          <h1 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.02em', fontFamily: 'var(--mono)', margin: 0 }}>
+            SHOCK IMPACT SIMULATOR
+          </h1>
+          <span style={{
+            fontSize: '0.6rem', fontWeight: 700, padding: '2px 8px', borderRadius: 4,
+            background: 'rgba(244,114,182,0.12)', color: '#f472b6',
+            border: '1px solid rgba(244,114,182,0.25)',
+            fontFamily: 'var(--mono)', letterSpacing: '0.07em',
+          }}>
+            ENGINE 2
+          </span>
+          <span style={{
+            fontSize: '0.6rem', fontWeight: 700, padding: '2px 8px', borderRadius: 4,
+            background: 'rgba(59,130,246,0.1)', color: 'var(--primary)',
+            border: '1px solid rgba(59,130,246,0.2)',
+            fontFamily: 'var(--mono)', letterSpacing: '0.07em',
+          }}>
+            PAGERANK
+          </span>
+        </div>
+        <p style={{ fontSize: '0.75rem', color: 'var(--muted)', fontFamily: 'var(--mono)' }}>
+          R = PR(shock) × (1−S) × e^(−B/τ) × C
         </p>
       </div>
 
@@ -133,87 +151,117 @@ export default function Simulate() {
         </div>
       )}
 
-      {/* Config Card */}
-      <div className="card" style={{ padding: '22px 24px', marginBottom: 20 }}>
+      {/* ── War Room: 2-Column Layout ── */}
+      <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: 20, alignItems: 'start' }}>
 
-        {/* Province */}
-        <div style={{ marginBottom: 18 }}>
-          <label style={{ display: 'block', fontSize: '0.72rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>
-            Shock Origin — Province / Region
-          </label>
-          {graphLoading ? (
-            <div className="skeleton" style={{ height: 38 }} />
-          ) : (
-            <select
-              value={province}
-              onChange={e => setProvince(e.target.value)}
-              style={{
-                width: '100%', padding: '9px 12px', fontSize: '0.85rem',
-                background: 'var(--surface2)', border: '1px solid var(--border2)',
-                borderRadius: 8, color: 'var(--text)', outline: 'none',
-              }}
-            >
-              {provinces.length === 0 && <option value="">No provinces loaded</option>}
-              {provinces.map(p => (
-                <option key={p.id} value={p.id}>{p.name || p.id}</option>
+        {/* ── Left: Config Panel (sticky) ── */}
+        <div style={{ position: 'sticky', top: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div className="card" style={{ padding: '18px 20px' }}>
+            <p style={{ fontSize: '0.68rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10, fontFamily: 'var(--mono)' }}>
+              Shock Origin
+            </p>
+            {graphLoading ? (
+              <div className="skeleton" style={{ height: 38 }} />
+            ) : (
+              <select
+                value={province}
+                onChange={e => setProvince(e.target.value)}
+                style={{
+                  width: '100%', padding: '9px 12px', fontSize: '0.82rem',
+                  background: 'var(--surface2)', border: '1px solid var(--border2)',
+                  borderRadius: 8, color: 'var(--text)', outline: 'none',
+                }}
+              >
+                {provinces.length === 0 && <option value="">No provinces loaded</option>}
+                {provinces.map(p => (
+                  <option key={p.id} value={p.id}>{p.name || p.id}</option>
+                ))}
+              </select>
+            )}
+          </div>
+
+          <div className="card" style={{ padding: '18px 20px' }}>
+            <p style={{ fontSize: '0.68rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'var(--mono)' }}>
+              Duration: <span style={{ color: 'var(--text)', fontWeight: 600 }}>{duration}d</span>
+              <span style={{ marginLeft: 6, color: 'var(--primary)', fontSize: '0.6rem' }}>
+                factor={Math.min(1, duration / 30).toFixed(2)}
+              </span>
+            </p>
+            <input type="range" min={1} max={180} step={1} value={duration}
+              onChange={e => setDuration(Number(e.target.value))}
+              style={{ width: '100%', accentColor: 'var(--primary)' }}
+            />
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.62rem', color: 'var(--muted)', marginTop: 4 }}>
+              <span>1d</span><span>90d</span><span>180d</span>
+            </div>
+          </div>
+
+          <div className="card" style={{ padding: '18px 20px' }}>
+            <p style={{ fontSize: '0.68rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'var(--mono)' }}>
+              Severity
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {SEVERITIES.map(s => (
+                <button key={s.value} onClick={() => setSeverity(s.value)}
+                  style={{
+                    padding: '10px 12px', borderRadius: 8, border: '1px solid',
+                    borderColor: severity === s.value ? 'var(--primary)' : 'var(--border2)',
+                    background: severity === s.value ? 'rgba(79,156,249,0.1)' : 'var(--surface2)',
+                    textAlign: 'left', cursor: 'pointer', transition: 'all 0.15s',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text)' }}>{s.label}</span>
+                    <span style={{ fontSize: '0.6rem', color: 'var(--primary)', fontFamily: 'var(--mono)' }}>×{s.factor}</span>
+                  </div>
+                  <p style={{ fontSize: '0.65rem', color: 'var(--muted)', marginTop: 2 }}>{s.desc}</p>
+                </button>
               ))}
-            </select>
+            </div>
+          </div>
+
+          <button onClick={run} disabled={loading || !province}
+            style={{
+              width: '100%', padding: '13px', background: loading ? 'var(--surface2)' : 'var(--primary)',
+              color: loading ? 'var(--muted)' : '#fff', border: 'none', borderRadius: 10,
+              fontSize: '0.82rem', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer',
+              letterSpacing: '0.06em', fontFamily: 'var(--mono)', transition: 'all 0.2s',
+            }}
+          >
+            {loading ? 'RUNNING SIMULATION...' : 'RUN SIMULATION'}
+          </button>
+
+          {/* Quick stats when result exists */}
+          {result && (
+            <div className="card" style={{ padding: '14px 16px' }}>
+              <p style={{ fontSize: '0.62rem', color: 'var(--muted)', fontFamily: 'var(--mono)', letterSpacing: '0.08em', marginBottom: 8 }}>SIMULATION SUMMARY</p>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                <div style={{ padding: '8px', background: 'rgba(244,63,94,0.06)', borderRadius: 6, borderLeft: '2px solid #f43f5e' }}>
+                  <p style={{ fontSize: '0.58rem', color: 'var(--muted)' }}>Affected</p>
+                  <p style={{ fontSize: '1rem', fontWeight: 700, color: '#f43f5e', fontFamily: 'var(--mono)' }}>{affectedWithPR.length}</p>
+                </div>
+                <div style={{ padding: '8px', background: 'rgba(245,158,11,0.06)', borderRadius: 6, borderLeft: '2px solid #f59e0b' }}>
+                  <p style={{ fontSize: '0.58rem', color: 'var(--muted)' }}>Avg Risk</p>
+                  <p style={{ fontSize: '1rem', fontWeight: 700, color: '#f59e0b', fontFamily: 'var(--mono)' }}>
+                    {(affectedWithPR.reduce((s, d) => s + d.risk, 0) / (affectedWithPR.length || 1)).toFixed(0)}%
+                  </p>
+                </div>
+                <div style={{ padding: '8px', background: 'rgba(96,165,250,0.06)', borderRadius: 6, borderLeft: '2px solid #60a5fa' }}>
+                  <p style={{ fontSize: '0.58rem', color: 'var(--muted)' }}>Duration</p>
+                  <p style={{ fontSize: '1rem', fontWeight: 700, color: '#60a5fa', fontFamily: 'var(--mono)' }}>{duration}d</p>
+                </div>
+                <div style={{ padding: '8px', background: 'rgba(139,92,246,0.06)', borderRadius: 6, borderLeft: '2px solid #8b5cf6' }}>
+                  <p style={{ fontSize: '0.58rem', color: 'var(--muted)' }}>Critical</p>
+                  <p style={{ fontSize: '1rem', fontWeight: 700, color: '#8b5cf6', fontFamily: 'var(--mono)' }}>{affectedWithPR.filter(d => d.risk >= 75).length}</p>
+                </div>
+              </div>
+            </div>
           )}
         </div>
 
-        {/* Duration */}
-        <div style={{ marginBottom: 18 }}>
-          <label style={{ display: 'block', fontSize: '0.72rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>
-            Duration: <span style={{ color: 'var(--text)', fontWeight: 600 }}>{duration} days</span>
-            <span style={{ marginLeft: 8, color: 'var(--primary)', fontSize: '0.65rem' }}>
-              τ = 30d (pharma) · duration factor = {Math.min(1, duration / 30).toFixed(2)}
-            </span>
-          </label>
-          <input type="range" min={1} max={180} step={1} value={duration}
-            onChange={e => setDuration(Number(e.target.value))}
-            style={{ width: '100%', accentColor: 'var(--primary)' }}
-          />
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.68rem', color: 'var(--muted)', marginTop: 4 }}>
-            <span>1 day</span><span>90 days</span><span>180 days</span>
-          </div>
-        </div>
+        {/* ── Right: Results Area ── */}
+        <div>
 
-        {/* Severity */}
-        <div style={{ marginBottom: 22 }}>
-          <label style={{ display: 'block', fontSize: '0.72rem', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>
-            Disruption Severity
-          </label>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
-            {SEVERITIES.map(s => (
-              <button key={s.value} onClick={() => setSeverity(s.value)}
-                style={{
-                  padding: '12px 14px', borderRadius: 10, border: '1px solid',
-                  borderColor: severity === s.value ? 'var(--primary)' : 'var(--border2)',
-                  background: severity === s.value ? 'rgba(79,156,249,0.1)' : 'var(--surface2)',
-                  textAlign: 'left', cursor: 'pointer', transition: 'all 0.15s',
-                }}
-              >
-                <p style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text)', marginBottom: 2 }}>{s.label}</p>
-                <p style={{ fontSize: '0.68rem', color: 'var(--muted)' }}>{s.desc}</p>
-                <p style={{ fontSize: '0.65rem', color: 'var(--primary)', marginTop: 4 }}>
-                  severity × {s.factor}
-                </p>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <button onClick={run} disabled={loading || !province}
-          style={{
-            width: '100%', padding: '12px', background: loading ? 'var(--surface2)' : 'var(--primary)',
-            color: loading ? 'var(--muted)' : '#fff', border: 'none', borderRadius: 8,
-            fontSize: '0.82rem', fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer',
-            letterSpacing: '0.06em', fontFamily: 'var(--mono)', transition: 'all 0.2s',
-          }}
-        >
-          {loading ? 'RUNNING SIMULATION...' : 'RUN SIMULATION'}
-        </button>
-      </div>
 
       {error && (
         <div style={{ padding: '14px 18px', background: 'rgba(244,63,94,0.08)', border: '1px solid rgba(244,63,94,0.2)', borderRadius: 10, color: '#f43f5e', fontSize: '0.82rem', marginBottom: 20 }}>
@@ -489,6 +537,18 @@ export default function Simulate() {
           )}
         </div>
       )}
+
+      {/* No results placeholder */}
+      {!result && !error && !loading && (
+        <div className="card" style={{ padding: '60px 32px', textAlign: 'center' }}>
+          <p style={{ fontSize: '2rem', marginBottom: 8, opacity: 0.3 }}>⚡</p>
+          <p style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>Ready to Simulate</p>
+          <p style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>Select a province and run a simulation to see cascading impact analysis</p>
+        </div>
+      )}
+
+        </div>{/* end right column */}
+      </div>{/* end 2-col grid */}
     </div>
   );
 }

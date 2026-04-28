@@ -65,17 +65,30 @@ export default function IndiaInDepth() {
   const [activeTab, setActiveTab] = useState('states');
   const [shocks, setShocks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [chain, setChain] = useState(null);
+  const [paths, setPaths] = useState([]);
+  const [bottlenecks, setBottlenecks] = useState([]);
+  const [selPath, setSelPath] = useState(null);
 
   useEffect(() => {
     api.getShocks({ limit: 20 })
       .then(s => setShocks(Array.isArray(s) ? s.filter(x => x.sector === 'pharma').slice(0, 6) : []))
       .catch(() => setShocks([]))
       .finally(() => setLoading(false));
+    // Domestic chain data
+    Promise.all([
+      api.getDomesticChain('paracetamol'),
+      api.getDomesticPaths('paracetamol'),
+      api.getDomesticBottlenecks(),
+    ]).then(([c, p, b]) => {
+      setChain(c); setPaths(p?.paths || []); setBottlenecks(b?.bottlenecks || []);
+    }).catch(() => {});
   }, []);
 
   const TABS = [
     { id: 'states',  label: 'STATE EXPOSURE' },
     { id: 'inputs',  label: 'CRITICAL INPUTS' },
+    { id: 'chain',   label: 'SUPPLY CHAIN' },
     { id: 'shocks',  label: 'LIVE SHOCKS' },
   ];
 
@@ -239,6 +252,159 @@ export default function IndiaInDepth() {
               <div style={{ alignSelf: 'center' }}><RiskBar value={inp.risk_score} /></div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* ── TAB: SUPPLY CHAIN ── */}
+      {activeTab === 'chain' && chain && (
+        <div>
+          <SectionHeader title="Paracetamol API — Domestic Supply Chain" sub="Port → Warehouse → Formulation → Distribution → Hospital" />
+
+          {/* Path Selector */}
+          <div style={{ display: 'flex', gap: 10, marginBottom: 20, flexWrap: 'wrap' }}>
+            {paths.map(p => {
+              const isSel = selPath?.id === p.id;
+              const c = p.status === 'RECOMMENDED' ? '#10b981' : p.risk === 'HIGH' ? '#ef4444' : p.risk === 'MEDIUM' ? '#f59e0b' : '#3b82f6';
+              return (
+                <button key={p.id} onClick={() => setSelPath(isSel ? null : p)} style={{
+                  padding: '10px 16px', borderRadius: 10, cursor: 'pointer',
+                  border: `1px solid ${isSel ? c : 'var(--border)'}`,
+                  background: isSel ? c + '14' : 'var(--surface)',
+                  transition: 'all 0.15s', textAlign: 'left',
+                }}>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 700, color: isSel ? c : 'var(--text)', marginBottom: 4 }}>{p.label}</div>
+                  <div style={{ display: 'flex', gap: 14, fontSize: '0.62rem', fontFamily: 'var(--mono)', color: 'var(--muted)' }}>
+                    <span>{p.total_km} km</span>
+                    <span>{p.total_days} days</span>
+                    <span>₹{(p.total_cost_inr_per_ton / 1000).toFixed(1)}k/t</span>
+                  </div>
+                  {p.status === 'RECOMMENDED' && <Tag label="RECOMMENDED" color="#10b981" />}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Node Flow Graph */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 18 }}>
+            <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 12, padding: 22, overflow: 'auto' }}>
+              <div style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--muted)', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: 'var(--mono)', marginBottom: 16 }}>
+                Node Flow · {chain.nodes?.length} Nodes · {chain.edges?.length} Edges
+              </div>
+              {/* Grouped by type */}
+              {['port', 'warehouse', 'formulation', 'distributor', 'hospital'].map(type => {
+                const typeNodes = (chain.nodes || []).filter(n => n.type === type);
+                const typeLabel = { port: 'PORTS', warehouse: 'WAREHOUSES', formulation: 'FORMULATION PLANTS', distributor: 'DISTRIBUTORS', hospital: 'HOSPITALS' }[type];
+                const typeColor = { port: '#3b82f6', warehouse: '#f59e0b', formulation: '#8b5cf6', distributor: '#10b981', hospital: '#ef4444' }[type];
+                const isInPath = (nid) => selPath?.chain?.includes(nid);
+                return (
+                  <div key={type} style={{ marginBottom: 18 }}>
+                    <div style={{ fontSize: '0.58rem', fontWeight: 800, color: typeColor, letterSpacing: '0.1em', fontFamily: 'var(--mono)', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <span style={{ width: 8, height: 8, borderRadius: '50%', background: typeColor, display: 'inline-block' }} />
+                      {typeLabel}
+                    </div>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                      {typeNodes.map(n => {
+                        const highlighted = selPath ? isInPath(n.id) : true;
+                        const isBottleneck = bottlenecks.some(b => b.node === n.id);
+                        return (
+                          <div key={n.id} style={{
+                            padding: '10px 14px', borderRadius: 8, minWidth: 180,
+                            background: highlighted ? 'var(--surface2)' : 'rgba(255,255,255,0.01)',
+                            border: `1px solid ${isBottleneck ? '#ef444466' : highlighted ? typeColor + '40' : 'var(--border)'}`,
+                            opacity: highlighted ? 1 : 0.35,
+                            transition: 'all 0.2s',
+                          }}>
+                            <div style={{ fontWeight: 600, color: 'var(--text)', fontSize: '0.78rem', marginBottom: 2 }}>{n.name}</div>
+                            <div style={{ fontSize: '0.6rem', color: 'var(--muted)', fontFamily: 'var(--mono)' }}>{n.state}</div>
+                            {n.congestion_pct !== undefined && (
+                              <div style={{ display: 'flex', gap: 8, marginTop: 6, fontSize: '0.6rem', fontFamily: 'var(--mono)' }}>
+                                <span style={{ color: n.congestion_pct > 80 ? '#ef4444' : 'var(--muted)' }}>Congestion: {n.congestion_pct}%</span>
+                                <span style={{ color: 'var(--muted)' }}>Clear: {n.clearance_days}d</span>
+                              </div>
+                            )}
+                            {n.stock_days !== undefined && (
+                              <div style={{ fontSize: '0.6rem', fontFamily: 'var(--mono)', color: n.stock_days < 15 ? '#ef4444' : '#f59e0b', marginTop: 4 }}>
+                                Stock: {n.stock_days}d · Cap: {n.capacity_pct}%
+                              </div>
+                            )}
+                            {n.utilization_pct !== undefined && (
+                              <div style={{ fontSize: '0.6rem', fontFamily: 'var(--mono)', color: n.utilization_pct > 85 ? '#ef4444' : 'var(--muted)', marginTop: 4 }}>
+                                Utilization: {n.utilization_pct}%
+                              </div>
+                            )}
+                            {isBottleneck && <Tag label="BOTTLENECK" color="#ef4444" />}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Right: Path detail + Bottlenecks */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {/* Selected path detail */}
+              {selPath && (
+                <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, padding: 18 }}>
+                  <SectionHeader title={selPath.label} />
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 14 }}>
+                    {[
+                      { lbl: 'Distance', val: `${selPath.total_km} km` },
+                      { lbl: 'Transit', val: `${selPath.total_days} days` },
+                      { lbl: 'Cost/ton', val: `₹${selPath.total_cost_inr_per_ton.toLocaleString()}` },
+                      { lbl: 'Risk', val: selPath.risk, color: selPath.risk === 'HIGH' ? '#ef4444' : selPath.risk === 'MEDIUM' ? '#f59e0b' : '#10b981' },
+                    ].map(m => (
+                      <div key={m.lbl} style={{ background: 'var(--surface2)', borderRadius: 6, padding: '8px 10px' }}>
+                        <div style={{ fontSize: '0.58rem', color: 'var(--muted)', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'var(--mono)' }}>{m.lbl}</div>
+                        <div style={{ fontSize: '1rem', fontWeight: 700, color: m.color || 'var(--text)', fontFamily: 'var(--mono)' }}>{m.val}</div>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Visual chain */}
+                  <div style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--muted)', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'var(--mono)', marginBottom: 8 }}>Route</div>
+                  {selPath.chain.map((nodeId, i) => {
+                    const node = chain.nodes?.find(n => n.id === nodeId);
+                    const tc = { port: '#3b82f6', warehouse: '#f59e0b', formulation: '#8b5cf6', distributor: '#10b981', hospital: '#ef4444' }[node?.type] || 'var(--muted)';
+                    return (
+                      <div key={nodeId}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 0' }}>
+                          <span style={{ width: 10, height: 10, borderRadius: '50%', background: tc, flexShrink: 0 }} />
+                          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text)' }}>{node?.name || nodeId}</span>
+                        </div>
+                        {i < selPath.chain.length - 1 && (
+                          <div style={{ marginLeft: 4, borderLeft: `2px dashed ${tc}40`, height: 16 }} />
+                        )}
+                      </div>
+                    );
+                  })}
+                  {selPath.bottleneck && (
+                    <div style={{ marginTop: 12, padding: '8px 10px', background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 6, fontSize: '0.7rem', color: '#ef4444' }}>
+                      Bottleneck: {selPath.bottleneck}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Bottlenecks panel */}
+              <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, padding: 18 }}>
+                <SectionHeader title="Active Bottlenecks" sub={`${bottlenecks.length} detected`} />
+                {bottlenecks.map((b, i) => {
+                  const sc = b.severity === 'CRITICAL' ? '#ef4444' : b.severity === 'HIGH' ? '#f59e0b' : '#3b82f6';
+                  return (
+                    <div key={i} style={{ padding: '10px 12px', borderRadius: 8, marginBottom: 8, borderLeft: `3px solid ${sc}`, background: sc + '08' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                        <span style={{ fontWeight: 700, fontSize: '0.78rem', color: 'var(--text)' }}>{b.name}</span>
+                        <Tag label={b.severity} color={sc} />
+                      </div>
+                      <div style={{ fontSize: '0.68rem', color: 'var(--muted)', lineHeight: 1.4 }}>{b.issue}</div>
+                      <div style={{ fontSize: '0.6rem', color: sc, fontFamily: 'var(--mono)', marginTop: 4 }}>Impacts {b.impact_apis} APIs</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

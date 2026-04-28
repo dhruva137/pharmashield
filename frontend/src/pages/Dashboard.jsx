@@ -52,7 +52,7 @@ function ShockCard({ shock }) {
             </span>
           )}
           <span style={{ fontSize: '0.65rem', color: 'var(--muted)', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 4, padding: '2px 7px' }}>
-            {shock.sector === 'rare_earth' ? 'Rare Earths' : 'Pharma'}
+            {shock.sector === 'rare_earth' ? 'Rare Earths' : shock.sector === 'energy' ? 'Energy' : 'Pharma'}
           </span>
         </div>
         {shock.province && (
@@ -266,7 +266,7 @@ export default function Dashboard({ sectors = ['pharma', 'rare_earth'] }) {
             National Risk Overview
           </h1>
           <p style={{ fontSize: '0.8rem', color: 'var(--muted)' }}>
-            {sectors.map(s => s === 'rare_earth' ? 'Rare Earths' : 'Pharma').join(' | ')} |{' '}
+            {sectors.map(s => s === 'rare_earth' ? 'Rare Earths' : s === 'energy' ? 'Energy' : 'Pharma').join(' | ')} |{' '}
             {lastUpdated ? `Last updated ${lastUpdated.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}` : 'loading...'}
           </p>
         </div>
@@ -464,6 +464,15 @@ export default function Dashboard({ sectors = ['pharma', 'rare_earth'] }) {
                 <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#f43f5e' }}>89%</span>
               </div>
             </div>
+            <div>
+              <div style={{ fontSize: '0.7rem', color: 'var(--muted)', marginBottom: 4 }}>Energy (Hormuz)</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ flex: 1, height: 6, background: 'var(--surface2)', borderRadius: 3, overflow: 'hidden' }}>
+                  <div style={{ height: '100%', width: '85%', background: '#f43f5e' }} />
+                </div>
+                <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#f43f5e' }}>85%</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -494,6 +503,15 @@ export default function Dashboard({ sectors = ['pharma', 'rare_earth'] }) {
                 <div style={{ height: '100%', width: '25%', background: '#f43f5e' }} />
               </div>
             </div>
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                <span style={{ fontSize: '0.7rem', color: 'var(--muted)' }}>Strategic Oil Reserve</span>
+                <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#f59e0b' }}>87 days</span>
+              </div>
+              <div style={{ height: 6, background: 'var(--surface2)', borderRadius: 3, overflow: 'hidden' }}>
+                <div style={{ height: '100%', width: '86%', background: '#f59e0b' }} />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -522,6 +540,15 @@ export default function Dashboard({ sectors = ['pharma', 'rare_earth'] }) {
               </div>
               <div style={{ height: 6, background: 'var(--surface2)', borderRadius: 3, overflow: 'hidden' }}>
                 <div style={{ height: '100%', width: '32%', background: '#60a5fa' }} />
+              </div>
+            </div>
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                <span style={{ fontSize: '0.7rem', color: 'var(--muted)' }}>Hormuz-Oil</span>
+                <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#f43f5e' }}>9.1/10</span>
+              </div>
+              <div style={{ height: 6, background: 'var(--surface2)', borderRadius: 3, overflow: 'hidden' }}>
+                <div style={{ height: '100%', width: '91%', background: '#f43f5e' }} />
               </div>
             </div>
           </div>
